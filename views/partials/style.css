@@ -1,0 +1,157 @@
+body,
+html {
+  height: 100%;
+  margin: 0px;
+}
+.like-circle {
+  border-radius: 20%;
+  height: 2.7em;
+  width: 2.7em;
+  padding: 8px;
+
+  background: rgb(131, 58, 180, 0.5);
+  background: linear-gradient(
+    161deg,
+    rgba(131, 58, 180, 0.5) 0%,
+    rgba(253, 29, 29, 0.5) 50%,
+    rgba(252, 176, 69, 0.5) 100%
+  );
+  border: 2px solid #666;
+  color: rgb(0, 0, 0);
+  text-align: center;
+  float: left;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: black transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+.console-text-viewer {
+  width: 100%;
+  height: 30em;
+  text-align: left;
+  overflow: scroll;
+}
+.console-text-viewer::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.console-text-viewer {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.console-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.input-line {
+  vertical-align: middle;
+  margin-left: 1em;
+}
+.console-outframe {
+  width: 100%;
+  margin: 10px;
+  border-radius: 5px;
+  border-color: rgb(141, 141, 141);
+  border-style: solid;
+  border-width: 2px;
+  background-color: rgb(215, 223, 223);
+  font-size: medium;
+}
+.remove-margin {
+  margin: 0;
+  margin-bottom: 0;
+}
+
+.console-list hr {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+.console-message {
+  background-color: rgb(255, 255, 255);
+  padding: 5px 10px 10px 10px;
+  margin: 0px;
+  border-width: 1px 0px 1px 0px;
+  border-color: rgba(0, 0, 0, 0.281);
+  border-style: solid;
+}
+.console-message p {
+  margin: 0px;
+}
+.ck p {
+  margin: 0px;
+}
+.console-infobar {
+  margin: 0px 0px 0px 10px;
+  font-size: small;
+  color: rgb(120, 120, 120);
+}
+.console-infobar a {
+  color: rgb(120, 120, 120);
+}
+.console-datebar {
+  font-size: small;
+  float: right;
+  color: rgb(175, 175, 175);
+}
+.role-admin {
+  color: rgb(255, 0, 0);
+  font-weight: bold;
+}
+.role-owner {
+  color: rgb(128, 0, 0);
+  font-weight: bold;
+}
+.role-author {
+  color: rgb(47, 0, 255);
+  font-weight: bold;
+}
+.role-System {
+  color: rgb(255, 83, 4);
+  font-weight: bold;
+}
+.text-small {
+  font-size: small;
+}
+.text-tiny {
+  font-size: x-small;
+}
+.text-big {
+  font-size: large;
+}
+.text-huge {
+  font-size: larger;
+}
+.viewframes {
+  margin-bottom: 200px;
+}

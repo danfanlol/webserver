@@ -1,0 +1,10 @@
+<title>Simple Log In</title>
+<%- include('../partials/head.ejs')%>
+<link rel="stylesheet" href="/login/background.css" media="screen" />
+<%- include('../partials/bar', {logged_in:logged_in,user:user}); %>
+<div class="hero-image">
+  <div class="hero-text">
+    <h2>Email has been sent.</h2>
+    Open your email and follow the attached link to verify your account.
+  </div>
+</div>

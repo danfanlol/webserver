@@ -1,0 +1,24 @@
+<title id="title"></title>
+<%- include('../partials/head.ejs')%>
+<%- include('../partials/jsoncreator.ejs')%>
+<script src="/forms/class-selector.js"></script>
+
+<link rel="stylesheet" href="/forms/style.css" media="screen" />
+<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user}); %>
+<div class="hero-image">
+  <div class="hero-text">
+    <div id="errbar" class="error"></div>
+
+    <h2 id="header"></h2>
+    <div id="jsoncreator"></div>
+
+  </div>
+  
+</div>
+<script src="/forms/standard.js"></script>
+<script>
+    var form_type="<%-type%>"
+    var user="<%-user%>"
+</script>
+
+<script src="/forms/loaders/<%-type%>.js"></script>

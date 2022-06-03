@@ -1,0 +1,34 @@
+<%- include('../partials/head.ejs')%>
+<title>Simple Log In</title>
+<link rel="stylesheet" href="/login/background.css" media="screen" />
+<script src="/login/reset.js"></script>
+
+<div class="hero-image">
+  <div class="hero-text">
+    <h2>Reset your password</h2>
+    <div id="login-error" class="login-error"></div>
+    <form method="POST" action="/api/register" class="login" id="login-form">
+      <input
+        name="pass"
+        type="password"
+        id="login-password"
+        class="login-field"
+        placeholder="password..."
+      />
+      <input
+        name="confirm"
+        type="password"
+        id="login-confirm"
+        class="login-field"
+        placeholder="password..."
+      />
+      <input
+        type="submit"
+        id="login-submit"
+        value="Login"
+        class="login-button"
+      />
+    </form>
+  </div>
+</div>
+<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user}); %>

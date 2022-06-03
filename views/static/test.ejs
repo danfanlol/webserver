@@ -1,0 +1,18 @@
+<%- include('../partials/head.ejs')%>
+
+<div data-video="" data-autoplay="0" data-loop="" id="youtube-audio">
+  <span class="d-block">
+    <div id="play-button" class="d-inline-block">
+      <span class="material-icons" id="play-icon"> play_circle_filled </span>
+    </div>
+    <span class="material-icons d-inline-block" id="skip-icon">
+      skip_next
+    </span>
+    <span class="material-icons" id="replay-icon"> replay </span>
+  </span>
+
+  <div id="youtube-player"></div>
+</div>
+
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="/partials/youtube-api.js"></script>

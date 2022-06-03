@@ -1,0 +1,6 @@
+<%- include('../../partials/head.ejs')%>
+<title>Home</title>
+
+
+<h2><% if(logged_in) { %> Hi <%=user%> <% } %></h2>
+<%- include('../../partials/bar.ejs', {logged_in:logged_in,user:user}); %>

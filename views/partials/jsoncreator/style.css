@@ -1,0 +1,107 @@
+.creator-object {
+  display: inline-block;
+  background-color:rgb(32, 32, 32);
+  padding: 0.3em 0.3em 0.3em 0.3em;
+  border-radius: 1%;
+  border-width: 2px;
+  border-style: double;
+  border-color: white;
+  font-size: medium;
+  white-space: nowrap;
+}
+.creator-object:hover {
+  background-color:rgb(46, 46, 46)
+}
+.my-inline {
+  display: inline-block;
+  white-space: nowrap;
+}
+.creator-object-span {
+  padding: 1em;
+  white-space: nowrap;
+}
+.jsoncreator-inputs {
+  background: linear-gradient(90deg, rgba(64,12,62,1) 0%, rgba(0,55,136,1) 100%);
+  color: rgba(255, 255, 255, 0.705);
+  border-color: rgb(130, 130, 130);
+  border-width: 2px;
+  border-style: solid;
+  outline: none;
+}
+.jsoncreator-inputs:focus {
+  outline: none;
+  background: linear-gradient(90deg, rgba(181,30,175,1) 0%, rgba(0,81,200,1) 100%);
+
+  border: 2px solid rgb(117, 117, 117);
+}
+.creator-button {
+  background-color: rgb(177, 216, 196);
+  border-color: rgb(167, 196, 177);
+  border-width: 2px;
+  border-style: solid;
+}
+.creator-button:hover {
+  background-color: rgb(148, 172, 160);
+  border-color: rgb(147, 160, 151);
+  border-width: 2px;
+  border-style: solid;
+}
+
+.creator-deleter {
+  color: red;
+  margin: 0 0.5em 0 0.5em;
+  padding: 0.1em !important;
+  border-radius: 0.3em;
+  border-color: white;
+  border-width: 2px;
+  border-style: solid;
+  cursor: pointer;
+}
+.creator-deleter:hover {
+  background-color: rgb(122, 122, 122);
+}
+#jsoncreator-toolbar {
+  position: absolute;
+  pointer-events: none;
+  background-color: black;
+  max-width: 20em;
+  font-size: medium;
+  color: white;
+  border-radius: 0.5em;
+  padding: 0.1em 0.3em 0.1em 0.3em;
+  border-style: solid;
+  border-width: 1px;
+  display: none;
+}
+
+
+.gradient-button {
+  margin: 10px;
+  padding: 0.5em 1em 0.5em 1em;
+  text-align: center;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: #FFF;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 0.5em;
+}
+.gradient-button:hover{
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  margin: 8px 10px 12px;
+}
+.gradient-button-1 {background-image: linear-gradient(to right, #DD5E89 0%, #F7BB97 51%, #DD5E89 100%)}
+.gradient-button-1:hover { background-position: right center; }
+
+.gradient-button-2 {background-image: linear-gradient(to right, #2BC0E4 0%, #EAECC6 51%, #2BC0E4 100%)}
+.gradient-button-2:hover { background-position: right center; }
+
+.gradient-button-3 {background-image: linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)}
+.gradient-button-3:hover { background-position: right center; }
+
+.gradient-button-4 {background-image: linear-gradient(to right, #00d2ff 0%, #3a7bd5 51%, #00d2ff 100%)}
+.gradient-button-4:hover { background-position: right center; }

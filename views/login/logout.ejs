@@ -1,0 +1,16 @@
+<title>Simple Log In</title>
+<%- include('../partials/head.ejs')%>
+<link rel="stylesheet" href="/login/background.css" media="screen" />
+<div class="hero-image">
+  <div class="hero-text">
+    <h2>You have logged out.</h2>
+
+    <div class="login-bottom">
+      <a href="/login">Log in</a> with new account.
+    </div>
+    <div class="login-bottom">
+      <a href="/register"> Register</a> a new account.
+    </div>
+  </div>
+</div>
+<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user}); %>

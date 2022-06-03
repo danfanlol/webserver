@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+  <!-- Brand -->
+  <a class="navbar-brand" href="/">Dream2Learn.org</a>
+
+  <!-- Toggler/collapsibe Button -->
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#collapsibleNavbar"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav">
+      <%if(!logged_in) {%>
+      <li class="nav-item">
+        <a class="nav-link" href="/register"
+          ><span class="glyphicon glyphicon-user"></span> Sign Up</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <%} else{%>
+      <li class="nav-item active">
+        <a class="nav-link" href="#"
+          ><span class="glyphicon glyphicon-user"></span> Welcome, <%=user%></a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout"
+          ><span class="glyphicon glyphicon-log-in"></span> Log out</a
+        >
+      </li>
+      <%}%>
+      <li class="nav-item"></li>
+    </ul>
+    
+  </div>
+</nav>
+<script src="/partials/bar.js"></script>
