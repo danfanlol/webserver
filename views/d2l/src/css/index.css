@@ -1,0 +1,1143 @@
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+:root {
+	--padding-top: 4rem;
+
+	scroll-padding-top: var(--padding-top);
+	scroll-behavior: smooth;
+
+	--col-button-orange: #fca62b;
+	--col-button-yellow: #fcc250;
+	--col-button-yellow-light: #fff1b1;
+	--col-blue: #283673;
+	--col-blue-af: #283673af;
+	--col-blue-lighter: #5871df;
+	--col-blue-lighter-1f: #5871df1f;
+	--col-yellow: #f8dc3c;
+	--col-orange: #f0773a;
+	--col-orange-1f: #f0773a1f;
+	--col-red: #b02228;
+	--col-blue-shadow: #131742;
+	--col-blue-shadow-7f: #1317427f;
+	--col-blue-shadow-3f: #1317423f;
+	--col-blue-dark-7f: #07071f7f;
+	--col-blue-light-0f: #62ffff0f;
+	--col-blue-gray: #c2d0e3;
+	--col-pink-7f: #ff00547f;
+
+	--color-accent: var(--col-orange);
+
+	--font-heading: Zilla Slab, "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
+	--font-large: Atkinson Hyperlegible, Overpass, "Gill Sans", "Gill Sans MT", "Trebuchet MS", sans-serif;
+	--font-body: Overpass, sans-serif;
+	--font-course-list: Barlow Condensed, Bahnschrift, TW Cen MT Condensed, TW Cen MT, sans-serif;
+
+	--nav-height: 3em;
+
+
+	/* M 140,0 0,94 V 179 l 140,94 140,-94 V 94 Z */
+	/* width = 280; height = 273 */
+
+	--button-clip-path: polygon(
+		calc(140 / 280 * 100%) 0,
+		0 calc(94 / 273 * 100%),
+		0 calc(179 / 273 * 100%),
+		calc(140 / 280 * 100%) 100%,
+		100% calc(179 / 273 * 100%),
+		100% calc(94 / 273 * 100%));
+
+	--button-width-fac: 280;
+	--button-height-fac: 273;
+
+	/* dimensions of one slanted edge of the hexagonal button */
+	--button-slant-width-fac: 140;
+	--button-slant-height-fac: 94;
+
+	/* factors to multiply with the shift sizes in order for the slants to line up */
+	--button-slant-shift-width-fac: calc(1 - var(--button-slant-width-fac) / var(--button-width-fac));
+	--button-slant-shift-height-fac: calc(1 - var(--button-slant-height-fac) / var(--button-height-fac));
+
+
+	--button-aspect-ratio: calc(var(--button-width-fac) / var(--button-height-fac));
+
+	--button-width: 115px;
+	--button-height: calc(var(--button-width) / var(--button-aspect-ratio));
+
+	--button-width-large: 200px;
+	--button-height-large: calc(var(--button-width-large) / var(--button-aspect-ratio));
+
+	--button-bounce-ease: cubic-bezier(0, 1.82, 0.76, 1);
+
+	--logomark-height-fac: 226;
+}
+
+body {
+	/* width: 100vw; */
+	min-height: 100vh;
+	margin: 0;
+
+	/* min-width: 1050px; */
+
+	font-family: var(--font-body);
+	font-weight: 600;
+
+	color: var(--col-blue);
+}
+
+main {
+	min-width: 100%;
+	display: flex; /* inline-flex instead of flex allows children to be resized if deeper content overflows */
+	flex-flow: column;
+
+	background: #fcfeff;
+	background-image: url("../assets/side-mesh-left.svg"), url("../assets/side-mesh-right.svg");
+	background-position: left, right;
+	background-repeat: repeat-y;
+	
+
+	/* If the screen width exceeds this value, the horizontal padding of the article will resize to take up the excess */
+	--screen-width-limit-reference: 1920px;
+
+	--article-padding-horizontal: max(8vw, calc(0.08 * var(--screen-width-limit-reference) + (100vw - var(--screen-width-limit-reference)) / 2));
+}
+
+main a {
+	color: var(--col-orange);
+
+	/* background: linear-gradient(var(--col-orange), var(--col-orange));
+	background-repeat: no-repeat;
+	background-position-y: 1.5em;
+	
+	transition: background-position 0.1s cubic-bezier(0, 0.5, 0.5, 1), color 0.1s cubic-bezier(0, 0.5, 0.5, 1); */
+}
+
+main a:where(:hover, :focus-visible) {
+	color: var(--col-yellow);
+
+	/* color: #fff;
+	background-position-y: 0; */
+}
+
+main a:active {
+	color: var(--col-red);
+}
+
+header {
+	--gradient-height: max(150px, 22.5vh);
+
+	--header-padding-top: 10rem;
+	--scroll-indicator-offset-bottom: 14vh;
+	--scroll-indicator-offset-bottom-hovered: 11vh;
+
+	min-height: 95vh;
+	margin-bottom: calc(-1 * var(--scroll-indicator-offset-bottom-hovered));
+	display: grid;
+	grid-template-rows: var(--header-padding-top) 1fr var(--gradient-height);
+
+	text-align: center;
+	color: #fff;
+
+	
+	--arrow-clip-path: polygon(
+		0 0,
+		50% 100%,
+		100% 0);
+}
+
+header > header-main {
+	grid-area: 2 / 1;
+	padding: 0 4em 1em 4em;
+}
+
+header-main {
+	/* margin: 0 15vw; */
+	display: grid;
+	grid-template-columns: 1fr minmax(2em, 8vw) 1fr;
+
+	width: auto;
+	place-self: center;
+	justify-items: center;
+
+	--button-gap: 30px;
+
+	/* sine of slant angle, to account for gap being at an angle when shifting vertically */
+	--button-slant-sine-fac: 0.83022113; /* = sin(atan(140 / 94)) */
+
+	--button-shift-width-large: calc(var(--button-width-large) + var(--button-gap));
+	--button-shift-height-large: calc(var(--button-height-large) + var(--button-gap) * var(--button-slant-sine-fac) * 1.5); /* why 1.5? */
+
+	/* shift for a small button to be positioned properly amid a group of large buttons */
+	--button-large-to-small-shift-height: calc((var(--button-height-large) - var(--button-height)) / 2);
+	--button-large-to-small-shift-width: calc((var(--button-width-large) - var(--button-width)) / 2);
+
+	--button-shift-width: calc(var(--button-width) + var(--button-gap));
+}
+
+
+/* LOGO */
+
+header-main > logo- {
+	grid-area: 1 / 1;
+
+	display: flex;
+	flex-flow: column;
+	align-items: center;
+	justify-content: center;
+	width: max-content; /* prevent lines from breaking when screen is too small */
+
+	text-shadow: 0 4px 16px var(--col-blue-shadow);
+
+	z-index: 1;
+}
+
+header-main logo- logotype- {
+	font-size: 4em;
+	margin: 0;
+}
+
+header-main logo- .logomark {
+	filter: drop-shadow(0 4px 16px var(--col-blue-shadow));
+
+	animation: logomark-bob 2s ease-in-out infinite alternate;
+}
+
+@keyframes logomark-bob {
+	100% {
+		transform: translate(0, -2em);
+	}
+}
+
+
+logo- {
+	font-family: var(--font-large);
+}
+
+logo- .logomark {
+	/* 200px by default */
+	width: 12.5em;
+}
+
+logo- logotype- > strong {
+	color: var(--col-yellow);
+}
+
+logo- > elevator-pitch {
+	margin-top: 0.75em;
+
+	font-size: 1.5em;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-align: center;
+	color: var(--col-yellow);
+}
+
+elevator-pitch strong {
+	font-weight: 900;
+	text-transform: uppercase;
+	font-size: 1.333333em;
+}
+
+elevator-pitch p {
+	margin: 0.15em 0;
+}
+
+logo- .light {
+	margin-top: 0.5em;
+
+	font-style: italic;
+	opacity: 0.75;
+	font-size: 1.25em;
+}
+
+
+/* HEADER BUTTONS */
+
+header-nav {
+	grid-area: 1 / 3;
+
+	display: grid;
+	align-items: start;
+
+	/* approximations since buttons are positioned absolutely. These formulas are dervided from just testing in the browser to fit the buttons */
+	/* width: calc(
+			1.5 * var(--button-shift-width-large)
+			+ var(--button-shift-width));
+	margin-left: calc(0.5 * var(--button-width)); */
+
+	/* width = 2 × dist(right edge of buttons, container center) */
+	width: calc(var(--button-shift-width-large) + var(--button-shift-width) - var(--button-gap));
+	/* margin-left = width of button rows − width */
+	margin-left: var(--button-width);
+
+	position: relative;
+}
+
+header-nav > hexagonal-button {
+	position: absolute;
+
+	/* Variables that position the hexagonal buttons in a tesselating pattern */
+	/* `n-shift` is the number of spaces relative to the large buttons */
+	--n-shift-x: 0;
+	--n-shift-y: 0;
+	/* `n-shift-small` ditto but for small buttons */
+	--n-shift-small-x: 0;
+	/* `n-large-to-small-shift` is the amount to move a small button by so that it appears to follow the same pattern as the large buttons */
+	--n-large-to-small-shift-x: 0;
+	--n-large-to-small-shift-y: 0;
+
+	left: calc(50%
+			+ var(--n-shift-x) * var(--button-shift-width-large) * var(--button-slant-shift-width-fac)
+			+ var(--n-shift-small-x) * var(--button-shift-width)
+			+ var(--n-large-to-small-shift-x) * var(--button-large-to-small-shift-width));
+	top: calc(55%
+			+ var(--n-shift-y) * var(--button-shift-height-large) * var(--button-slant-shift-height-fac)
+			+ var(--n-large-to-small-shift-y) * var(--button-large-to-small-shift-height));
+
+	/* Makes it so the positions determine the centers of the buttons */
+	transform: translate(-50%, -50%);
+
+	--shadow-color: var(--col-blue-shadow);
+}
+
+hexagonal-button {
+	display: grid;
+	width: var(--button-width);
+
+	color: var(--col-blue);
+
+	font-weight: 900;
+	font-size: 1.35em;
+	line-height: 1;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	text-decoration: none;
+
+	--shadow-color: var(--col-blue-shadow-7f);
+
+	filter: drop-shadow(0 0.5em 0.5em var(--shadow-color));
+
+	/* So that clicking outside of the <a> doesn't cause the shadow to recede */
+	/* Below, the `hexagonal-button > a` rule overrides this */
+	pointer-events: none;
+}
+
+hexagonal-button.large {
+	width: var(--button-width-large);
+
+	font-size: 2.25em;
+}
+
+
+hexagonal-button > * {
+	grid-area: 1 / 1;
+
+	/* Offset slightly so the extrusion (::before) is visible */
+	transform: translate(0, -0.5em);
+}
+
+
+hexagonal-button {
+	transition: filter 0.2s ease;
+}
+
+hexagonal-button:where(:hover, :focus-within) {
+	filter: drop-shadow(0 0.75em 0.5em var(--shadow-color));
+
+	transition-timing-function: var(--button-bounce-ease);
+}
+
+/* Animations that occur on :hover and :active */
+
+hexagonal-button:active {
+	filter: drop-shadow(0 0 0 var(--shadow-color));
+
+	transition-duration: 0.03s;
+	transition-timing-function: ease;
+}
+
+/* Notice: <a> does not move */
+hexagonal-button > button-top {
+	transition: transform 0.2s ease;
+}
+
+hexagonal-button > a:where(:hover, :focus-visible) + button-top {
+	/* Raised slightly */
+	transform: translate(0, -1em);
+
+	transition-timing-function: var(--button-bounce-ease);
+}
+
+/* workaround since :focus-visible cannot be used on the hexagonal-button itself */
+hexagonal-button > a:focus-visible + button-top {
+	animation: button-pulsate 0.5s ease-in-out alternate infinite;
+}
+
+@keyframes button-pulsate {
+	0% {
+		background: var(--col-button-yellow-light);
+	}
+
+	100% {
+		background: var(--col-orange);
+	}
+}
+
+hexagonal-button > a:active + button-top {
+	/* Pressed down */
+	transform: translate(0, 0);
+
+	transition-duration: 0.03s;
+	transition-timing-function: ease;
+}
+
+/* This pseudoelement is the extrusion of each hexagonal button */
+hexagonal-button::before {
+	content: " ";
+	display: block;
+	position: absolute;
+	clip-path: var(--button-clip-path);
+
+	width: 100%;
+	aspect-ratio: var(--button-width-fac) / var(--button-height-fac);
+
+	background: linear-gradient(0.25turn, var(--col-orange) 50%, var(--col-red) 50%);
+				/* linear-gradient(0.75turn, var(--col-orange) 50%, var(--col-red) 50%);
+	background-repeat: no-repeat;
+	background-size: 100% 50%, 100% 50%;
+	background-position-y: 100%, 0; */
+}
+
+hexagonal-button > :where(a, button-top) {
+	clip-path: var(--button-clip-path);
+	aspect-ratio: var(--button-width-fac) / var(--button-height-fac);
+}
+
+hexagonal-button > a {
+	display: block;
+
+	pointer-events: auto;
+}
+
+hexagonal-button > button-top {
+	display: grid;
+	place-items: center;
+	text-align: center;
+	width: inherit; /* prevents enlarging due to text overflow */
+
+	/* Redefine inline */
+	--hexagon-vertical-text-shift: 0px;
+	padding-top: var(--hexagon-vertical-text-shift);
+
+	background: var(--col-button-orange);
+
+	user-select: none;
+	pointer-events: none;
+}
+
+hexagonal-button.strong button-top {
+	background: var(--col-button-yellow);
+}
+
+ 
+header > header-other {
+	grid-area: 3 / 1;
+}
+
+header-other {
+	display: flex;
+	align-items: end;
+	justify-content: center;
+}
+
+header-other scroll-indicator {
+	padding: calc(var(--gradient-height) - var(--scroll-indicator-offset-bottom) + 2em) 1em 0 1em;
+	margin-bottom: var(--scroll-indicator-offset-bottom);
+	position: relative;
+
+	font-family: var(--font-large);
+	font-size: 1.5em;
+	letter-spacing: 0.05em;
+	font-style: italic;
+	text-transform: lowercase;
+
+	background: linear-gradient(#0000, var(--col-blue) 50%);
+	color: var(--col-yellow);
+
+	user-select: none;
+
+	transition: padding-top 0.5s var(--button-bounce-ease),
+			margin-bottom 0.5s var(--button-bounce-ease);
+}
+
+header-other scroll-indicator::before {
+	content: "";
+
+	display: block;
+	clip-path: var(--arrow-clip-path);
+	width: 100%;
+	aspect-ratio: calc(2 * var(--button-slant-width-fac)) / var(--button-slant-height-fac);
+
+	position: absolute;
+	top: 100%;
+	left: 0;
+
+	background: var(--col-blue);
+}
+
+header-other scroll-indicator:where(:hover, :focus-within) {
+	--scroll-indicator-offset-bottom: var(--scroll-indicator-offset-bottom-hovered);
+}
+
+header-other scroll-indicator a:focus-visible {
+	outline: 4px dashed var(--col-yellow);
+	outline-offset: 4px;
+} 
+
+header-other scroll-indicator a {
+	position: absolute;
+	width: 100%;
+	height: calc(100% + var(--scroll-indicator-offset-bottom));
+	top: 0;
+	left: 0;
+
+	transition: height 0.5s var(--button-bounce-ease);
+}
+
+/* header-other scroll-indicator div {
+	border: solid;
+	border-width: 2px 0;
+} */
+
+
+header > header-media {
+	grid-area: 1/1 / 4/1;
+	position: relative;
+	display: grid;
+	grid-template-rows: 1fr var(--gradient-height);
+}
+
+header-media > * {
+	grid-column: 1;
+}
+
+header-media > header-solid {
+	grid-row: 1 / 3;
+	width: 100%;
+	height: 100%;
+
+	/* #62ffff7f, #4cbfc97f */
+	background: linear-gradient(0turn, #62ffff, var(--col-blue-lighter) var(--gradient-height), var(--col-blue) 50%);
+	mask-image: linear-gradient(0turn, #0000, #000 var(--gradient-height));
+	-webkit-mask-image: linear-gradient(0turn, #0000, #000 var(--gradient-height));
+}
+
+header-media > img {
+	grid-row: 1 / 3;
+	position: absolute;
+	opacity: 0.15;
+
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	mix-blend-mode: lighten;
+}
+
+header-media > :where(header-mesh-top, header-mesh-bottom) {
+	/* opacity: 0.125;
+	mix-blend-mode: screen; */
+
+	position: relative; /* temp layering hack */
+
+	animation: 12s infinite linear;
+}
+
+header-media > header-mesh-top {
+	grid-row: 1;
+
+	background: linear-gradient(var(--col-pink-7f) var(--nav-height), #0000),
+			url("../assets/header-mesh.svg");
+	background-position-y: 100%;
+
+	animation-name: header-pattern-slide-1;
+}
+
+header-media > header-mesh-bottom {
+	grid-row: 2;
+
+	background: url("../assets/header-mesh-bottom.svg");
+	background-repeat: repeat-x;
+
+	animation-name: header-pattern-slide;
+}
+
+
+/* ARTICLE */
+
+main > article {
+	overflow-y: hidden;
+	/* padding: 0 8vw; */
+}
+
+main > :is(article, footer) {
+	font-size: 1.2em;
+}
+
+article {
+	position: relative;
+
+	--section-padding-vertical: 3rem;
+}
+
+article :is(p, dl) {
+	line-height: 2;
+}
+
+article * + p {
+	margin-top: 1.5em;
+}
+
+dt {
+	font-family: var(--font-large);
+	font-size: 1.35em;
+	letter-spacing: 0.02em;
+}
+
+* + dt {
+	margin-top: 1.75em;
+	margin-bottom: 0.25em;
+	line-height: 2;
+}
+
+dl.counter-faq {
+	counter-reset: faq;
+}
+
+dl.counter-faq > dt {
+	counter-increment: faq;
+}
+
+dl.counter-faq > dt::before {
+	content: counter(faq) ".\2002";
+}
+
+logotype- {
+	font-family: var(--font-heading);
+}
+
+h1 {
+	font-family: var(--font-heading);
+	font-size: 4.5em;
+}
+
+h2 {
+	font-family: var(--font-heading);
+	font-size: 2.5em;
+	text-transform: uppercase;
+}
+
+h2 > strong {
+	font-size: 1.333333em;
+	font-style: italic;
+}
+
+h2 > strong,
+dl.counter-faq > dt::before {
+	color: var(--color-accent);
+	text-shadow: 0.125ch 0.125ch var(--col-yellow);
+}
+
+article .photo {
+	border: 8px solid #fff;
+	box-shadow: 0 4px 24px var(--col-blue-af);
+}
+
+article a > .photo {
+	max-width: 100%;
+}
+
+
+dl.counter-faq > dt::before {
+	/* opacity: 0.8; */
+	font-size: 0.8em;
+}
+
+article dd {
+	margin-left: 0.75em;
+	padding-left: 0.75em;
+	border-left: 4px solid var(--col-orange);
+	box-shadow: -8px 0 8px -8px var(--col-yellow);
+}
+
+article > * + section {
+	padding-top: var(--section-padding-vertical);
+}
+
+
+article > section {
+	display: flex;
+	align-items: center;
+	/* justify-content: center; */
+	position: relative;
+
+	z-index: 1; /* for course list layering */
+
+	padding: var(--section-padding-vertical) var(--article-padding-horizontal);
+}
+
+article > section.hide-overflow {
+	overflow: hidden;
+}
+
+article > section:nth-child(even) {
+	background: var(--col-blue-light-0f);
+}
+
+/* article > section:nth-child(even)::before {
+	content: " ";
+
+	position: absolute;
+	bottom: 100%;
+	left: 0;
+	width: 100%;
+	height: 3em;
+	border-top: solid #0000;
+	border-right: solid var(--col-blue-light-0f);
+
+	background: var(--col-blue-light-0f);
+} */
+
+
+/* TODO sizing is pretty sloppily done here */
+article > section > div {
+	flex-basis: 70%;
+	flex-grow: 1;
+
+	max-width: 70ch;
+}
+
+article > section > div > h2:first-child {
+	margin-top: 0;
+}
+
+article > section > photo-container {
+	display: block;
+	margin-left: 2em;
+	min-height: 16em;
+	/* max-height: 100%; */
+	flex-grow: 1;
+
+	text-align: center;
+
+	transform: rotate(4deg);
+}
+
+/* stat row */
+
+article > section.stat-row {
+	background: /* linear-gradient(90deg,
+					#0000 33.333333%,
+					var(--col-blue-lighter-1f) 33.333333%,
+					var(--col-blue-lighter-1f) 66.666667%,
+					#0000 66.666667%), */
+			radial-gradient(var(--col-blue-lighter), var(--col-blue));
+	text-shadow: 0 0.5em 1em var(--col-blue-shadow);
+	box-shadow: 0 0.125em 0.5em 0em var(--col-blue-af)/* ,
+			0 0.125em 1em var(--col-blue-shadow) inset */;
+	/* transform: skewY(-1deg); */
+
+	color: var(--col-yellow);
+	--color-accent: #fff;
+}
+
+article > section > stat-row {
+	display: flex;
+	flex-flow: wrap;
+	justify-content: space-evenly;
+	gap: 2em;
+
+	width: 100%;
+	text-align: center;
+}
+
+article > section > stat-row > stat- {
+	display: flex;
+	flex-flow: column;
+}
+
+article > section > stat-row > stat- > big-number {
+	font-family: var(--font-heading);
+	font-size: 3em;
+
+	color: var(--color-accent);
+}
+
+article > section > stat-row > stat- > div {
+	font-family: var(--font-large);
+	font-size: 1.5em;
+}
+
+/* course list */
+
+/* article > sample-course-list {
+	--course-list-offset: 60%;
+
+	position: absolute;
+	left: var(--course-list-offset);
+	top: 0;
+	width: calc(100% - var(--course-list-offset));
+	overflow-x: hidden;
+} */
+
+article > section > sample-course-list {
+	flex-shrink: 1;
+	width: 40%;
+	height: 0;
+	/* position: absolute; */
+	align-self: stretch;
+}
+
+sample-course-list {
+	display: block;
+
+	font-family: var(--font-course-list);
+	font-weight: 700;
+	font-stretch: 75%;
+	font-size: 6em;
+	line-height: 0.9;
+	letter-spacing: -0.05em;
+	white-space: nowrap;
+	text-transform: uppercase;
+
+	color: var(--col-blue-gray);
+
+	--course-list-ease: cubic-bezier(0.2, 0, 0.8, 1);
+	--course-list-animation-settings: 30s infinite var(--course-list-ease);
+
+	/* user-select: none; */
+}
+
+sample-course-list > ul {
+	list-style: none;
+	margin: 0;
+	padding-left: 0;
+
+	animation: course-list-slide var(--course-list-animation-settings);
+}
+
+sample-course-list > ul > li {
+	transform-origin: 0 center;
+	padding-left: 0.5em;
+
+	animation: course-list-rotate var(--course-list-animation-settings);
+}
+
+sample-course-list:hover > ul,
+sample-course-list:hover > ul > li {
+	animation-play-state: paused;
+}
+
+@keyframes course-list-slide {
+	0% {
+		transform: translateY(0);
+	}
+
+	80% {
+		transform: translateY(calc(-100% + 1em));
+		animation-timing-function: ease-in-out;
+	}
+
+	100% {
+		transform: translateY(0);
+	}
+}
+
+@keyframes course-list-rotate {
+	0% {
+		transform: rotate(-10deg);
+	}
+
+	80% {
+		transform: rotate(10deg);
+		animation-timing-function: ease-in-out;
+	}
+
+	100% {
+		transform: rotate(-10deg);
+	}
+}
+
+
+/* FOOTER */
+
+footer {
+	padding: 2rem var(--article-padding-horizontal) 6rem var(--article-padding-horizontal);
+	display: flex;
+	flex-flow: column;
+	align-items: start;
+
+	background: url("../assets/header-mesh.svg")
+			var(--col-blue);
+	color: #fff;
+
+	z-index: 1;
+}
+
+footer section {
+	display: flex;
+	gap: 4em;
+}
+
+footer section > * {
+	display: flex;
+	flex-flow: column;
+	align-items: start;
+}
+
+footer > * {
+	line-height: 1.5;
+}
+
+
+/* NAVBAR */
+
+nav {
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: var(--nav-height);
+	display: flex;
+	align-items: stretch;
+	justify-content: space-evenly;
+	padding: 0 1em;
+
+	
+	background: var(--col-blue);
+
+	color: #fff;
+	text-align: center;
+	font-family: var(--font-large);
+
+	box-shadow: 0 -2em 2em 2em var(--col-blue-shadow);
+	/* filter: drop-shadow(0 0 2em #000000af); */
+
+	z-index: 1;
+	user-select: none;
+}
+
+nav logo- {
+	--logomark-height: 3em;
+
+	display: flex;
+	align-items: center;
+	height: 100%;
+}
+
+nav logo- .logomark {
+	height: var(--logomark-height);
+	width: calc(var(--logomark-height) * var(--button-width-fac) / var(--logomark-height-fac));
+	transform: translate(0, 0.3em);
+	z-index: 1; /* to appear in front of point */
+}
+
+nav logo- logotype- {
+	margin: 0;
+	margin-left: 0.5em;
+	padding: 0 0.25em;
+
+	font-size: 1.5em;
+	letter-spacing: 0.02em;
+}
+
+/* point that peeks out under the logomark */
+nav logo-::before {
+	content: " ";
+
+	width: calc(var(--logomark-height) * var(--button-width-fac) / var(--logomark-height-fac));
+	position: absolute;
+	bottom: -1em;
+	aspect-ratio: var(--button-width-fac) / var(--button-height-fac);
+
+	background: var(--col-blue);
+
+	clip-path: var(--button-clip-path);
+}
+
+nav a {
+	color: inherit;
+	text-decoration: inherit;
+}
+
+nav > link-rack {
+	display: flex;
+	align-items: center;
+	margin: 0 1em;
+	padding: 0 1em;
+	overflow-x: auto;
+
+	white-space: nowrap;
+}
+
+nav > link-rack a {
+	padding: 0 1em;
+	margin: 0 0.5em;
+
+	color: var(--col-yellow);
+	letter-spacing: 0.02em;
+	/* text-transform: uppercase; */
+
+	border-radius: 1em;
+}
+
+nav > link-rack a.strong {
+	color: var(--col-orange);
+}
+
+nav > link-rack a,
+nav > a logo- logotype- {
+	box-shadow: 0 0 0 0,
+		0 0 0 12px #0000,
+		0 0 0 14px #0000,
+		0 0 0 18px #0000;
+	
+	transition: box-shadow 0.5s cubic-bezier(0.15, 1.84, 0.6, 0.9);
+}
+
+nav > link-rack a:where(:hover, :focus-visible),
+nav > a:where(/*:hover, */:focus-visible) logo- logotype- {
+	box-shadow: 0 0 0 2px,
+			0 0 0 4px var(--col-blue),
+			0 0 0 4px var(--col-blue),
+			0 0 0 8px;
+}
+
+nav > link-rack a:active/*,
+nav > a:active logo- logotype-*/ {
+	box-shadow: 0 0 0 6px,
+			0 0 0 10px var(--col-blue),
+			0 0 0 10px var(--col-blue),
+			0 0 0 12px;
+}
+
+
+mesh-background {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	/* background: url("../assets/header-mesh.svg"); */
+
+	pointer-events: none;
+}
+
+
+/* PAGE-SPECIFIC */
+
+body.page-login main {
+	min-height: 100vh;
+}
+
+body.page-login main > section {
+	min-height: 100vh;
+	padding-top: var(--padding-top);
+	display: grid;
+
+	background: var(--col-blue);
+	background-image: radial-gradient(#0000, var(--col-blue-dark-7f)),
+			linear-gradient(var(--col-blue-shadow-3f), var(--col-blue-shadow-3f)),
+			url("../assets/header-mesh.svg");
+
+	animation: header-pattern-slide-2 24s infinite linear;
+
+	color: #fff;
+}
+
+
+/* TODO Just rework this code in general. Can do it when finalizing stuff like the main page source code */
+body.page-login main-area {
+	/* TODO some code is repeated from header-main. Unify them? */
+	padding: 0 4em;
+	display: grid;
+	grid-template-columns: 1fr minmax(1em, 3vw) 1fr;
+	gap: 2em 0;
+
+	place-self: center;
+	justify-items: center;
+}
+
+body.page-login main-area > * {
+	margin: auto;
+}
+
+body.page-login main-area > h1 {
+	grid-area: 1/1 / 1/4;
+
+	width: 100%;
+	text-align: center;
+	/* font-style: italic; */
+}
+
+body.page-login main-area > form {
+	grid-area: 2 / 1;
+}
+
+body.page-login main-area > article {
+	grid-area: 2 / 3;
+
+	line-height: 2;
+}
+
+body.page-login main-area > article h2 {
+	margin: 0;
+}
+
+body.page-login main-area > article dt {
+	/* margin: 0.65em 0; */
+
+	color: var(--col-yellow);
+}
+
+body.page-login main-area > article dd {
+	color: #ffffffcf;
+}
+
+
+body.page-login main-area > article dl + p {
+	margin-top: 2.5em;
+}
+
+
+
+/* REUSED ANIMATIONS */
+
+@keyframes header-pattern-slide {
+	0% {
+		background-position-x: 0;
+	}
+
+	100% {
+		background-position-x: -280px;
+	}
+}
+
+@keyframes header-pattern-slide-1 {
+	0% {
+		background-position-x: 0, 0;
+	}
+
+	100% {
+		background-position-x: 0, -280px;
+	}
+}
+
+@keyframes header-pattern-slide-2 {
+	0% {
+		background-position-x: 0, 0, 0;
+	}
+
+	100% {
+		background-position-x: 0, 0, 280px;
+	}
+}

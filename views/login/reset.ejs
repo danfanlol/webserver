@@ -2,6 +2,7 @@
 <title>Simple Log In</title>
 <link rel="stylesheet" href="/login/background.css" media="screen" />
 <script src="/login/reset.js"></script>
+<%- include("../d2l.proto/src/nav.ejs")%>
 
 <div class="hero-image">
   <div class="hero-text">
@@ -31,4 +32,3 @@
     </form>
   </div>
 </div>
-<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user}); %>

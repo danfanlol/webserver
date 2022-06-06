@@ -1,0 +1,9 @@
+<svg version="1.1" viewBox="0 0 280 226" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <g id="logomark">
+  <path d="m210 0v85l70 47v-85z" fill="#f8dc3c"/>
+  <path d="m210 0v85l-70 47v-85z" fill="#b02228"/>
+  <path d="m70 0v85l70 47v-85z" fill="#f8dc3c"/>
+  <path d="m70 0v85l-70 47v-85z" fill="#b02228"/>
+  <path d="m70 85-70 47 140 94 140-94-70-47-70 47z" fill="#f0773a"/>
+ </g>
+</svg>

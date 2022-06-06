@@ -1,0 +1,84 @@
+@media (max-height: 800px) {
+	/* header-other scroll-indicator {
+		display: none;
+	} */
+}
+
+@media (max-width: 1150px),
+		(max-height: 850px) {
+	header {
+		--responsive-font-scale-factor: 0.75;
+
+		font-size: calc(1em * var(--responsive-font-scale-factor));
+
+		--header-padding-top: 8rem;
+	}
+
+	header-main {
+		--button-width: calc(115px * var(--responsive-font-scale-factor));
+		--button-width-large: calc(200px * var(--responsive-font-scale-factor));
+		--button-gap: calc(30px * var(--responsive-font-scale-factor));
+
+		/* Need to repeat in Firefox (assuming an engine bug?) */
+		--button-height: calc(var(--button-width) / var(--button-aspect-ratio));
+		--button-height-large: calc(var(--button-width-large) / var(--button-aspect-ratio));
+	}
+}
+
+@media (max-width: 1050px) {
+	/* main > :is(article, footer) {
+		font-size: unset;
+	} */
+
+	article > section {
+		flex-flow: column;
+		gap: 1em;
+	}
+	
+	article > section > photo-container {
+		margin-left: unset;
+		min-height: unset;
+	}
+	
+	article > section .photo {
+		max-height: 16em;
+	}
+
+	article > section > sample-course-list {
+		width: 100%;
+		height: 16rem;
+
+		overflow: hidden;
+	}
+	
+	sample-course-list {
+		font-size: 3em;
+
+		border: 4px var(--col-blue);
+		border-style: solid none;
+
+		color: var(--col-blue-gray);
+
+		opacity: 1;
+	}
+
+	sample-course-list > ul > li {
+		/* transform: unset; */
+		padding-left: unset;
+		/* width: 100%; */
+		overflow: hidden;
+		text-overflow: ellipsis;
+
+		animation: none;
+	}
+}
+
+/* @media (max-width: 780px) {
+	header-main {
+		gap: 4em;
+	}
+
+	header-main > header-nav {
+		grid-area: 2 / 1;
+	}
+} */

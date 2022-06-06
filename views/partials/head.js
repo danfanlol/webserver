@@ -4,6 +4,13 @@ $.get('/api/user/')
   .done((data) => {
     console.log(data);
     username = data.user;
+    if(username) {
+      $("#nav-login").remove()
+      $("#nav-welcome").text(`Welcome, ${username}`)
+    }else {
+      $("#nav-logout").remove();
+      $("#nav-welcome").remove();
+    }
   })
   .fail(() => {
     alert('Could not connect to the server.');

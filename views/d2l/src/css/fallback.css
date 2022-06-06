@@ -1,0 +1,33 @@
+@supports not (aspect-ratio: auto) {
+	nav logo-::before {
+		height: 100%;
+	}
+
+	hexagonal-button > a,
+	hexagonal-button::before {
+		/* Ye old aspect ratio workaround */
+
+		height: 0;
+		padding-top: calc(var(--button-height-fac) / var(--button-width-fac) * 100%);
+	}
+
+	header-other scroll-indicator::before {
+		height: 0;
+		padding-top: calc(var(--button-slant-height-fac) / var(--button-slant-width-fac) / 2 * 100%);
+	}
+
+	hexagonal-button > button-top {
+		/* repositions text along midline */
+		display: flex;
+		justify-content: center;
+
+		height: 0;
+		/* (most iterations of this online just use padding-top, but both are used here so the text midline is at the center of the button) */
+		padding-top: calc(var(--aspect-ratio-workaround-padding) + var(--hexagon-vertical-text-shift) / 2);
+		padding-bottom: calc(var(--aspect-ratio-workaround-padding) - var(--hexagon-vertical-text-shift) / 2);
+
+		--aspect-ratio-workaround-padding: calc(1 / var(--button-aspect-ratio) * 100% / 2);
+
+		--hexagon-vertical-text-shift: 0px;
+	}
+}

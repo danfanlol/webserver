@@ -21,6 +21,7 @@ import sendEmail from "./utils/email.js";
 import mongo_init from "./model/index.js";
 
 import forms from "./forms/index.js"
+import bodyParser from "body-parser";
 
 await mongo_init();
 
@@ -31,9 +32,10 @@ const app=express();
 
 console.log(process.env.SESSION_SECRET);
 
-app.set('view-engine', 'ejs');
+//app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json({ limit: '20mb' }));
+
 app.use(
   fileUpload({
     limits: { fileSize: 50 * 1024 * 1024 },

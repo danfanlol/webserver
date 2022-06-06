@@ -1,22 +1,13 @@
 import express from "express";
 import mongoose from "mongoose";
 import User from "../model/schema/userschema.js";
+import path from "path"
 
 const router = express.Router();
 
 function standardroute(dn, fn) {
   router.get(dn, (req, res) => {
-    const renderObject = {
-      logged_in: false,
-      user: '',
-      bucket_name: process.env.AWS_BUCKET_NAME,
-      dump_name: process.env.AWS_DUMP_NAME,
-    };
-    if (req.isAuthenticated()) {
-      renderObject.logged_in = true;
-      renderObject.user = req.user.user;
-    }
-    res.render(fn, renderObject);
+    res.sendFile(path.join(process.cwd(),"views",fn));
   });
 }
 
@@ -48,7 +39,7 @@ filterLoggedOut('/emailsent');
 filterLoggedOut('/registersuccess');
 filterLoggedOut('/resetpasswordsent');
 
-standardroute('/', 'static/home/home.ejs');
+standardroute('/', 'd2l/src/index.html');
 standardroute('/login', 'login/login.ejs');
 standardroute('/register', 'login/register.ejs');
 standardroute('/resetpassword', 'login/resetpassword.ejs');
