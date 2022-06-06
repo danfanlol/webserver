@@ -105,6 +105,10 @@ main {
 	--article-padding-horizontal: max(8vw, calc(0.08 * var(--screen-width-limit-reference) + (100vw - var(--screen-width-limit-reference)) / 2));
 }
 
+body:not(:where(.page-home, .page-login)) > main {
+	padding-top: 1em;
+}
+
 main a {
 	color: var(--col-orange);
 
@@ -129,11 +133,11 @@ main a:active {
 header {
 	--gradient-height: max(150px, 22.5vh);
 
-	--header-padding-top: 10rem;
+	--header-padding-top: 7rem;
 	--scroll-indicator-offset-bottom: 14vh;
 	--scroll-indicator-offset-bottom-hovered: 11vh;
 
-	min-height: 95vh;
+	min-height: 90vh;
 	margin-bottom: calc(-1 * var(--scroll-indicator-offset-bottom-hovered));
 	display: grid;
 	grid-template-rows: var(--header-padding-top) 1fr var(--gradient-height);
@@ -905,7 +909,7 @@ footer > * {
 /* NAVBAR */
 
 nav {
-	position: fixed;
+	position: sticky;
 	top: 0;
 	width: 100%;
 	height: var(--nav-height);
@@ -924,7 +928,7 @@ nav {
 	box-shadow: 0 -2em 2em 2em var(--col-blue-shadow);
 	/* filter: drop-shadow(0 0 2em #000000af); */
 
-	z-index: 1;
+	z-index: 2;
 	user-select: none;
 }
 
@@ -1041,7 +1045,6 @@ body.page-login main {
 
 body.page-login main > section {
 	min-height: 100vh;
-	padding-top: var(--padding-top);
 	display: grid;
 
 	background: var(--col-blue);

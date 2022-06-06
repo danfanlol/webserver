@@ -8,8 +8,8 @@ const router = express.Router();
 function standardroute(dn, fn) {
   router.get(dn, (req, res) => {
     res.render(fn, {
-      logged_in: false,
-      user: '',
+      logged_in: req.isAuthenticated(),
+      user: req.user,
       bucket_name: process.env.AWS_BUCKET_NAME,
       dump_name: process.env.AWS_DUMP_NAME,
       type: req.params.type,

@@ -12,6 +12,7 @@ import path from "path";
 import initializePassport from "./passport-config.js";
 
 import routeinit from "./utils/route-init.js"
+import findtutorsRouter from "./routes/findtutors.js";
 
 import auth from "./login/index.js";
 import api from "./api/index.js"
@@ -65,6 +66,7 @@ app.use(express.static('views'));
 app.use(express.static('public'));
 app.use("/api", api);
 app.use("/forms", forms);
+app.use("/findtutors", findtutorsRouter);
 
 
 // const loginRouter = express.Router();
