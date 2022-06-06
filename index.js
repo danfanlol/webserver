@@ -62,8 +62,30 @@ app.use(routeinit);
 auth(app);
 
 app.use(express.static('views'));
-app.use("/api",api);
-app.use("/forms",forms)
+app.use(express.static('public'));
+app.use("/api", api);
+app.use("/forms", forms);
+
+
+// const loginRouter = express.Router();
+// loginRouter.get("/",(request, response) => {
+//   const renderObject = {
+//       logged_in: false,
+//       user: '',
+//       bucket_name: process.env.AWS_BUCKET_NAME,
+//       dump_name: process.env.AWS_DUMP_NAME,
+//       type: request.params.type,
+//   };
+//   if (request.isAuthenticated()) {
+//       renderObject.logged_in = true;
+//       renderObject.user = request.user.user;
+//   }
+//   return response.render("forms/template.ejs", renderObject);
+// });
+
+// app.use("/login", loginRouter);
+
+
 app.listen(3000, () => {
   console.log('Started the sourver');
 });

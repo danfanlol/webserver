@@ -7,7 +7,14 @@ const router = express.Router();
 
 function standardroute(dn, fn) {
   router.get(dn, (req, res) => {
-    res.sendFile(path.join(process.cwd(),"views",fn));
+    res.render(fn, {
+      logged_in: false,
+      user: '',
+      bucket_name: process.env.AWS_BUCKET_NAME,
+      dump_name: process.env.AWS_DUMP_NAME,
+      type: req.params.type,
+    });
+    // res.sendFile(path.join(process.cwd(),"views",fn));
   });
 }
 
@@ -39,7 +46,7 @@ filterLoggedOut('/emailsent');
 filterLoggedOut('/registersuccess');
 filterLoggedOut('/resetpasswordsent');
 
-standardroute('/', 'd2l/src/index.html');
+standardroute('/', 'home/index.ejs');
 standardroute('/login', 'login/login.ejs');
 standardroute('/register', 'login/register.ejs');
 standardroute('/resetpassword', 'login/resetpassword.ejs');
