@@ -1,6 +1,6 @@
 import LocalStrategy from "passport-local";
 import bcrypt from "bcrypt";
-import User from "./model/schema/userschema.js";
+import User from "./model/schema/user.js";
 
 function initializePassport(passport) {
   const authenticateUser = async (usern, pass, done) => {

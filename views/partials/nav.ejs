@@ -22,18 +22,19 @@
 		<a href="/#about">About us</a>
 
 		<a href="#contact">Contact us</a>
+	</link-rack>
 
-		<a href="#">Tutor login</a>
-
-		<% if (logged_in) {%>
+	<% if (logged_in) {%>
+	<link-rack>
 		<span>
-			<span class="glyphicon glyphicon-user"></span> Welcome, <%=user.user%>
+			<span class="glyphicon glyphicon-user"></span>
+			Welcome, <%=user.user%>
 		</span>
 		<span class="nav-item">
 			<a class="nav-link" href="/logout">
 				<span class="glyphicon glyphicon-log-in"></span> Log out
 			</a>
 		</span>
-		<%}%>
 	</link-rack>
+	<%}%>
 </nav>

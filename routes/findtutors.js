@@ -1,16 +1,11 @@
 import express from "express";
+import { baseViewParams } from "../utils/base-view-objects.js";
 
 const router = express.Router();
 
 router.get("/", (request, response) => {
 	if (request.isAuthenticated()) {
-		response.render("findtutors/index.ejs", {
-			logged_in: request.isAuthenticated(),
-			user: request.user,
-			bucket_name: process.env.AWS_BUCKET_NAME,
-			dump_name: process.env.AWS_DUMP_NAME,
-			type: request.params.type,
-		});
+		response.render("findtutors/index.ejs", baseViewParams(request));
 	} else {
 		response.redirect("/login");
 	}

@@ -1,6 +1,6 @@
 import express from "express"
 import Session from "../model/schema/session.js";
-import User from "../model/schema/userschema.js";
+import User from "../model/schema/user.js";
 
 const router=express.Router();
 router.post("/",async (req,res) => {

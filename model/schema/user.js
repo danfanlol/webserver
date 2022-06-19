@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import Token from "./tokenschema.js"
+import Token from "./token.js"
 import crypto from "crypto"
 
 const UserSchema = new mongoose.Schema(

@@ -1,5 +1,6 @@
-import User from "./schema/userschema.js";
+import User from "./schema/user.js";
 import sendEmail from "../utils/email.js";
+import { baseViewParams } from "../utils/base-view-objects.js";
 const exports={};
 
 exports.recover = async (req, res) => {
@@ -63,7 +64,7 @@ exports.reset = async (req, res) => {
 
     //Redirect user to form with the email address
     console.log(3);
-    res.render("login/reset.ejs", { logged_in: false, user: "" });
+    res.render("login/reset.ejs", baseViewParams(req));
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

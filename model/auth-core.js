@@ -1,5 +1,5 @@
-import User from './schema/userschema.js';
-import Token from './schema/tokenschema.js';
+import User from './schema/user.js';
+import Token from './schema/token.js';
 import sendEmail from '../utils/email.js';
 
 const exports={};

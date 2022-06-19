@@ -1,5 +1,5 @@
 import express from "express"
-import User from "../model/schema/userschema.js";
+import User from "../model/schema/user.js";
 const router=express.Router();
 router.post("/",async (req,res) => {
     if(!req.isAuthenticated()) return res.status(401).json({message:"Not logged in!"})

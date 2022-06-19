@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import User from "./schema/userschema.js";
+import User from "./schema/user.js";
 
 async function main() {
     return;
