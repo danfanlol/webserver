@@ -857,7 +857,7 @@ sample-course-list > ul > li {
 
 sample-course-list:hover > ul,
 sample-course-list:hover > ul > li {
-	animation-play-state: paused;
+	/* animation-play-state: paused; */
 }
 
 @keyframes course-list-slide {
