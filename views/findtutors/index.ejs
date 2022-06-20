@@ -3,13 +3,31 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/top.ejs')%>
+		<link rel="stylesheet" href="/findtutors/index.css" />
 	</head>
 
 	<body>
 		<%- include('../partials/nav.ejs')%>
 
 		<main>
-			The place where all the things happen
+			<article>
+				<session-list>
+					<% for (const session of sessions) { %>
+					<session-item class="<%- session.student ? 'taken' : '' %>">
+						<h3><%- session.subject %></h3>
+
+						<div>
+							<div>Offered by <b><%- session.tutor %></b></div>
+							<% if (session.student) { %>
+							<div>Taken by <b><%- session.student %></b></div>
+							<% } %>
+						</div>
+	
+						<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;<b><%- session.duration * 60 %> min</b></session-time>
+					</session-item>
+					<% } %>
+				</session-list>
+			</article>
 
 			<%- include('../partials/footer.ejs')%>
 		</main>
