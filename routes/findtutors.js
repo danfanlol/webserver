@@ -1,6 +1,7 @@
 import express from "express";
 import { baseViewParams } from "../utils/base-view-objects.js";
 import Session from "../model/schema/session.js";
+import * as path from "path";
 
 const router = express.Router();
 
@@ -17,6 +18,11 @@ router.get("/", async (request, response) => {
 	} else {
 		response.redirect("/login");
 	}
+});
+
+router.get("/index.js", (request, response) => {
+	// Change path alongside ./frontends/findtutors/vite.config.ts
+	response.sendFile(path.resolve("./frontends/findtutors/dist/index.js"));
 });
 
 export default router;

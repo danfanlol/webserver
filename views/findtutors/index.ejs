@@ -4,6 +4,11 @@
 	<head>
 		<%- include('../partials/top.ejs')%>
 		<link rel="stylesheet" href="/findtutors/index.css" />
+
+		<script type="module">
+import mount from "./index.js";
+console.log(mount);
+		</script>
 	</head>
 
 	<body>
@@ -13,17 +18,17 @@
 			<article>
 				<session-list>
 					<% for (const session of sessions) { %>
-					<session-item class="<%- session.student ? 'taken' : '' %>">
+					<session-item <%- session.student ? 'class="taken"' : '' %>>
 						<h3><%- session.subject %></h3>
 
-						<div>
+						<session-people>
 							<div>Offered by <b><%- session.tutor %></b></div>
 							<% if (session.student) { %>
 							<div>Taken by <b><%- session.student %></b></div>
 							<% } %>
-						</div>
+						</session-people>
 	
-						<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;<b><%- session.duration * 60 %> min</b></session-time>
+						<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>
 					</session-item>
 					<% } %>
 				</session-list>

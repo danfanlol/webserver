@@ -28,6 +28,10 @@ session-item > h3 {
 	margin: 0 0 0.25em 0;
 }
 
+session-item > session-people {
+	flex-grow: 1;
+}
+
 session-item > session-time {
 	display: block;
 	text-align: right;
