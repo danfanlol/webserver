@@ -18,7 +18,7 @@ const updateFilters = () => {
 </script>
 
 <template>
-    <div class="session-options">
+    <session-options>
         <option- @change="updateFilters"
                 class="subjects">
             <h3>Subject</h3>
@@ -29,7 +29,7 @@ const updateFilters = () => {
                 <label>{{subject}}</label>
             </div>
         </option->
-    </div>
+    </session-options>
 </template>
 
 

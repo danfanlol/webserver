@@ -17,7 +17,9 @@ const filters = reactive({
             <SessionItems :filters="filters" />
 
             <template #fallback>
-                Loading sessions
+                <div>
+                    Loading sessions
+                </div>
             </template>
         </Suspense>
     </session-list>

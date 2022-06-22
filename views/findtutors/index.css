@@ -25,7 +25,7 @@ session-item {
 	font-size: 0.85em;
 }
 
-session-item.occupied {
+session-item.reserved {
 	opacity: 0.3;
 	transform: scale(0.875);
 }

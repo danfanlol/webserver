@@ -2,7 +2,7 @@
 
 <html lang="en">
 	<head>
-		<%- include('../partials/top.ejs')%>
+		<%- include('../partials/top.ejs', {pagename: "Find tutors"}) %>
 		<link rel="stylesheet" href="/findtutors/index.css" />
 		<link rel="stylesheet" href="/findtutors/app.css" />
 
@@ -21,12 +21,12 @@ mount("session-viewer");
 					<noscript>
 						<session-list>
 							<% for (const session of sessions) { %>
-							<session-item <%- session.student ? 'class="occupied"' : '' %>>
+							<session-item <%- session.student ? 'class="reserved"' : '' %>>
 								<h3><%- session.subject %></h3>
 								<session-people>
 									<div>Offered by <b><%- session.tutor %></b></div>
 									<% if (session.student) { %>
-									<div>Reserved by <b><%- session.student %></b></div>
+									<div>Reserved</div>
 									<% } %>
 								</session-people>
 								<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>

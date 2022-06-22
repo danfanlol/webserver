@@ -29,15 +29,18 @@ watch(props.filters, reloadResults);
 <template>
 	<session-item v-for="session of sessions"
 			:class="{
-				occupied: Boolean(session.student),
+				reserved: Boolean(session.student),
 			}">
 		<h3>{{session.subject}}</h3>
 
 		<session-people>
 			<div>Offered by <b>{{session.tutor}}</b></div>
-			<div v-if="session.student">Reserved by <b>{{session.student}}</b></div>
+			<div v-if="session.student">Reserved</div>
 		</session-people>
 
 		<session-time>Starts at <b>{{session.begin}}</b>&#x2002;•&#x2002;Up to <b>{{session.duration * 60}} min</b></session-time>
 	</session-item>
 </template>
+
+<style lang="scss" scoped>
+</style>

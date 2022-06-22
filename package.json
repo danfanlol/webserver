@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "build-frontend": "cd ./frontends/findtutors/ && npm run build -- --mode development && cd ../../",
+    "start": "nodemon index.js",
+    "build-frontend.public": "cd ./frontends/findtutors/ && npm run build && cd ../../",
+    "start.public": "npm run build-frontend.public && node ."
   },
   "author": "",
   "license": "ISC",

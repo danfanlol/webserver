@@ -26,7 +26,7 @@ $(() => {
 
       success: function (xhr, status, error) {
         window.location.href = "/findtutors";
-        console.log(xhr);
+        // console.log(xhr);
       },
       error: function (xhr, status, error) {
         if (xhr.responseJSON) {

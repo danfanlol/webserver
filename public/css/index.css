@@ -456,7 +456,7 @@ hexagonal-button.strong button-top {
 	background: var(--col-button-yellow);
 }
 
- 
+
 header > header-other {
 	grid-area: 3 / 1;
 }
@@ -602,6 +602,7 @@ main > :is(article, footer) {
 
 article {
 	position: relative;
+	padding-bottom: 1.5em;
 
 	--section-padding-vertical: 3rem;
 }
