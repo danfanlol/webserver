@@ -1,13 +1,13 @@
 import express from "express";
 import { baseViewParams } from "../utils/base-view-objects.js";
-import Session from "../model/schema/session.js";
+import Session, {compareSessions} from "../model/schema/session.js";
+import * as path from "path";
 
 const router = express.Router();
 
 router.get("/", async (request, response) => {
-	const sessions = (await Session.find({}))
-			.sort((a, b) => Number(Boolean(a.student)) - Number(Boolean(b.student)) 
-					|| a.begin - b.begin);
+	const sessions = (await Session.find())
+			.sort(compareSessions);
 
 	if (request.isAuthenticated()) {
 		response.render("findtutors/index.ejs", {
@@ -17,6 +17,15 @@ router.get("/", async (request, response) => {
 	} else {
 		response.redirect("/login");
 	}
+});
+
+router.get("/app.js", (request, response) => {
+	// Change path alongside ./frontends/findtutors/vite.config.ts
+	response.sendFile(path.resolve("./frontends/findtutors/dist/index.js"));
+});
+
+router.get("/app.css", (request, response) => {
+	response.sendFile(path.resolve("./frontends/findtutors/dist/style.css"));
 });
 
 export default router;
