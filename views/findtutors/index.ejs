@@ -4,10 +4,11 @@
 	<head>
 		<%- include('../partials/top.ejs')%>
 		<link rel="stylesheet" href="/findtutors/index.css" />
+		<link rel="stylesheet" href="/findtutors/app.css" />
 
 		<script type="module">
-import mount from "./index.js";
-console.log(mount);
+import mount from "./app.js";
+mount("session-viewer");
 		</script>
 	</head>
 
@@ -16,22 +17,24 @@ console.log(mount);
 
 		<main>
 			<article>
-				<session-list>
-					<% for (const session of sessions) { %>
-					<session-item <%- session.student ? 'class="taken"' : '' %>>
-						<h3><%- session.subject %></h3>
-
-						<session-people>
-							<div>Offered by <b><%- session.tutor %></b></div>
-							<% if (session.student) { %>
-							<div>Taken by <b><%- session.student %></b></div>
+				<session-viewer>
+					<noscript>
+						<session-list>
+							<% for (const session of sessions) { %>
+							<session-item <%- session.student ? 'class="occupied"' : '' %>>
+								<h3><%- session.subject %></h3>
+								<session-people>
+									<div>Offered by <b><%- session.tutor %></b></div>
+									<% if (session.student) { %>
+									<div>Reserved by <b><%- session.student %></b></div>
+									<% } %>
+								</session-people>
+								<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>
+							</session-item>
 							<% } %>
-						</session-people>
-	
-						<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>
-					</session-item>
-					<% } %>
-				</session-list>
+						</session-list>
+					</noscript>
+				</session-viewer>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

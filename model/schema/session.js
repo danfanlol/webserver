@@ -20,8 +20,17 @@ const sessionSchema=new mongoose.Schema( {
     subject: {
         type:String,
         required:true,
+    },
+
+    occupied: {
+        type: Boolean,
+        get: () => Boolean(this.student),
     }
 });
 
-const Session= mongoose.model("Session",sessionSchema)
+const Session = mongoose.model("Session", sessionSchema);
 export default Session;
+
+export const compareSessions = (a, b) =>
+        Number(Boolean(a.student)) - Number(Boolean(b.student)) 
+        || a.begin - b.begin;

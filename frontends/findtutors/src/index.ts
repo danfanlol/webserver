@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
-import App from './App.vue'
+import Root from './Root.vue'
 
 
-const mount = (container: string | Element) => createApp(App).mount(container);
+const mount = (container: string | Element) => createApp(Root).mount(container);
 export default mount;

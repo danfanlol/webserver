@@ -16,7 +16,6 @@ $(() => {
     }
 
     var login = { user: username, pass: password };
-    console.log(login);
     $.ajax({
       type: "POST",
       url: "/api/auth/login",
