@@ -22,10 +22,12 @@ const sessionSchema=new mongoose.Schema( {
         required:true,
     },
 
-    occupied: {
+    reserved: {
         type: Boolean,
-        get: () => Boolean(this.student),
-    }
+        get() {
+            return Boolean(this.student);
+        },
+    },
 });
 
 const Session = mongoose.model("Session", sessionSchema);

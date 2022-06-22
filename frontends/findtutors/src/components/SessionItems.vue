@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
+import SessionItem from "./SessionItem.vue";
+
+import {SessionFilters} from "../util";
+
 const props = defineProps({
 	filters: {
-		type: Object as PropType<{
-			subjects: string[],
-		}>,
+		type: Object as PropType<SessionFilters>,
 		required: true,
 	},
 });
@@ -13,10 +15,17 @@ const props = defineProps({
 const sessions = ref(await (await fetch("/api/session/")).json());
 
 const sessionQuery = computed(() => {
-	if (props.filters.subjects.length === 0) {
-		return "";
+	const params = new URLSearchParams();
+
+	if (props.filters.subjects.length !== 0) {
+		params.set("subject", props.filters.subjects.join("|"));
 	}
-	return `subject=${props.filters.subjects.join("|")}`;
+
+	if (props.filters.availability !== null) {
+		params.set("open", props.filters.availability ? "1" : "0");
+	}
+
+	return params;
 });
 
 const reloadResults = async () => {
@@ -27,19 +36,9 @@ watch(props.filters, reloadResults);
 </script>
 
 <template>
-	<session-item v-for="session of sessions"
-			:class="{
-				reserved: Boolean(session.student),
-			}">
-		<h3>{{session.subject}}</h3>
-
-		<session-people>
-			<div>Offered by <b>{{session.tutor}}</b></div>
-			<div v-if="session.student">Reserved</div>
-		</session-people>
-
-		<session-time>Starts at <b>{{session.begin}}</b>&#x2002;•&#x2002;Up to <b>{{session.duration * 60}} min</b></session-time>
-	</session-item>
+	<SessionItem v-for="session of sessions"
+			:key="session._id"
+			:session="session" />
 </template>
 
 <style lang="scss" scoped>

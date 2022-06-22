@@ -34,12 +34,18 @@ router.get("/fromsubject/:subject", async (req,res) => {
 
 router.get("/", async (request, response) => {
     const subjects = request.query.subject?.split("|") ?? null;
+    const open = request.query.open !== undefined ? request.query.open !== "0" : null;
 
     const sessions = (await Session.find({
         $and: [
             subjects ? {
                 $or: subjects.map(subject => ({subject})),
             } : {},
+            open !== null
+                    ? open
+                            ? {student: ""}
+                            : {student: {$ne: ""}}
+                    : {},
         ],
     })
             .lean()
