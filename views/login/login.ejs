@@ -14,47 +14,61 @@
 		<script src="/login/login.js"></script>
 	</head>
 
-	<body class="page-login">
+	<body>
 		<%- include('../partials/nav.ejs')%>
 
-		<main>
+		<main class="no-padding">
 			<section>
 				<main-area>
 					<h1>Ready to find a tutor?</h1>
 	
-					<form method="POST" action="/api/login" class="login" id="login-form">
-						<h2 class="">log in</h2>
-						<div id="login-error" class="login-error"></div>
+					<div class="form">
+						<h2>Log in</h2>
 
-						<input
-							name="user"
-							type="text"
-							id="login-username"
-							class="login-field"
-							placeholder="username..."
-						/>
-						<input
-							name="pass"
-							type="password"
-							id="login-password"
-							class="login-field"
-							placeholder="password..."
-						/>
-						<input
-							type="submit"
-							id="login-submit"
-							value="Login"
-							class="login-button"
-						/>
-						<div class="login-bottom">
-							Don't have an account?
-							<a href="/register">Register</a>
-						</div>
-						<div class="login-bottom">
-							Lost your password?
-							<a href="/resetpassword">Reset your password</a>
-						</div>
-					</form>
+						<form method="POST" action="/api/login" class="login" id="login-form">
+							<div id="login-error" class="login-error"></div>
+
+							<input
+								name="user"
+								type="text"
+								id="login-username"
+								class="login-field"
+								placeholder="username..."
+							/>
+							<input
+								name="pass"
+								type="password"
+								id="login-password"
+								class="login-field"
+								placeholder="password..."
+							/>
+
+							<!-- <hexagonal-button class="strong">
+									<label for="login-submit">
+										
+									</label>
+								<button-top>Login</button-top>
+							</hexagonal-button> -->
+
+							<input
+								type="submit"
+								id="login-submit"
+								value="Login"
+								class="login-button"
+							/>
+
+							<div class="login-bottom">
+								<div>
+									Don't have an account?
+									<a href="/register">Register</a>
+								</div>
+								<div>
+									Lost your password?
+									<a href="/resetpassword">Reset your password</a>
+								</div>
+							</div>
+						</form>
+					</div>
 		
 					<article>
 						<h2>FAQ</h2>

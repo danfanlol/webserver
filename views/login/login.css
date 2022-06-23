@@ -29,3 +29,86 @@
 	border-radius: 5px;
 	padding: 5px 5px 5px 5px;
 }
+
+
+main > section {
+	min-height: 90vh;
+	display: grid;
+
+	background: var(--col-blue);
+	background-image: radial-gradient(#0000, var(--col-blue-dark-7f)),
+			linear-gradient(var(--col-blue-shadow-3f), var(--col-blue-shadow-3f)),
+			url("../assets/header-mesh.svg");
+
+	animation: header-pattern-slide-2 24s infinite linear;
+
+	color: #fff;
+}
+
+
+/* TODO Just rework this code in general. Can do it when finalizing stuff like the main page source code */
+main-area {
+	/* TODO some code is repeated from header-main. Unify them? */
+	padding: 0 4em;
+	display: grid;
+	grid-template-columns: 1fr minmax(1em, 3vw) 1fr;
+	gap: 2em 0;
+
+	place-self: center;
+	justify-items: center;
+
+	line-height: 2;
+}
+
+main-area > * {
+	margin: auto;
+}
+
+main-area > h1 {
+	grid-area: 1/1 / 1/4;
+
+	width: 100%;
+	text-align: center;
+	/* font-style: italic; */
+}
+
+main-area h2 {
+	margin: 0;
+}
+
+main-area > .form {
+	grid-area: 2 / 1;
+
+	margin-top: 0;
+
+	text-align: center;
+}
+
+main-area > .form > form {
+	margin: 1em 0;
+
+	gap: 0.5em;
+}
+
+main-area > .form > form > .login-bottom {
+	line-height: 1.25;
+}
+
+main-area > article {
+	grid-area: 2 / 3;
+}
+
+main-area > article dt {
+	/* margin: 0.65em 0; */
+
+	color: var(--col-yellow);
+}
+
+main-area > article dd {
+	color: #ffffffcf;
+}
+
+
+main-area > article dl + p {
+	margin-top: 2.5em;
+}

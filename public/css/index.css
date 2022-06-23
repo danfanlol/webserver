@@ -109,14 +109,16 @@ main {
 	--screen-width-limit-reference: 1920px;
 
 	--article-padding-horizontal: max(8vw, calc(0.08 * var(--screen-width-limit-reference) + (100vw - var(--screen-width-limit-reference)) / 2));
+
+	--section-padding-vertical: 3rem;
+}
+
+main:not(.no-padding) {
+	padding-top: 3em;
 }
 
 main > :not(:last-child) {
 	flex-grow: 1;
-}
-
-body:not(:where(.page-home, .page-login)) > main {
-	padding-top: 3em;
 }
 
 main a {
@@ -138,6 +140,10 @@ main a:where(:hover, :focus-visible) {
 
 main a:active {
 	color: var(--col-red);
+}
+
+input {
+	font-family: inherit;
 }
 
 header {
@@ -603,8 +609,6 @@ main > :is(article, footer) {
 article {
 	position: relative;
 	padding-bottom: 1.5em;
-
-	--section-padding-vertical: 3rem;
 }
 
 article :is(p, dl) {
@@ -616,6 +620,9 @@ article * + p {
 }
 
 dt {
+	margin-bottom: 0.25em;
+	line-height: 2;
+
 	font-family: var(--font-large);
 	font-size: 1.35em;
 	letter-spacing: 0.02em;
@@ -623,8 +630,6 @@ dt {
 
 * + dt {
 	margin-top: 1.75em;
-	margin-bottom: 0.25em;
-	line-height: 2;
 }
 
 dl.counter-faq {
@@ -690,7 +695,7 @@ article dd {
 	margin-left: 0.75em;
 	padding-left: 0.75em;
 	border-left: 4px solid var(--col-orange);
-	box-shadow: -8px 0 8px -8px var(--col-yellow);
+	box-shadow: -12px 0 8px -12px var(--col-yellow);
 }
 
 article > * + section {
@@ -1052,82 +1057,6 @@ mesh-background {
 
 	pointer-events: none;
 }
-
-
-/* PAGE-SPECIFIC */
-
-body.page-login main {
-	min-height: 100vh;
-}
-
-body.page-login main > section {
-	min-height: 100vh;
-	display: grid;
-
-	background: var(--col-blue);
-	background-image: radial-gradient(#0000, var(--col-blue-dark-7f)),
-			linear-gradient(var(--col-blue-shadow-3f), var(--col-blue-shadow-3f)),
-			url("../assets/header-mesh.svg");
-
-	animation: header-pattern-slide-2 24s infinite linear;
-
-	color: #fff;
-}
-
-
-/* TODO Just rework this code in general. Can do it when finalizing stuff like the main page source code */
-body.page-login main-area {
-	/* TODO some code is repeated from header-main. Unify them? */
-	padding: 0 4em;
-	display: grid;
-	grid-template-columns: 1fr minmax(1em, 3vw) 1fr;
-	gap: 2em 0;
-
-	place-self: center;
-	justify-items: center;
-}
-
-body.page-login main-area > * {
-	margin: auto;
-}
-
-body.page-login main-area > h1 {
-	grid-area: 1/1 / 1/4;
-
-	width: 100%;
-	text-align: center;
-	/* font-style: italic; */
-}
-
-body.page-login main-area > form {
-	grid-area: 2 / 1;
-}
-
-body.page-login main-area > article {
-	grid-area: 2 / 3;
-
-	line-height: 2;
-}
-
-body.page-login main-area > article h2 {
-	margin: 0;
-}
-
-body.page-login main-area > article dt {
-	/* margin: 0.65em 0; */
-
-	color: var(--col-yellow);
-}
-
-body.page-login main-area > article dd {
-	color: #ffffffcf;
-}
-
-
-body.page-login main-area > article dl + p {
-	margin-top: 2.5em;
-}
-
 
 
 /* REUSED ANIMATIONS */
