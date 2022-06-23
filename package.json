@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-frontend": "cd ./frontends/findtutors/ && npm run build -- --mode development && cd ../../",
-    "start": "nodemon index.js",
+    "build-frontend": "cd ./frontends/findtutors/ && npm run build -- --watch --mode development && cd ../../",
+    "start-server": "nodemon . --ignore \"./frontends/*\"",
+    "start": "concurrently \"npm run build-frontend\" \"npm run start-server\" -n frontend,backend -c magenta,blue -k",
     "build-frontend.public": "cd ./frontends/findtutors/ && npm run build && cd ../../",
     "start.public": "npm run build-frontend.public && node ."
   },
@@ -29,6 +30,9 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.2"
   },
   "type": "module"
 }
