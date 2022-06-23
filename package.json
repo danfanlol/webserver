@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-frontend": "cd ./frontends/findtutors/ && npm run build -- --watch --mode development && cd ../../",
+    "build-frontend-hot": "cd ./frontends/findtutors/ && npm run build -- --watch --mode development && cd ../../",
+    "build-frontend": "cd ./frontends/findtutors/ && npm run build -- --mode development && cd ../../",
     "start-server": "nodemon . --ignore \"./frontends/*\"",
-    "start": "concurrently \"npm run build-frontend\" \"npm run start-server\" -n frontend,backend -c magenta,blue -k",
+    "start": "concurrently \"npm run build-frontend-hot\" \"npm run start-server\" -n frontend,backend -c magenta,blue -k",
     "build-frontend.public": "cd ./frontends/findtutors/ && npm run build && cd ../../",
     "start.public": "npm run build-frontend.public && node ."
   },

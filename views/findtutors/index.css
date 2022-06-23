@@ -1,6 +1,6 @@
 session-viewer {
 	display: flex;
-	flex-flow: column;
+	/* flex-flow: column; */
 	gap: 1em;
 	padding: 0 var(--article-padding-horizontal);
 }
@@ -8,6 +8,8 @@ session-viewer {
 session-list {
 	display: flex;
 	flex-flow: wrap;
+	width: 100%;
+	height: min-content;
 	justify-content: center;
 	gap: 1em;
 }

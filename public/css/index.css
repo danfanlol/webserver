@@ -5,9 +5,9 @@
 }
 
 :root {
-	--padding-top: 4rem;
+	--scroll-padding-top: 4rem;
 
-	scroll-padding-top: var(--padding-top);
+	scroll-padding-top: var(--scroll-padding-top);
 	scroll-behavior: smooth;
 
 	--col-button-orange: #fca62b;

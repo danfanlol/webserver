@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import {reactive} from "vue";
 
-import SessionItems from "./components/SessionItems.vue";
 import SessionOptions from "./components/SessionOptions.vue";
+import SessionList from "./components/SessionList.vue";
 
 import {SessionFilters} from "./util";
 
@@ -15,15 +15,13 @@ const filters = reactive({
 <template>
     <SessionOptions :filters="filters" />
 
-    <session-list>
-        <Suspense>
-            <SessionItems :filters="filters" />
+    <Suspense>
+        <SessionList :filters="filters" />
 
-            <template #fallback>
-                <div>
-                    Loading sessions
-                </div>
-            </template>
-        </Suspense>
-    </session-list>
+        <template #fallback>
+            <session-list>
+                <div>Loading sessions</div>
+            </session-list>
+        </template>
+    </Suspense>
 </template>

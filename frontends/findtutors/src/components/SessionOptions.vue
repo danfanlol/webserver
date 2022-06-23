@@ -12,7 +12,7 @@ const props = defineProps({
 	},
 });
 
-const subjectElementId = subject => `subject-${subject}`;
+const subjectElementId = (subject: string) => `subject-${subject}`;
 
 const updateSubjects = () => {
     props.filters.subjects = [...document.querySelectorAll("input[name='subject']:checked")]
@@ -67,15 +67,29 @@ const updateSubjects = () => {
 
 
 <style lang="scss" scoped>
-option- {
+session-options {
     display: flex;
-    align-items: center;
+    flex-flow: column;
     gap: 1em;
-    font-size: 0.75em;
 
-    h3 {
-        margin: 0;
-        margin-right: 0.5em;
+    height: min-content;
+    position: sticky;
+    top: var(--scroll-padding-top);
+    
+    white-space: nowrap;
+
+    > option- {
+        display: flex;
+        flex-flow: column;
+        // align-items: center;
+        // gap: 1em;
+        
+        font-size: 0.75em;
+
+        > h3 {
+            margin: 0;
+            margin-right: 0.5em;
+        }
     }
 }
 </style>
