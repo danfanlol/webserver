@@ -1,4 +1,4 @@
-post_url="/api/tutorviewclasses"
+post_url="/api/stdviewclasses"
 function mysubmit() {
     var data=jscreator.get()
     console.log(data);

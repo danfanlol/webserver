@@ -10,7 +10,7 @@ router.post("/",async (req,res) => {
     if(!session.student==req.user.user) return res.status(401).json({message:"You are not the student!"});
 
     if(req.body.operation=="quit") {
-        session.student="PLACEMENT";
+        session.student = "";
         await session.save();
         return res.status(200).json({message:"Operation Successful"})
     }
