@@ -18,6 +18,7 @@ import auth from "./login/index.js";
 import api from "./api/index.js"
 
 import sendEmail from "./utils/email.js";
+import { baseViewParams } from "./utils/base-view-objects.js";
 
 import mongo_init from "./model/index.js";
 
@@ -65,25 +66,6 @@ app.use(express.static('public'));
 app.use("/api", api);
 app.use("/forms", forms);
 app.use("/findtutors", findtutorsRouter);
-
-
-// const loginRouter = express.Router();
-// loginRouter.get("/",(request, response) => {
-//   const renderObject = {
-//       logged_in: false,
-//       user: '',
-//       bucket_name: process.env.AWS_BUCKET_NAME,
-//       dump_name: process.env.AWS_DUMP_NAME,
-//       type: request.params.type,
-//   };
-//   if (request.isAuthenticated()) {
-//       renderObject.logged_in = true;
-//       renderObject.user = request.user.user;
-//   }
-//   return response.render("forms/template.ejs", renderObject);
-// });
-
-// app.use("/login", loginRouter);
 
 
 app.listen(3000, () => {

@@ -4,7 +4,7 @@
 <script src="/forms/class-selector.js"></script>
 
 <link rel="stylesheet" href="/forms/style.css" media="screen" />
-<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user.user}); %>
+<%- include('../partials/bar.ejs', {logged_in:logged_in,user:user?.user}); %>
 <div class="hero-image">
   <div class="hero-text">
     <div id="errbar" class="error"></div>
@@ -18,7 +18,7 @@
 <script src="/forms/standard.js"></script>
 <script>
     var form_type="<%-type%>"
-    var user="<%-user%>"
+    var user="<%-user?.user%>"
 </script>
 
 <script src="/forms/loaders/<%-type%>.js"></script>
