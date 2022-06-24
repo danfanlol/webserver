@@ -43,16 +43,19 @@ router.get("/", async (request, response) => {
             } : {},
             open !== null
                     ? open
-                            ? {student: ""}
+                            ? {$or: [
+                                {student: ""},
+                                {student: request.user?.user},
+                            ]}
                             : {student: {$ne: ""}}
                     : {},
         ],
     })
-            .lean()
+            // .lean()
             .select("_id begin duration tutor subject student")
     )
-            .sort(compareSessions);
-    response.status(200).json(sessions);
+            .sort(compareSessions(request.user?.user));
+    response.status(200).json(sessions.map(session => session.toJSON({virtuals: true})));
 })
 
 router.post("/", async (req,res) => {

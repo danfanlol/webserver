@@ -26,8 +26,6 @@ import bodyParser from "body-parser";
 
 await mongo_init();
 
-
-
 sendEmail.init();
 const app=express();
 

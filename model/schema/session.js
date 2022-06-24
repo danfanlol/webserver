@@ -21,18 +21,24 @@ const sessionSchema=new mongoose.Schema( {
         type:String,
         required:true,
     },
-
-    reserved: {
-        type: Boolean,
-        get() {
-            return Boolean(this.student);
-        },
-    },
 });
+
+sessionSchema.virtual("reserved").get(function () { return Boolean(this.student); });
+
 
 const Session = mongoose.model("Session", sessionSchema);
 export default Session;
 
-export const compareSessions = (a, b) =>
-        Number(Boolean(a.student)) - Number(Boolean(b.student)) 
-        || a.begin - b.begin;
+/**
+ * Sorts sessions by the following criteria, in this order:
+ * 1. Sessions reserved by the given user come first
+ * 1. Remaining open sessions come first
+ * 1. Start time, ascending
+ * @param {*} username 
+ * @returns A sorting comparator for sessions.
+ */
+export const compareSessions = username =>
+        (a, b) =>
+                Number(b.student === username) - Number(a.student === username)
+                || Number(Boolean(a.student)) - Number(Boolean(b.student)) 
+                || a.begin - b.begin;

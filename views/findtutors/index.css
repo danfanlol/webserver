@@ -32,6 +32,24 @@ session-item.reserved {
 	transform: scale(0.875);
 }
 
+session-item.reserved-by-you {
+	background: #fff4dd;
+	animation: session-pulsate 1s ease-in-out alternate infinite;
+
+	box-shadow: 0 0.125em 0.5em 0em var(--col-blue-af),
+			0 0 2em -0.5em var(--col-button-yellow);
+}
+
+@keyframes session-pulsate {
+	0% {
+		background: var(--col-button-yellow-light);
+	}
+
+	100% {
+		background: #fff4dd;
+	}
+}
+
 session-item > h3 {
 	margin: 0 0 0.25em 0;
 }

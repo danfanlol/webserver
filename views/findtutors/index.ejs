@@ -8,6 +8,7 @@
 
 		<script type="module">
 import mount from "./app.js";
+globalThis.username = "<%- user.user // lil hacky %>";
 mount("session-viewer");
 		</script>
 	</head>

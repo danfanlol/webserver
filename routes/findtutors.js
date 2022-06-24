@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", async (request, response) => {
 	const sessions = (await Session.find())
-			.sort(compareSessions);
+			.sort(compareSessions(request.user?.user));
 
 	if (request.isAuthenticated()) {
 		response.render("findtutors/index.ejs", {
