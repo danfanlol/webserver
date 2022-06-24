@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<%- include('../partials/top.ejs', {pagename: tutor.user}) %>
+	</head>
+
+	<body>
+		<%- include('../partials/nav.ejs')%>
+
+		<main>
+			<article>
+				<h1><%- tutor.user %></h1>
+			</article>
+
+			<%- include('../partials/footer.ejs')%>
+		</main>
+	</body>
+</html>

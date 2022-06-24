@@ -3,7 +3,7 @@ import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "./SessionItem.vue";
 
-import {SessionFilters} from "../util";
+import {SessionFilters, Availability} from "../util";
 
 const props = defineProps({
 	filters: {
@@ -20,8 +20,8 @@ const sessionQuery = computed(() => {
 		params.set("subject", props.filters.subjects.join("|"));
 	}
 
-	if (props.filters.availability !== null) {
-		params.set("open", props.filters.availability ? "1" : "0");
+	if (props.filters.availability !== Availability.All) {
+		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
 	}
 
 	return params;
@@ -56,9 +56,9 @@ watch(props.filters, reloadResults);
 
 <template>
     <session-list
-		:class="{
-			waiting: !latestPromiseResolved,
-		}">
+			:class="{
+				waiting: !latestPromiseResolved,
+			}">
 		<SessionItem v-for="session of sessions"
 				:key="session._id"
 				:session="session" />

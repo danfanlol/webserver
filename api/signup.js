@@ -6,10 +6,10 @@ router.post("/",async (req,res) => {
     if(!req.user.hasPermission("signup")) return res.status(403).json({message:"Not enough permissions!"})
     
     var session=await Session.findById(req.body.sessionId);
-    if(!session) {
+    if (!session) {
         return res.status(404).json({message:"Could not find session!"})
     }
-    if(session.student!="") {
+    if (session.reserved) {
         return res.status(403).json({message:"Session already has a student signed up!"})
     }
     session.student=req.user.user;

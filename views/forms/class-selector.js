@@ -26,7 +26,7 @@ class JSONCreatorClassSelector extends JSONCreator {
                 var time=`${fullhour}:${mins}`
                 var duration=`${session.duration} hours`;
                 var part=$(`<div class="session">
-                    <span>Tutor: <a href="/tutors/${session.tutor}.html">${session.tutor}</a></span>
+                    <span>Tutor: <a href="/tutor/${session.tutor}">${session.tutor}</a></span>
                     <span>${day} ${time}</span>
                     <span>${duration}</span>
                     <span>Student: ${session.student}</span>

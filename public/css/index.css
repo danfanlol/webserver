@@ -142,7 +142,8 @@ main a:active {
 	color: var(--col-red);
 }
 
-input {
+input,
+button {
 	font-family: inherit;
 }
 

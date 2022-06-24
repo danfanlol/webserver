@@ -4,11 +4,11 @@ import {reactive} from "vue";
 import SessionOptions from "./components/SessionOptions.vue";
 import SessionList from "./components/SessionList.vue";
 
-import {SessionFilters} from "./util";
+import {Availability} from "./util";
 
 const filters = reactive({
     subjects: [],
-    availability: null,
+    availability: Availability.All,
 });
 </script>
 

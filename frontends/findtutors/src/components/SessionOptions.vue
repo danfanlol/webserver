@@ -3,7 +3,7 @@ import {PropType} from "vue";
 
 import subjects from "../../../../lib/subjects.js";
 
-import {SessionFilters} from "../util";
+import {SessionFilters, Availability} from "../util";
 
 const props = defineProps({
 	filters: {
@@ -18,6 +18,8 @@ const updateSubjects = () => {
     props.filters.subjects = [...document.querySelectorAll("input[name='subject']:checked")]
             .map(element => element.value);
 };
+
+const globalThis = window.globalThis;
 </script>
 
 <template>
@@ -37,7 +39,7 @@ const updateSubjects = () => {
             <h3>Availability</h3>
             <div>
                 <input type="radio"
-                        :value="null"
+                        :value="Availability.All"
                         v-model="filters.availability"
                         name="availability"
                         id="all" />
@@ -46,7 +48,7 @@ const updateSubjects = () => {
 
             <div>
                 <input type="radio"
-                        :value="true"
+                        :value="Availability.Open"
                         v-model="filters.availability"
                         name="availability"
                         id="open" />
@@ -55,13 +57,19 @@ const updateSubjects = () => {
 
             <div>
                 <input type="radio"
-                        :value="false"
+                        :value="Availability.Closed"
                         v-model="filters.availability"
                         name="availability"
                         id="closed" />
                 <label for="closed">Closed</label>
             </div>
         </option->
+
+        <div v-if="globalThis.isTutor"
+                class="manage-sessions">
+            <div><a href="/forms/tutorviewclasses/">Manage your sessions</a></div>
+            <div><a href="/forms/newsession/">Add a session</a></div>
+        </div>
     </session-options>
 </template>
 
@@ -77,19 +85,26 @@ session-options {
     top: var(--scroll-padding-top);
     
     white-space: nowrap;
+        
+    font-size: 0.75em;
 
     > option- {
         display: flex;
         flex-flow: column;
         // align-items: center;
         // gap: 1em;
-        
-        font-size: 0.75em;
 
         > h3 {
             margin: 0;
             margin-right: 0.5em;
         }
+    }
+
+    > .manage-sessions {
+        white-space: normal;
+        display: flex;
+        flex-flow: column;
+        gap: 1em;
     }
 }
 </style>

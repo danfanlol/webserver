@@ -6,15 +6,15 @@ import { baseViewParams } from "./base-view-objects.js";
 
 const router = express.Router();
 
-function standardroute(dn, fn) {
-  router.get(dn, (req, res) => {
-    res.render(fn, baseViewParams(req));
+function standardroute(routePath, viewPath) {
+  router.get(routePath, (req, res) => {
+    res.render(viewPath, baseViewParams(req));
     // res.sendFile(path.join(process.cwd(),"views",fn));
   });
 }
 
-function filterLoggedIn(dn) {
-  router.get(dn, (req, res, next) => {
+function filterLoggedIn(routePath) {
+  router.get(routePath, (req, res, next) => {
     if (req.isAuthenticated()) {
       return next();
     }
@@ -22,8 +22,8 @@ function filterLoggedIn(dn) {
     res.redirect('/');
   });
 }
-function filterLoggedOut(dn) {
-  router.get(dn, (req, res, next) => {
+function filterLoggedOut(routePath) {
+  router.get(routePath, (req, res, next) => {
     if (!req.isAuthenticated()) {
       return next();
     }
@@ -51,6 +51,8 @@ standardroute('/resetpasswordsuccess', 'login/resetpasswordsuccess.ejs');
 standardroute('/accountcreated', 'login/accountcreated.ejs');
 standardroute('/test', 'static/test.ejs');
 standardroute('/create', 'main/main.ejs');
+
+standardroute('/tutor', 'tutor/index.ejs');
 
 router.get('/logout', (req, res) => {
   if (req.isAuthenticated()) {
