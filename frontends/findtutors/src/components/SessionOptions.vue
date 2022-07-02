@@ -65,11 +65,25 @@ const globalThis = window.globalThis;
             </div>
         </option->
 
-        <div v-if="globalThis.isTutor"
-                class="manage-sessions">
-            <div><a href="/forms/tutorviewclasses/">Manage your sessions</a></div>
-            <div><a href="/forms/newsession/">Add a session</a></div>
-        </div>
+        <template v-if="globalThis.isTutor">
+            <hr />
+
+            <option->
+                <h3>For tutors</h3>
+
+                <div>
+                    <input type="checkbox"
+                            v-model="filters.taughtByYou"
+                            id="taught-by-you" />
+                    <label for="taught-by-you">Offered by you</label>
+                </div>
+
+                <div class="manage-sessions">
+                    <div><a href="/forms/tutorviewclasses/">Manage your sessions</a></div>
+                    <div><a href="/forms/newsession/">Add a session</a></div>
+                </div>
+            </option->
+        </template>
     </session-options>
 </template>
 
@@ -88,23 +102,29 @@ session-options {
         
     font-size: 0.75em;
 
+    h3 {
+        margin: 0;
+        margin-right: 0.5em;
+    }
+
     > option- {
         display: flex;
         flex-flow: column;
         // align-items: center;
         // gap: 1em;
 
-        > h3 {
-            margin: 0;
-            margin-right: 0.5em;
+        > .manage-sessions {
+            display: flex;
+            flex-flow: column;
+
+            white-space: normal;
+            gap: 1em;
+            margin-top: 1em;
         }
     }
 
-    > .manage-sessions {
-        white-space: normal;
-        display: flex;
-        flex-flow: column;
-        gap: 1em;
+    hr {
+        width: 100%;
     }
 }
 </style>

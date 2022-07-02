@@ -7,4 +7,5 @@ export enum Availability {
 export type SessionFilters = {
 	subjects: string[],
 	availability: Availability,
+	taughtByYou: boolean,
 };

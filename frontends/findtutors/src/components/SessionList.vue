@@ -24,6 +24,10 @@ const sessionQuery = computed(() => {
 		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
 	}
 
+	if (props.filters.taughtByYou) {
+		params.set("tutor", globalThis.username);
+	}
+
 	return params;
 });
 
@@ -51,6 +55,7 @@ watch(latestPromise, () => {
 });
 
 const sessions = ref(await (await fetch("/api/session/")).json());
+const hasSessions = computed(() => sessions.value.length !== 0);
 watch(props.filters, reloadResults);
 </script>
 
@@ -60,8 +65,10 @@ watch(props.filters, reloadResults);
 				waiting: !latestPromiseResolved,
 			}">
 		<SessionItem v-for="session of sessions"
+				v-if="hasSessions"
 				:key="session._id"
 				:session="session" />
+		<div v-else>No results! Check your search filters.</div>
     </session-list>
 </template>
 

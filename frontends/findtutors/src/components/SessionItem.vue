@@ -14,6 +14,7 @@ const reserved = computed(() => Boolean(props.session.student)
 		&& props.session.student !== globalThis.username);
 const reservedByYou = computed(() => Boolean(props.session.student)
 		&& props.session.student === globalThis.username);
+const taughtByYou = computed(() => props.session.tutor === globalThis.username);
 
 const tryQuitSession = async () => {
 	waiting.value = true;
@@ -51,19 +52,20 @@ const tryReserveSession = async () => {
 	<session-item :class="{
 				reserved,
 				'reserved-by-you': reservedByYou,
-				waiting,
 			}">
 		<h3>{{session.subject}}</h3>
 
 		<session-people>
-			<div>Offered by <b>{{session.tutor}}</b></div>
+			<div>Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 			<div v-if="reserved">Reserved</div>
-			<div v-else-if="reservedByYou">
+			<div v-else-if="reservedByYou"
+					:class="{waiting}">
 				<i>Signed up</i>
 				&#x2002;•&#x2002;
 				<button @click="tryQuitSession">Unregister</button>
 			</div>
-			<div v-else>
+			<div v-else
+					:class="{waiting}">
 				<button @click="tryReserveSession">Register</button>
 			</div>
 		</session-people>
