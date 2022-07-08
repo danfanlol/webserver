@@ -68,7 +68,7 @@ watch(props.filters, reloadResults);
 				v-if="hasSessions"
 				:key="session._id"
 				:session="session" />
-		<div v-else>No results! Check your search filters.</div>
+		<div v-else>No results! Check the search filters.</div>
     </session-list>
 </template>
 
