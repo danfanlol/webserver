@@ -1,6 +1,6 @@
-import { createApp } from 'vue'
+import { createApp, ExtractPropTypes } from 'vue'
 import Root from './Root.vue'
 
-
-const mount = (container: string | Element) => createApp(Root).mount(container);
+const mount = (container: string | Element, rootProps: ExtractPropTypes<typeof Root>) =>
+		createApp(Root, rootProps).mount(container);
 export default mount;

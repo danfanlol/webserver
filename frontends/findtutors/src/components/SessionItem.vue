@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import {ref, computed} from "vue";
 
+import {user} from "../store";
+
 const props = defineProps({
 	session: {
 		type: Object,
@@ -11,10 +13,10 @@ const props = defineProps({
 const waiting = ref(false);
 
 const reserved = computed(() => Boolean(props.session.student)
-		&& props.session.student !== globalThis.username);
+		&& props.session.student !== user.username);
 const reservedByYou = computed(() => Boolean(props.session.student)
-		&& props.session.student === globalThis.username);
-const taughtByYou = computed(() => props.session.tutor === globalThis.username);
+		&& props.session.student === user.username);
+const taughtByYou = computed(() => props.session.tutor === user.username);
 
 const tryQuitSession = async () => {
 	waiting.value = true;
@@ -27,8 +29,9 @@ const tryQuitSession = async () => {
 		headers: {
 			"Content-Type": "application/json",
 		},
+	}).finally(() => {
+		waiting.value = false;
 	});
-	waiting.value = false;
 	props.session.student = "";
 };
 
@@ -42,9 +45,10 @@ const tryReserveSession = async () => {
 		headers: {
 			"Content-Type": "application/json",
 		},
+	}).finally(() => {
+		waiting.value = false;
 	});
-	waiting.value = false;
-	props.session.student = globalThis.username;
+	props.session.student = user.username;
 };
 </script>
 

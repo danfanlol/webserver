@@ -8,10 +8,10 @@
 
 		<script type="module">
 import mount from "./app.js";
-globalThis.username = "<%- user.user // lil hacky %>";
-globalThis.isTutor = <%- user.hasPermission("post-session") %>;
-globalThis.isTutor = <%- user.hasPermission("post-session") %>;
-mount("session-viewer");
+mount("session-viewer", {
+	username: "<%- user.user // lil hacky %>",
+	isTutor: <%- user.hasPermission("post-session") %>,
+});
 		</script>
 	</head>
 

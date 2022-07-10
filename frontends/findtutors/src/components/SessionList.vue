@@ -5,6 +5,8 @@ import SessionItem from "./SessionItem.vue";
 
 import {SessionFilters, Availability} from "../util";
 
+import {user} from "../store";
+
 const props = defineProps({
 	filters: {
 		type: Object as PropType<SessionFilters>,
@@ -25,7 +27,7 @@ const sessionQuery = computed(() => {
 	}
 
 	if (props.filters.taughtByYou) {
-		params.set("tutor", globalThis.username);
+		params.set("tutor", user.username);
 	}
 
 	return params;

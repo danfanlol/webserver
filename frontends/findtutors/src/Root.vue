@@ -6,6 +6,23 @@ import SessionList from "./components/SessionList.vue";
 
 import {Availability} from "./util";
 
+import {user} from "./store";
+
+// May want to make these checks cookie-based in the future?
+const props = defineProps({
+    username: {
+        type: String,
+        required: true,
+    },
+
+    isTutor: {
+        type: Boolean,
+        required: true,
+    },
+});
+
+user.set(props);
+
 const filters = reactive({
     subjects: [],
     availability: Availability.All,

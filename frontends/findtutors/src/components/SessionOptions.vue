@@ -5,6 +5,8 @@ import subjects from "../../../../lib/subjects.js";
 
 import {SessionFilters, Availability} from "../util";
 
+import {user} from "../store";
+
 const props = defineProps({
 	filters: {
 		type: Object as PropType<SessionFilters>,
@@ -18,8 +20,6 @@ const updateSubjects = () => {
     props.filters.subjects = [...document.querySelectorAll("input[name='subject']:checked")]
             .map(element => element.value);
 };
-
-const globalThis = window.globalThis;
 </script>
 
 <template>
@@ -65,7 +65,7 @@ const globalThis = window.globalThis;
             </div>
         </option->
 
-        <template v-if="globalThis.isTutor">
+        <template v-if="user.isTutor">
             <hr />
 
             <option->
