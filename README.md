@@ -1,6 +1,6 @@
 # Dream2Learn website backend
 
-Root directory is the backend project. Preprocessed frontend components can be found in `./frontends`.
+Root directory is the backend project. Preprocessed frontend components can be found in `./pages`.
 
 ## Setup
 
