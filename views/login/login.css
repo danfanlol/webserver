@@ -40,7 +40,7 @@ main > section {
 			linear-gradient(var(--col-blue-shadow-3f), var(--col-blue-shadow-3f)),
 			url("../assets/header-mesh.svg");
 
-	animation: header-pattern-slide-2 24s infinite linear;
+	/* animation: header-pattern-slide-2 24s infinite linear; */
 
 	color: #fff;
 }
@@ -68,6 +68,7 @@ main-area > h1 {
 	grid-area: 1/1 / 1/4;
 
 	width: 100%;
+	padding-bottom: 0.5em;
 	text-align: center;
 	/* font-style: italic; */
 }
@@ -76,16 +77,21 @@ main-area h2 {
 	margin: 0;
 }
 
+main-area :is(h1, h2) {
+	line-height: 1;
+}
+
 main-area > .form {
 	grid-area: 2 / 1;
 
 	margin-top: 0;
+	margin-right: 0;
 
 	text-align: center;
 }
 
 main-area > .form > form {
-	margin: 1em 0;
+	margin-top: 1em;
 
 	gap: 0.5em;
 }
@@ -98,8 +104,14 @@ main-area > article {
 	grid-area: 2 / 3;
 }
 
+main-area > article dl:first-child {
+	margin: 0;
+}
+
 main-area > article dt {
 	/* margin: 0.65em 0; */
+	line-height: 1;
+	margin-bottom: 0.5em;
 
 	color: var(--col-yellow);
 }

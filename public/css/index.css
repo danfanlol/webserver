@@ -601,6 +601,7 @@ header-media > header-mesh-bottom {
 main > article {
 	/* overflow-y: hidden; */
 	/* padding: 0 8vw; */
+	padding-bottom: 1.5em;
 }
 
 main > :is(article, footer) {
@@ -609,7 +610,6 @@ main > :is(article, footer) {
 
 article {
 	position: relative;
-	padding-bottom: 1.5em;
 }
 
 article :is(p, dl) {

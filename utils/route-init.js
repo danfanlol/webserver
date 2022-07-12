@@ -53,15 +53,15 @@ standardroute('/test', 'static/test.ejs');
 standardroute('/create', 'main/main.ejs');
 
 const loginRouter = express.Router();
-loginRouter.get("/student", (request, response) => {
+loginRouter.get("/student", (request, response, next) => {
     if (request.isAuthenticated()) {
-        return next();
+        return response.redirect("/findtutors");
     }
     response.render("login/student.ejs", baseViewParams(request));
 });
-loginRouter.get("/tutor", (request, response) => {
+loginRouter.get("/tutor", (request, response, next) => {
     if (request.isAuthenticated()) {
-        return next();
+        return response.redirect("/me");
     }
     response.render("login/tutor.ejs", baseViewParams(request));
 });
