@@ -19,7 +19,7 @@ function filterLoggedIn(routePath) {
       return next();
     }
 
-    res.redirect('/');
+    res.redirect('/login');
   });
 }
 function filterLoggedOut(routePath) {
@@ -52,13 +52,27 @@ standardroute('/accountcreated', 'login/accountcreated.ejs');
 standardroute('/test', 'static/test.ejs');
 standardroute('/create', 'main/main.ejs');
 
-standardroute('/tutor', 'tutor/index.ejs');
+const loginRouter = express.Router();
+loginRouter.get("/student", (request, response) => {
+    if (request.isAuthenticated()) {
+        return next();
+    }
+    response.render("login/student.ejs", baseViewParams(request));
+});
+loginRouter.get("/tutor", (request, response) => {
+    if (request.isAuthenticated()) {
+        return next();
+    }
+    response.render("login/tutor.ejs", baseViewParams(request));
+});
+
+router.use("/login", loginRouter);
 
 router.get('/logout', (req, res) => {
-  if (req.isAuthenticated()) {
-    req.logOut();
-  }
-  res.render('login/logout.ejs', baseViewParams(req));
+    if (req.isAuthenticated()) {
+        req.logOut();
+    }
+    res.render('login/logout.ejs', baseViewParams(req));
 });
 
 export default router;

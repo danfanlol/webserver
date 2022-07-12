@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<%- include('../partials/top.ejs', {pagename: "Login"}) %>
+		
+		<link rel="stylesheet" href="/login/login.css" media="screen" />
+
+		<script
+			src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"
+		></script>
+		<script src="/login/login.js"></script>
+	</head>
+
+	<body>
+		<%- include('../partials/nav.ejs')%>
+
+		<main class="no-padding">
+			<section>
+				<main-area>
+					<h1>Ready to find a tutor?</h1>
+	
+					<div class="form">
+						<h2>Log in</h2>
+
+						<form method="POST" action="/api/login" class="login" id="login-form">
+							<div id="login-error" class="login-error"></div>
+
+							<input
+								name="user"
+								type="text"
+								id="login-username"
+								class="login-field"
+								placeholder="username..."
+							/>
+							<input
+								name="pass"
+								type="password"
+								id="login-password"
+								class="login-field"
+								placeholder="password..."
+							/>
+
+							<!-- <hexagonal-button class="strong">
+									<label for="login-submit">
+										
+									</label>
+								<button-top>Login</button-top>
+							</hexagonal-button> -->
+
+							<input
+								type="submit"
+								id="login-submit"
+								value="Login"
+								class="login-button"
+							/>
+
+							<div class="login-bottom">
+								<div>
+									Don't have an account?
+									<a href="/register">Register</a>
+								</div>
+								<div>
+									Lost your password?
+									<a href="/resetpassword">Reset your password</a>
+								</div>
+							</div>
+						</form>
+					</div>
+		
+					<article>
+						<h2>FAQ</h2>
+	
+						<dl>
+							<dt>Is the program free?</dt>
+							<dd>Yes, the program is entirely free. We are a non-profit organization and we do not charge fees for our services. If you are pleased with our services, please consider supporting us with a donation!</dd>
+		
+							<dt>What subjects can I find help with?</dt>
+							<dd>Our tutors can help you with English, science, social studies, and math; we invite you to look at <a href="/#sample-course-section">our full list of subjects</a>. If possible, please send us any material such as textbooks, homework, or notes prior to the tutoring session so our tutors can preview the material and give you a better understanding of the topics.</dd>
+		
+							<dt>Can I work with the same tutor again?</dt>
+							<dd>Absolutely! We schedule multiple sessions with your tutor, even if it is your first time signing up.</dd>
+						</dl>
+	
+						<p>
+							<a href="/#faq">Other FAQ</a>
+						</p>
+					</article>
+				</main-area>
+			</section>
+
+			<%- include('../partials/footer.ejs')%>
+		</main>
+	</body>
+</html>

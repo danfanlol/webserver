@@ -1,0 +1,9 @@
+tutor-dashboard {
+	display: flex;
+	flex-flow: column;
+	padding: 0 var(--article-padding-horizontal);
+}
+
+member-label {
+	text-transform: uppercase;
+}
