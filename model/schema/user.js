@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import Token from "./token.js"
 import crypto from "crypto"
 
-const UserSchema = new mongoose.Schema(
+const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
@@ -42,7 +42,7 @@ const UserSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-UserSchema.pre("save", function (next) {
+userSchema.pre("save", function (next) {
   const user = this;
 
   if (!user.isModified("pass")) return next();
@@ -56,11 +56,11 @@ UserSchema.pre("save", function (next) {
     });
   });
 });
-UserSchema.methods.generatePasswordReset = function () {
+userSchema.methods.generatePasswordReset = function () {
   this.resetPasswordToken = crypto.randomBytes(20).toString("hex");
   this.resetPasswordExpires = Date.now() + 3600000; //expires in an hour
 };
-UserSchema.methods.generateVerificationToken = function () {
+userSchema.methods.generateVerificationToken = function () {
   let payload = {
     userId: this._id,
     token: crypto.randomBytes(20).toString("hex"),
@@ -68,21 +68,23 @@ UserSchema.methods.generateVerificationToken = function () {
 
   return new Token(payload);
 };
-UserSchema.methods.comparePassword = function (pass) {
+userSchema.methods.comparePassword = function (pass) {
   return bcrypt.compareSync(pass, this.pass);
 };
 
-UserSchema.methods.addPermission=function(perm) {
+userSchema.methods.addPermission=function(perm) {
   this.permissions.push(perm);
 }
-UserSchema.methods.removePermission=function(perm) {
+userSchema.methods.removePermission=function(perm) {
   this.permissions=this.permissions.filter((p) => {
     return p!=perm
   })
 }
-UserSchema.methods.hasPermission=function(perm) {
+userSchema.methods.hasPermission=function(perm) {
   return this.permissions.includes(perm);
 }
 
-const User = mongoose.model("Users", UserSchema);
+userSchema.virtual("isTutor").get(function () { return this.hasPermission("post-session") });
+
+const User = mongoose.model("Users", userSchema);
 export default User;

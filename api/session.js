@@ -68,9 +68,9 @@ router.get("/", async (request, response) => {
 
 router.post("/", async (req,res) => {
     try {
-        if(!req.isAuthenticated()) return res.status(401).json({message:"Not logged in!"});
+        if (!req.isAuthenticated()) return res.status(401).json({message:"Not logged in!"});
     
-        if(!req.user.hasPermission("post-session")) return res.status(401).json({message:"You don't have enough permissions!"});
+        if (!req.user.isTutor) return res.status(401).json({message:"You don't have enough permissions!"});
 
         const session = new Session({
             begin: req.body.begin,

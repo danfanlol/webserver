@@ -1009,10 +1009,12 @@ nav > link-rack {
 	white-space: nowrap;
 }
 
-nav > link-rack a {
+nav > link-rack :is(a, .item) {
 	padding: 0 1em;
 	margin: 0 0.5em;
+}
 
+nav > link-rack a {
 	color: var(--col-yellow);
 	letter-spacing: 0.02em;
 	/* text-transform: uppercase; */

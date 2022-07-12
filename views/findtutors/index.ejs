@@ -10,7 +10,7 @@
 import mount from "./app.js";
 mount("session-viewer", {
 	username: "<%- user.user // lil hacky %>",
-	isTutor: <%- user.hasPermission("post-session") %>,
+	isTutor: <%- user.isTutor %>,
 });
 		</script>
 	</head>
