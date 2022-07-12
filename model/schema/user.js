@@ -85,6 +85,8 @@ userSchema.methods.hasPermission=function(perm) {
 }
 
 userSchema.virtual("isTutor").get(function () { return this.hasPermission("post-session") });
+userSchema.virtual("isAdmin").get(function () { return this.hasPermission("admin") });
+userSchema.virtual("isStaff").get(function () { return this.isTutor || this.isAdmin; });
 
 const User = mongoose.model("Users", userSchema);
 export default User;

@@ -3,6 +3,7 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/top.ejs', {pagename: tutor.user}) %>
+		<link rel="stylesheet" href="/tutor/index.css" />
 	</head>
 
 	<body>
@@ -10,12 +11,12 @@
 
 		<main>
 			<article>
-				<section>
+				<tutor-dashboard>
+					<h1><%- tutor.user %></h1>
 					<div>
-						<h1><%- tutor.user %></h1>
 						<member-label>Tutor</member-label>
 					</div>
-				</section>
+				</tutor-dashboard>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

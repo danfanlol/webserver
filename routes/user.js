@@ -5,6 +5,11 @@ import { baseViewParams } from "../utils/base-view-objects.js";
 
 export const tutorRouter = express.Router();
 tutorRouter.get("/:name/", async (request, response) => {
+	if (!request.isAuthenticated()) {
+		response.redirect("/login");
+		return;
+	}
+
 	const tutor = await User.findOne({
 		user: request.params.name,
 	});
@@ -23,6 +28,16 @@ tutorRouter.get("/:name/", async (request, response) => {
 
 export const studentRouter = express.Router();
 studentRouter.get("/:name/", async (request, response) => {
+	if (!request.isAuthenticated()) {
+		response.redirect("/login");
+		return;
+	}
+
+	if (!request.user.isStaff && request.user.user !== request.params.name) {
+		response.sendStatus(404);
+		return;
+	}
+
 	const student = await User.findOne({
 		user: request.params.name,
 	});
