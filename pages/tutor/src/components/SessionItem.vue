@@ -50,6 +50,40 @@ const tryReserveSession = async () => {
 	});
 	props.session.student = config.username;
 };
+
+const tryDeleteSession = async () => {
+	waiting.value = true;
+	await fetch("/api/tutorviewclasses/", {
+		method: "POST",
+		body: JSON.stringify({
+			session: props.session._id,
+			operation: "delete",
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	});
+};
+
+const tryKickStudent = async () => {
+	waiting.value = true;
+	await fetch("/api/tutorviewclasses/", {
+		method: "POST",
+		body: JSON.stringify({
+			session: props.session._id,
+			operation: "kick",
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	});
+	props.session.student = "";
+	props.session.reserved = false;
+};
 </script>
 
 <template>
@@ -80,11 +114,14 @@ const tryReserveSession = async () => {
 			<template v-else-if="session.reserved && !session.confirmed">
 				<div>Requested by <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a></div>
 				<div :class="{waiting}">
-					<button>Confirm</button> <button>Reject</button>
+					<button>Confirm</button> <button @click="tryKickStudent">Reject</button>
 				</div>
 			</template>
 			<div v-else>
-				With <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a>
+				Student: <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a>
+				<div :class="{waiting}">
+					<button @click="tryKickStudent">Kick</button>
+				</div>
 			</div>
 		</session-people>
 
@@ -92,6 +129,11 @@ const tryReserveSession = async () => {
 			<div>Starts at <b>{{session.begin}}</b></div>
 			<div>Up to <b>{{session.duration * 60}} min</b></div>
 		</session-time>
+
+		<div v-if="taughtByYou"
+				:class="{waiting}">
+			<button @click="tryDeleteSession">Cancel session</button>
+		</div>
 	</session-item>
 </template>
 
