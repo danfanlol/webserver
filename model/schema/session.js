@@ -21,6 +21,10 @@ const sessionSchema=new mongoose.Schema( {
         type:String,
         required:true,
     },
+    confirmed: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 sessionSchema.virtual("reserved").get(function () { return Boolean(this.student); });
