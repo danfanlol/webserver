@@ -60,7 +60,6 @@ const tryReserveSession = async () => {
 		<h3>{{session.subject}}</h3>
 
 		<session-people>
-			<div>Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 			<div v-if="reserved">Reserved</div>
 			<div v-else-if="reservedByYou"
 					:class="{waiting}">

@@ -6,13 +6,14 @@ import * as path from "path";
 const router = express.Router();
 
 router.get("/", async (request, response) => {
-	const sessions = (await Session.find())
-			.sort(compareSessions(request.user?.user));
+	// const sessions = (await Session.find())
+	// 		.sort(compareSessions(request.user?.user));
 
 	if (request.isAuthenticated()) {
 		response.render("findtutors/index.ejs", {
 			...baseViewParams(request),
-			sessions,
+			// sessions,
+			sessions: [],
 		});
 	} else {
 		response.redirect("/login");

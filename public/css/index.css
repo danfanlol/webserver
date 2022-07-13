@@ -667,6 +667,12 @@ h3 {
 	margin: 0.75em 0 0.25em 0;
 }
 
+h4 {
+	font-family: var(--font-heading);
+	font-size: 1.5em;
+	margin: 0;
+}
+
 h2 > strong {
 	font-size: 1.333333em;
 	font-style: italic;

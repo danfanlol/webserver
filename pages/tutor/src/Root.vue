@@ -2,7 +2,7 @@
 import {reactive} from "vue";
 
 import SessionOptions from "./components/SessionOptions.vue";
-import SessionList from "./components/SessionList.vue";
+import SessionCalendar from "./components/SessionCalendar.vue";
 
 import {Availability} from "../../util";
 
@@ -34,8 +34,9 @@ const filters = reactive({
 </script>
 
 <template>
+    <h3>Upcoming sessions</h3>
     <Suspense>
-        <SessionList :filters="filters" />
+        <SessionCalendar :filters="filters" />
 
         <template #fallback>
             <session-list>
