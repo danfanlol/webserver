@@ -73,7 +73,7 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 	weekday: "short",
 	month: "short",
 	day: "numeric",
-	year: "numeric",
+	// year: "numeric",
 });
 </script>
 
@@ -139,6 +139,7 @@ session-calendar {
 	calendar-day-sessions {
 		display: flex;
 		align-items: center;
+		gap: 0.5em;
 	}
 }
 </style>

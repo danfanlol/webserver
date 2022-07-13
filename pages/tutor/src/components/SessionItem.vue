@@ -54,12 +54,13 @@ const tryReserveSession = async () => {
 
 <template>
 	<session-item :class="{
-				reserved,
+				reserved: reserved && !taughtByYou,
+				unclaimed: !session.reserved && taughtByYou,
 				'reserved-by-you': reservedByYou,
 			}">
 		<h3>{{session.subject}}</h3>
 
-		<session-people>
+		<session-people v-if="!taughtByYou">
 			<div v-if="reserved">Reserved</div>
 			<div v-else-if="reservedByYou"
 					:class="{waiting}">
@@ -73,6 +74,20 @@ const tryReserveSession = async () => {
 			</div>
 		</session-people>
 
+		<session-people v-else>
+			<div v-if="!session.reserved"
+					class="unclaimed-notice">Unclaimed</div>
+			<template v-else-if="session.reserved && !session.confirmed">
+				<div>Requested by <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a></div>
+				<div :class="{waiting}">
+					<button>Confirm</button> <button>Reject</button>
+				</div>
+			</template>
+			<div v-else>
+				With <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a>
+			</div>
+		</session-people>
+
 		<session-time>
 			<div>Starts at <b>{{session.begin}}</b></div>
 			<div>Up to <b>{{session.duration * 60}} min</b></div>
@@ -83,5 +98,13 @@ const tryReserveSession = async () => {
 <style lang="scss" scoped>
 .waiting {
 	opacity: 0.25;
+}
+
+session-item.unclaimed {
+	opacity: 0.5;
+}
+
+.unclaimed-notice {
+	font-style: italic;
 }
 </style>
