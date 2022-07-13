@@ -5,7 +5,7 @@ import subjects from "../../../../lib/subjects.js";
 
 import {SessionFilters, Availability} from "../../../util";
 
-import {config} from "../store";
+import {user} from "../store";
 
 const props = defineProps({
 	filters: {
@@ -65,7 +65,7 @@ const updateSubjects = () => {
             </div>
         </option->
 
-        <template v-if="config.isTutor">
+        <template v-if="user.isTutor">
             <hr />
 
             <option->

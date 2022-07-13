@@ -8,7 +8,6 @@ import {Availability} from "../../util";
 
 import {config} from "./store";
 
-// May want to make these checks cookie-based in the future?
 const props = defineProps({
     username: {
         type: String,
@@ -17,6 +16,11 @@ const props = defineProps({
 
     isTutor: {
         type: Boolean,
+        required: true,
+    },
+    
+    tutorUsername: {
+        type: String,
         required: true,
     },
 });
@@ -30,8 +34,6 @@ const filters = reactive({
 </script>
 
 <template>
-    <SessionOptions :filters="filters" />
-
     <Suspense>
         <SessionList :filters="filters" />
 

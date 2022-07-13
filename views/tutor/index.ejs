@@ -4,6 +4,17 @@
 	<head>
 		<%- include('../partials/top.ejs', {pagename: tutor.user}) %>
 		<link rel="stylesheet" href="/tutor/index.css" />
+
+		<link rel="stylesheet" href="/tutor/app.css" />
+
+		<script type="module">
+import mount from "./app.js";
+mount("tutor-session-controls", {
+	username: "<%- user.user %>",
+	isTutor: <%- user.isTutor %>,
+	tutorUsername: "<%- tutor.user %>",
+});
+		</script>
 	</head>
 
 	<body>
@@ -16,6 +27,8 @@
 					<div>
 						<member-label>Tutor</member-label>
 					</div>
+
+					<tutor-session-controls></tutor-session-controls>
 				</tutor-dashboard>
 			</article>
 

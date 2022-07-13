@@ -26,9 +26,7 @@ const sessionQuery = computed(() => {
 		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
 	}
 
-	if (props.filters.taughtByYou) {
-		params.set("tutor", config.username);
-	}
+	params.set("tutor", config.tutorUsername);
 
 	return params;
 });
@@ -56,7 +54,7 @@ watch(latestPromise, () => {
 	});
 });
 
-const sessions = ref(await (await fetch("/api/session/")).json());
+const sessions = ref(await (await fetch(`/api/session/?${sessionQuery.value}`)).json());
 const hasSessions = computed(() => sessions.value.length !== 0);
 watch(props.filters, reloadResults);
 </script>
