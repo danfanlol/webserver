@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import {PropType} from "vue";
+import {ref, PropType, watch} from "vue";
 
-import subjects from "../../../../lib/subjects.js";
+import SessionOptionsSubjectCategoryHeading from "./SessionOptionsSubjectCategoryHeading.vue";
+
+import subjectCategories from "../../../../lib/subjects";
 
 import {SessionFilters, Availability} from "../../../util";
-
 import {config} from "../store";
 
 const props = defineProps({
@@ -16,28 +17,35 @@ const props = defineProps({
 
 const subjectElementId = (subject: string) => `subject-${subject}`;
 
-const updateSubjects = () => {
-    props.filters.subjects = [...document.querySelectorAll("input[name='subject']:checked")]
-            .map(element => element.value);
-};
+const selectedSubjects = ref(new Set<string>());
+watch(selectedSubjects, () => {
+    props.filters.subjects = [...selectedSubjects.value];
+});
 </script>
 
 <template>
     <session-options>
-        <option- @change="updateSubjects">
+        <option->
             <h3>Subject</h3>
-            <div v-for="subject of subjects">
-                <input type="checkbox"
-                        :value="subject"
-                        name="subject"
-                        :id="subjectElementId(subject)" />
-                <label :for="subjectElementId(subject)">{{subject}}</label>
+            <div v-for="[category, subjects] of subjectCategories">
+                <SessionOptionsSubjectCategoryHeading :category="category"
+                        :filters="filters"
+                        :selectedSubjects="selectedSubjects" />
+                <div class="tickbox-option"
+                        v-for="subject of subjects">
+                    <input type="checkbox"
+                            :value="subject"
+                            name="subject"
+                            v-model="selectedSubjects"
+                            :id="subjectElementId(subject)" />
+                    <label :for="subjectElementId(subject)">{{subject}}</label>
+                </div>
             </div>
         </option->
         
         <option->
             <h3>Availability</h3>
-            <div>
+            <div class="tickbox-option">
                 <input type="radio"
                         :value="Availability.All"
                         v-model="filters.availability"
@@ -46,7 +54,7 @@ const updateSubjects = () => {
                 <label for="all">All</label>
             </div>
 
-            <div>
+            <div class="tickbox-option">
                 <input type="radio"
                         :value="Availability.Open"
                         v-model="filters.availability"
@@ -55,7 +63,7 @@ const updateSubjects = () => {
                 <label for="open">Open</label>
             </div>
 
-            <div>
+            <div class="tickbox-option">
                 <input type="radio"
                         :value="Availability.Closed"
                         v-model="filters.availability"
@@ -71,7 +79,7 @@ const updateSubjects = () => {
             <option->
                 <h3>For tutors</h3>
 
-                <div>
+                <div class="tickbox-option">
                     <input type="checkbox"
                             v-model="filters.taughtByYou"
                             id="taught-by-you" />
@@ -98,7 +106,7 @@ session-options {
     position: sticky;
     top: var(--scroll-padding-top);
     
-    white-space: nowrap;
+    // white-space: nowrap;
         
     font-size: 0.75em;
 
@@ -120,6 +128,20 @@ session-options {
             white-space: normal;
             gap: 1em;
             margin-top: 1em;
+        }
+
+        :deep(.tickbox-option) {
+            display: flex;
+            gap: 0.25em;
+            align-items: start;
+
+            > input {
+                margin: 0;
+            }
+
+            > label {
+                flex-grow: 1;
+            }
         }
     }
 
