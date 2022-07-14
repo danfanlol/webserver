@@ -49,7 +49,7 @@ const categoryElementId = (category: Category) => `category-${category.label}`;
 				v-model="selectAll" />
 		<label :for="categoryElementId(category)">
 			<span :style="{
-					'background': category.color,
+					'background': category.color.dark,
 				}">{{category.label}}</span>
 		</label>
 	</h4>
