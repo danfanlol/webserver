@@ -84,6 +84,6 @@ router.post("/", async (req,res) => {
         console.log(e);
         return res.status(400).json({message:"error"})
     }
-})
+});
 
 export default router;

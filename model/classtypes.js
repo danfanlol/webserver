@@ -1,6 +1,7 @@
 const classTypes={
     calculus:["Calculus AB","Calculus BC"],
-    physics:["Physics Level 1","Physics Level 2"]
+    physics:["Physics Level 1","Physics Level 2"],
+    other: ["World Literature", "World History", "Biology"],
 }
 const map=new Map();
 var areas=[];

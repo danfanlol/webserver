@@ -17,6 +17,7 @@
 	--col-blue-af: #283673af;
 	--col-blue-lighter: #5871df;
 	--col-blue-lighter-1f: #5871df1f;
+	--col-blue-2: #7c88bb;
 	--col-yellow: #f8dc3c;
 	--col-orange: #f0773a;
 	--col-orange-1f: #f0773a1f;
@@ -671,6 +672,8 @@ h4 {
 	font-family: var(--font-heading);
 	font-size: 1.5em;
 	margin: 0;
+
+	color: var(--col-blue-2);
 }
 
 h2 > strong {
