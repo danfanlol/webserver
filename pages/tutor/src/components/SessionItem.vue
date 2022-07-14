@@ -67,6 +67,23 @@ const tryDeleteSession = async () => {
 	});
 };
 
+const tryConfirmStudent = async () => {
+	waiting.value = true;
+	await fetch("/api/tutorviewclasses/", {
+		method: "POST",
+		body: JSON.stringify({
+			session: props.session._id,
+			operation: "confirm",
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	});
+	props.session.confirmed = true;
+};
+
 const tryKickStudent = async () => {
 	waiting.value = true;
 	await fetch("/api/tutorviewclasses/", {
@@ -81,6 +98,7 @@ const tryKickStudent = async () => {
 	}).finally(() => {
 		waiting.value = false;
 	});
+	props.session.confirmed = false;
 	props.session.student = "";
 	props.session.reserved = false;
 };
@@ -112,9 +130,9 @@ const tryKickStudent = async () => {
 			<div v-if="!session.reserved"
 					class="unclaimed-notice">Unclaimed</div>
 			<template v-else-if="session.reserved && !session.confirmed">
-				<div>Requested by <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a></div>
+				<div>Requested by <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
 				<div :class="{waiting}">
-					<button>Confirm</button> <button @click="tryKickStudent">Reject</button>
+					<button @click="tryConfirmStudent">Confirm</button> <button @click="tryKickStudent">Reject</button>
 				</div>
 			</template>
 			<div v-else>

@@ -23,7 +23,12 @@ const sessionSchema=new mongoose.Schema( {
     },
     confirmed: {
         type: Boolean,
-        default: true,
+        default: false,
+    },
+
+
+    startDate: {
+        type: Date,
     },
 });
 

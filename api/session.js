@@ -60,7 +60,7 @@ router.get("/", async (request, response) => {
         ],
     })
             // .lean()
-            .select("_id begin duration tutor subject student")
+            .select("_id begin duration tutor subject student confirmed")
     )
             .sort(compareSessions(request.user?.user));
     response.status(200).json(sessions.map(session => session.toJSON({virtuals: true})));
