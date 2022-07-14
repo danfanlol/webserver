@@ -25,9 +25,9 @@ watch(selectedSubjects, () => {
 
 <template>
     <session-options>
-        <option->
+        <option- class="multisection">
             <h3>Subject</h3>
-            <div v-for="[category, subjects] of subjectCategories">
+            <div class="option-section" v-for="[category, subjects] of subjectCategories">
                 <SessionOptionsSubjectCategoryHeading :category="category"
                         :filters="filters"
                         :selectedSubjects="selectedSubjects" />
@@ -115,11 +115,24 @@ session-options {
         margin-right: 0.5em;
     }
 
+    h4 {
+        margin-bottom: 0.25em;
+        font-family: var(--font-large);
+    }
+
     > option- {
         display: flex;
         flex-flow: column;
         // align-items: center;
-        // gap: 1em;
+        &.multisection {
+            gap: 0.5em;
+
+            .option-section {
+                display: flex;
+                flex-flow: column;
+                gap: 0.125em;
+            }
+        }
 
         > .manage-sessions {
             display: flex;
@@ -134,6 +147,10 @@ session-options {
             display: flex;
             gap: 0.25em;
             align-items: start;
+
+            &:is(h4) {
+                align-items: center;
+            }
 
             > input {
                 margin: 0;

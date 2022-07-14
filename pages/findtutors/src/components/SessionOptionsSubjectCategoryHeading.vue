@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {computed, PropType} from "vue";
 
-import subjectCategories from "../../../../lib/subjects";
+import subjectCategories, {Category} from "../../../../lib/subjects";
 
 import {SessionFilters} from "../../../util";
 
@@ -12,7 +12,7 @@ const props = defineProps({
 	},
 
 	category: {
-		type: String,
+		type: Category,
 		required: true,
 	},
 
@@ -39,7 +39,7 @@ const selectAll = computed({
 //     props.filters.subjects = [...selectedSubjects.value];
 // });
 
-const categoryElementId = (categoryLabel: string) => `category-${categoryLabel}`;
+const categoryElementId = (category: Category) => `category-${category.label}`;
 </script>
 
 <template>
@@ -47,6 +47,22 @@ const categoryElementId = (categoryLabel: string) => `category-${categoryLabel}`
 		<input type="checkbox"
 				:id="categoryElementId(category)"
 				v-model="selectAll" />
-		<label :for="categoryElementId(category)">{{category}}</label>
+		<label :for="categoryElementId(category)">
+			<span :style="{
+					'background': category.color,
+				}">{{category.label}}</span>
+		</label>
 	</h4>
 </template>
+
+<style lang="scss" scoped>
+label > span {
+	padding: 0.25em 0.5em;
+	font-size: 0.75em;
+	line-height: 1;
+
+	color: #fff;
+
+	border-radius: 1em;
+}
+</style>
