@@ -54,27 +54,58 @@ watch(latestPromise, () => {
 	});
 });
 
-const sessions = ref(await (await fetch(`/api/session/?${sessionQuery.value}`)).json() as any[]);
+const sessions = ref<any[]>(await (await fetch(`/api/session/?${sessionQuery.value}`)).json());
 const hasSessions = computed(() => sessions.value.length !== 0);
 watch(props.filters, reloadResults);
 
-/* const sameDay = (date0: Date, date1: Date) =>
+const sameDay = (date0: Date, date1: Date) =>
 		date0.getUTCFullYear() === date1.getUTCFullYear()
 		&& date0.getUTCMonth() === date1.getUTCMonth()
-		&& date0.getUTCDate() === date1.getUTCDate(); */
+		&& date0.getUTCDate() === date1.getUTCDate();
 
-const nextWeekSessions = computed(() => Array.from({length: 7}, (_, nDaysOffset) =>
-		sessions.value.filter(session => Math.floor(session.begin / 24) === addDays(startingDate, nDaysOffset).getDay())) // temp weekday check using current database param
-);
-const startingDate = new Date();
+const currentDate = new Date();
+
+const nWeeksDisplayed = 4;
+const nDaysDisplayed = nWeeksDisplayed * 7;
+
 const addDays = (date: Date, nDays: number) => new Date(date.getTime() + nDays * 24 * 60 * 60 * 1000);
 
+const startOfLocalDay = (date: Date) => {
+	const newDate = new Date(date)
+	newDate.setHours(0, 0, 0, 0);
+	return newDate;
+};
+
+const startingDate = addDays(startOfLocalDay(currentDate), -currentDate.getDay()); // Start of the current week
+
+const futureSessions = computed(() => Array.from({length: nDaysDisplayed}, (_, nDaysOffset) =>
+		sessions.value.filter(session => session.begin !== undefined
+				? (Math.floor(session.begin / 24) + 1) % 7 === addDays(startingDate, nDaysOffset).getDay() // temp weekday check using current database param
+				: sameDay(addDays(startingDate, nDaysOffset), new Date(Date.parse(session.startDate)))))
+);
+
 const dateString = (date: Date) => date.toLocaleDateString(undefined, {
-	weekday: "short",
+	// weekday: "short",
 	month: "short",
 	day: "numeric",
 	// year: "numeric",
 });
+
+const tryCreateSession = async (startDate: Date) => {
+	await fetch("/api/session/", {
+		method: "POST",
+		body: JSON.stringify({
+			subject: "US History",
+			duration: 1,
+			startDate: startDate.getTime(),
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	});
+
+	reloadResults();
+};
 </script>
 
 <template>
@@ -84,11 +115,31 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 			}">
 		<div class="note">Dates and times are in your local timezone</div>
 
-		<template v-for="(daySessions, nDaysOffset) of nextWeekSessions">
+		<calendar-day v-for="(number, i) of nDaysDisplayed">
+			<calendar-day-top>
+				<div>
+					<button v-if="config.isOwnPage"
+							@click="tryCreateSession(addDays(startingDate, i))">+</button>
+				</div>
+
+				<calendar-day-date
+						:class="{
+							today: sameDay(currentDate, addDays(startingDate, i)),
+						}">{{dateString(addDays(startingDate, i))}}</calendar-day-date>
+			</calendar-day-top>
+
+			<calendar-day-sessions>
+				<SessionItem v-for="session of futureSessions[i]"
+						:key="session._id"
+						:session="session" />
+			</calendar-day-sessions>
+		</calendar-day>
+
+		<!-- <template v-for="(daySessions, nDaysOffset) of nextWeekSessions">
 			<calendar-day-date
 					:class="{
 						today: nDaysOffset === 0,
-					}">{{dateString(addDays(startingDate, nDaysOffset))}}</calendar-day-date>
+					}">{{dateString(addDays(currentDate, nDaysOffset))}}</calendar-day-date>
 
 			<calendar-day-sessions>
 				<SessionItem v-for="session of daySessions"
@@ -97,7 +148,7 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 						:session="session" />
 				<div v-else-if="nDaysOffset === 0">No sessions today!</div>
 			</calendar-day-sessions>
-		</template>
+		</template> -->
     </session-calendar>
 </template>
 
@@ -108,8 +159,7 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 
 session-calendar {
 	display: grid;
-	gap: 1em;
-	grid-template-columns: min-content auto;
+	grid-template-columns: repeat(7, 1fr);
 
 	font-size: 0.85em;
 
@@ -119,27 +169,40 @@ session-calendar {
 		font-style: italic;
 	}
 
-	calendar-day-date {
-		padding: 0.25em 0.5em;
-		margin-bottom: auto;
-
-		border-radius: 1em;
-		line-height: 1;
-		text-align: right;
-		white-space: nowrap;
-
-		font-family: var(--font-heading);
-
-		&.today {
-			background: var(--col-red);
-			color: #fff;
-		}
-	}
-
-	calendar-day-sessions {
+	> calendar-day {
 		display: flex;
-		align-items: center;
-		gap: 0.5em;
+		flex-flow: column;
+		border: 1px solid #ddd;
+		padding: 0.25em;
+		gap: 0.25em;
+
+		calendar-day-top {
+			display: flex;
+			justify-content: space-between;
+
+			calendar-day-date {
+				padding: 0.25em 0.5em;
+
+				border-radius: 1em;
+				line-height: 1;
+				text-align: right;
+				white-space: nowrap;
+
+				font-family: var(--font-large);
+
+				&.today {
+					background: var(--col-orange);
+					color: #fff;
+				}
+			}
+		}
+
+		calendar-day-sessions {
+			display: flex;
+			flex-flow: column;
+			align-items: center;
+			gap: 0.5em;
+		}
 	}
 }
 </style>

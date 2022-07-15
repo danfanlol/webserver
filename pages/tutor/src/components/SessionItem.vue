@@ -10,6 +10,8 @@ const props = defineProps({
 	},
 });
 
+const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
+
 const waiting = ref(false);
 
 const reserved = computed(() => Boolean(props.session.student)
@@ -144,8 +146,9 @@ const tryKickStudent = async () => {
 		</session-people>
 
 		<session-time>
+			<div>{{startDate.toLocaleTimeString()}}</div>
 			<div>Starts at <b>{{session.begin}}</b></div>
-			<div>Up to <b>{{session.duration * 60}} min</b></div>
+			<div><b>{{session.duration * 60}} min</b></div>
 		</session-time>
 
 		<div v-if="taughtByYou"

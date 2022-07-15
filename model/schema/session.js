@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 const sessionSchema=new mongoose.Schema( {
     begin:{
         type:Number,
-        required:true,
+        default: 0,
     },
     duration: {
         type:Number,
@@ -25,7 +25,6 @@ const sessionSchema=new mongoose.Schema( {
         type: Boolean,
         default: false,
     },
-
 
     startDate: {
         type: Date,
@@ -50,4 +49,5 @@ export const compareSessions = username =>
         (a, b) =>
                 Number(b.student === username) - Number(a.student === username)
                 || Number(Boolean(a.student)) - Number(Boolean(b.student)) 
-                || a.begin - b.begin;
+                || (a.begin ?? 0) - (b.begin ?? 0)
+                || (b.startDate?.getTime() ?? 0) - (a.startDate?.getTime() ?? 0);

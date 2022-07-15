@@ -60,7 +60,7 @@ router.get("/", async (request, response) => {
         ],
     })
             // .lean()
-            .select("_id begin duration tutor subject student confirmed")
+            .select("_id begin duration tutor subject student startDate confirmed")
     )
             .sort(compareSessions(request.user?.user));
     response.status(200).json(sessions.map(session => session.toJSON({virtuals: true})));
@@ -77,6 +77,7 @@ router.post("/", async (req,res) => {
             duration: req.body.duration,
             tutor: req.user.user,
             subject: req.body.subject,
+            startDate: new Date(req.body.startDate),
         });
         await session.save();
         return res.status(200).json(session);
