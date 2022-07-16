@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 const sessionSchema=new mongoose.Schema( {
     begin:{
         type:Number,
-        default: 0,
     },
     duration: {
         type:Number,

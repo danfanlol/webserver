@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import SessionItem from "./SessionItem.vue";
+import SessionItem from "../../../_shared/SessionItem.vue";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -69,7 +69,8 @@ watch(props.filters, reloadResults);
 		<SessionItem v-for="session of sessions"
 				v-if="hasSessions"
 				:key="session._id"
-				:session="session" />
+				:session="session"
+				:clientUsername="config.username" />
 		<div v-else>No results! Check the search filters.</div>
     </session-list>
 </template>

@@ -1,24 +1,40 @@
 <script lang="ts" setup>
 import {ref, computed} from "vue";
 
-import {config} from "../store";
+import {categoriesBySubject} from "../../lib/subjects";
 
 const props = defineProps({
 	session: {
 		type: Object,
 		required: true,
 	},
-});
 
-const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
+	clientUsername: {
+		type: String,
+	},
+
+	displayDate: {
+		type: Boolean,
+		default: true,
+	},
+
+	isOnTutorDashboard: {
+		type: Boolean,
+		default: false,
+	},
+});
 
 const waiting = ref(false);
 
 const reserved = computed(() => Boolean(props.session.student)
-		&& props.session.student !== config.username);
+		&& props.session.student !== props.clientUsername);
 const reservedByYou = computed(() => Boolean(props.session.student)
-		&& props.session.student === config.username);
-const taughtByYou = computed(() => props.session.tutor === config.username);
+		&& props.session.student === props.clientUsername);
+const taughtByYou = computed(() => props.session.tutor === props.clientUsername);
+
+const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
+
+const category = computed(() => categoriesBySubject.get(props.session.subject)!);
 
 const tryQuitSession = async () => {
 	waiting.value = true;
@@ -50,7 +66,7 @@ const tryReserveSession = async () => {
 	}).finally(() => {
 		waiting.value = false;
 	});
-	props.session.student = config.username;
+	props.session.student = props.clientUsername;
 };
 
 const tryDeleteSession = async () => {
@@ -108,13 +124,23 @@ const tryKickStudent = async () => {
 
 <template>
 	<session-item :class="{
-				reserved: reserved && !taughtByYou,
-				unclaimed: !session.reserved && taughtByYou,
+				reserved: isOnTutorDashboard
+						? reserved && !taughtByYou
+						: reserved,
+				unclaimed: isOnTutorDashboard
+						? !session.reserved && taughtByYou
+						: false,
 				'reserved-by-you': reservedByYou,
-			}">
+			}"
+			:style="{
+				'--session-col-main': category.color.main,
+				'--session-col-dark': category.color.dark,
+				'--session-col-accent': category.color.accent,
+			} as any">
 		<h3>{{session.subject}}</h3>
 
-		<session-people v-if="!taughtByYou">
+		<session-people v-if="!taughtByYou || !isOnTutorDashboard">
+			<div v-if="!isOnTutorDashboard">Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 			<div v-if="reserved">Reserved</div>
 			<div v-else-if="reservedByYou"
 					:class="{waiting}">
@@ -122,7 +148,7 @@ const tryKickStudent = async () => {
 				&#x2002;•&#x2002;
 				<button @click="tryQuitSession">Unregister</button>
 			</div>
-			<div v-else
+			<div v-else-if="!taughtByYou"
 					:class="{waiting}">
 				<button @click="tryReserveSession">Register</button>
 			</div>
@@ -146,8 +172,10 @@ const tryKickStudent = async () => {
 		</session-people>
 
 		<session-time>
-			<div>{{startDate.toLocaleTimeString()}}</div>
-			<div>Starts at <b>{{session.begin}}</b></div>
+			<div>{{displayDate
+					? startDate.toLocaleString()
+					: startDate.toLocaleTimeString()}}</div>
+			<div><b>{{session.begin}}</b></div>
 			<div><b>{{session.duration * 60}} min</b></div>
 		</session-time>
 
@@ -163,11 +191,32 @@ const tryKickStudent = async () => {
 	opacity: 0.25;
 }
 
-session-item.unclaimed {
-	opacity: 0.5;
-}
+session-item {
+	--session-col-main: hsl(337deg 81% 53%);
+	--session-col-dark: hsl(337, 81%, 33%);
+	--session-col-accent: hsla(20, 61%, 80%, 0.5);
 
-.unclaimed-notice {
-	font-style: italic;
+	background: radial-gradient(circle at top right, var(--session-col-accent) 3em, #0000 3.125em),
+			radial-gradient(circle at bottom right, var(--session-col-dark), var(--session-col-main));
+	border-radius: 1.8em .5em / 2em .5em;
+	color: #fff;
+	padding: 0.5em 1em;
+
+	box-shadow: 0 0.125em 2em -0.5em var(--session-col-main);
+
+	&.reserved-by-you {
+		animation: none;
+
+		outline: 4px dashed var(--session-col-main);
+		outline-offset: 2px;
+	}
+
+	&.unclaimed {
+		opacity: 0.5;
+	}
+
+	.unclaimed-notice {
+		font-style: italic;
+	}
 }
 </style>

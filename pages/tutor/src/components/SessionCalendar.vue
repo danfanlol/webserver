@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import SessionItem from "./SessionItem.vue";
+import SessionItem from "../../../_shared/SessionItem.vue";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -58,10 +58,10 @@ const sessions = ref<any[]>(await (await fetch(`/api/session/?${sessionQuery.val
 const hasSessions = computed(() => sessions.value.length !== 0);
 watch(props.filters, reloadResults);
 
-const sameDay = (date0: Date, date1: Date) =>
-		date0.getUTCFullYear() === date1.getUTCFullYear()
-		&& date0.getUTCMonth() === date1.getUTCMonth()
-		&& date0.getUTCDate() === date1.getUTCDate();
+const sameLocalDay = (date0: Date, date1: Date) =>
+		date0.getFullYear() === date1.getFullYear()
+		&& date0.getMonth() === date1.getMonth()
+		&& date0.getDate() === date1.getDate();
 
 const currentDate = new Date();
 
@@ -76,13 +76,16 @@ const startOfLocalDay = (date: Date) => {
 	return newDate;
 };
 
-const startingDate = addDays(startOfLocalDay(currentDate), -currentDate.getDay()); // Start of the current week
+const dayHasPast = (date: Date) => date.getTime() < startOfLocalDay(currentDate).getTime();
+
+const startingLocalDate = addDays(startOfLocalDay(currentDate), -currentDate.getDay()); // Start of the current week
 
 const futureSessions = computed(() => Array.from({length: nDaysDisplayed}, (_, nDaysOffset) =>
-		sessions.value.filter(session => session.begin !== undefined
-				? (Math.floor(session.begin / 24) + 1) % 7 === addDays(startingDate, nDaysOffset).getDay() // temp weekday check using current database param
-				: sameDay(addDays(startingDate, nDaysOffset), new Date(Date.parse(session.startDate)))))
-);
+		sessions.value.filter(session => session.startDate
+				? sameLocalDay(addDays(startingLocalDate, nDaysOffset), new Date(Date.parse(session.startDate)))
+				: (Math.floor(session.begin / 24) + 1) % 7 === addDays(startingLocalDate, nDaysOffset).getDay() // temp weekday check using current database param
+		)
+));
 
 const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 	// weekday: "short",
@@ -115,23 +118,29 @@ const tryCreateSession = async (startDate: Date) => {
 			}">
 		<div class="note">Dates and times are in your local timezone</div>
 
-		<calendar-day v-for="(number, i) of nDaysDisplayed">
+		<calendar-day v-for="(number, i) of nDaysDisplayed"
+				:class="{
+					past: dayHasPast(addDays(startingLocalDate, i)),
+				}">
 			<calendar-day-top>
 				<div>
 					<button v-if="config.isOwnPage"
-							@click="tryCreateSession(addDays(startingDate, i))">+</button>
+							@click="tryCreateSession(addDays(startingLocalDate, i))">+</button>
 				</div>
 
 				<calendar-day-date
 						:class="{
-							today: sameDay(currentDate, addDays(startingDate, i)),
-						}">{{dateString(addDays(startingDate, i))}}</calendar-day-date>
+							today: sameLocalDay(currentDate, addDays(startingLocalDate, i)),
+						}">{{dateString(addDays(startingLocalDate, i))}}</calendar-day-date>
 			</calendar-day-top>
 
 			<calendar-day-sessions>
 				<SessionItem v-for="session of futureSessions[i]"
 						:key="session._id"
-						:session="session" />
+						:session="session"
+						:clientUsername="config.username"
+						:displayDate="false"
+						:isOnTutorDashboard="true" />
 			</calendar-day-sessions>
 		</calendar-day>
 
@@ -173,8 +182,12 @@ session-calendar {
 		display: flex;
 		flex-flow: column;
 		border: 1px solid #ddd;
-		padding: 0.25em;
+		padding: 0.25em 0.25em 2em 0.25em;
 		gap: 0.25em;
+
+		&.past {
+			opacity: 0.25;
+		}
 
 		calendar-day-top {
 			display: flex;
