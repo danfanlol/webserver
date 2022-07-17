@@ -1,6 +1,6 @@
 export const config = {
-	username: "",
-	isTutor: false,
+	clientUsername: "",
+	clientIsTutor: false,
 
 	set(props: object) {
 		Object.assign(this, props);

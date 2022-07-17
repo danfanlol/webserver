@@ -73,7 +73,7 @@ watch(selectedSubjects, () => {
             </div>
         </option->
 
-        <template v-if="config.isTutor">
+        <template v-if="config.clientIsTutor">
             <hr />
 
             <option->

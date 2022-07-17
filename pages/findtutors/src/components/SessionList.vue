@@ -27,7 +27,7 @@ const sessionQuery = computed(() => {
 	}
 
 	if (props.filters.taughtByYou) {
-		params.set("tutor", config.username);
+		params.set("tutor", config.clientUsername);
 	}
 
 	return params;
@@ -70,7 +70,7 @@ watch(props.filters, reloadResults);
 				v-if="hasSessions"
 				:key="session._id"
 				:session="session"
-				:clientUsername="config.username" />
+				:clientUsername="config.clientUsername" />
 		<div v-else>No results! Check the search filters.</div>
     </session-list>
 </template>

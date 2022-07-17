@@ -10,12 +10,12 @@ import {config} from "./store";
 
 // May want to make these checks cookie-based in the future?
 const props = defineProps({
-    username: {
+    clientUsername: {
         type: String,
         required: true,
     },
 
-    isTutor: {
+    clientIsTutor: {
         type: Boolean,
         required: true,
     },

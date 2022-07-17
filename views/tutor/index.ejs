@@ -11,9 +11,10 @@
 		<script type="module">
 import mount from "./app.js";
 mount("tutor-session-controls", {
-	username: "<%- user.user %>",
-	isTutor: <%- user.isTutor %>,
-	tutorUsername: "<%- tutor.user %>",
+	clientUsername: "<%- user.user %>",
+	clientIsTutor: <%- user.isTutor %>,
+	pageOwnerUsername: "<%- tutor.user %>",
+	isTutorPage: true,
 });
 		</script>
 	</head>

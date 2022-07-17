@@ -18,13 +18,16 @@ const props = defineProps({
 		default: true,
 	},
 
-	isOnTutorDashboard: {
+	isOnDashboard: {
+		type: Boolean,
+		default: false,
+	},
+
+	isTutorPage: {
 		type: Boolean,
 		default: false,
 	},
 });
-
-const waiting = ref(false);
 
 const reserved = computed(() => Boolean(props.session.student)
 		&& props.session.student !== props.clientUsername);
@@ -33,8 +36,12 @@ const reservedByYou = computed(() => Boolean(props.session.student)
 const taughtByYou = computed(() => props.session.tutor === props.clientUsername);
 
 const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
-
+const endDate = computed(() => new Date(startDate.value.getTime() + props.session.duration * 60 * 60 * 1000));
+const past = computed(() => endDate.value.getTime() < Date.now());
 const category = computed(() => categoriesBySubject.get(props.session.subject)!);
+
+
+const waiting = ref(false);
 
 const tryQuitSession = async () => {
 	waiting.value = true;
@@ -124,12 +131,13 @@ const tryKickStudent = async () => {
 
 <template>
 	<session-item :class="{
-				reserved: isOnTutorDashboard
+				reserved: isOnDashboard
 						? reserved && !taughtByYou
 						: reserved,
-				unclaimed: isOnTutorDashboard
+				unclaimed: isOnDashboard
 						? !session.reserved && taughtByYou
 						: false,
+				past,
 				'reserved-by-you': reservedByYou,
 			}"
 			:style="{
@@ -139,47 +147,61 @@ const tryKickStudent = async () => {
 			} as any">
 		<h3>{{session.subject}}</h3>
 
-		<session-people v-if="!taughtByYou || !isOnTutorDashboard">
-			<div v-if="!isOnTutorDashboard">Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
-			<div v-if="reserved">Reserved</div>
-			<div v-else-if="reservedByYou"
-					:class="{waiting}">
-				<i>Signed up</i>
-				&#x2002;•&#x2002;
-				<button @click="tryQuitSession">Unregister</button>
-			</div>
-			<div v-else-if="!taughtByYou"
-					:class="{waiting}">
-				<button @click="tryReserveSession">Register</button>
-			</div>
-		</session-people>
+		<session-people >
+			<div v-if="!isTutorPage">Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 
-		<session-people v-else>
-			<div v-if="!session.reserved"
-					class="unclaimed-notice">Unclaimed</div>
-			<template v-else-if="session.reserved && !session.confirmed">
-				<div>Requested by <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
-				<div :class="{waiting}">
-					<button @click="tryConfirmStudent">Confirm</button> <button @click="tryKickStudent">Reject</button>
+			<template v-if="taughtByYou && isOnDashboard">
+				<div v-if="!session.reserved"
+						class="unclaimed-notice">Unclaimed</div>
+				<template v-else-if="session.reserved && !session.confirmed">
+					<div>Requested by <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
+					<div v-if="!past"
+							:class="{waiting}">
+						<button @click="tryConfirmStudent">Confirm</button> <button @click="tryKickStudent">Reject</button>
+					</div>
+				</template>
+				<div v-else>
+					<div>Student: <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
+					<div v-if="!past"
+							:class="{waiting}">
+						<button @click="tryKickStudent">Kick</button>
+					</div>
 				</div>
 			</template>
-			<div v-else>
-				Student: <a :href="`/tutor/${session.tutor}`"><b>{{session.student}}</b></a>
-				<div :class="{waiting}">
-					<button @click="tryKickStudent">Kick</button>
+
+			<template v-else>
+				<div v-if="reserved">Reserved</div>
+				<div v-else-if="reservedByYou && !past"
+						:class="{waiting}">
+					<i>Signed up</i>
+					&#x2002;•&#x2002;
+					<button @click="tryQuitSession">Unregister</button>
 				</div>
-			</div>
+				<div v-else-if="!taughtByYou && !past"
+						:class="{waiting}">
+					<button @click="tryReserveSession">Register</button>
+				</div>
+			</template>
 		</session-people>
 
 		<session-time>
 			<div>{{displayDate
-					? startDate.toLocaleString()
-					: startDate.toLocaleTimeString()}}</div>
+					? startDate.toLocaleString([], {
+						weekday: 'short',
+						year: 'numeric',
+						month: 'short',
+						day: 'numeric',
+						hour: 'numeric',
+						minute: 'numeric',
+					})
+					: startDate.toLocaleTimeString([], {
+						timeStyle: 'short',
+					})}}</div>
 			<div><b>{{session.begin}}</b></div>
 			<div><b>{{session.duration * 60}} min</b></div>
 		</session-time>
 
-		<div v-if="taughtByYou"
+		<div v-if="taughtByYou && !past"
 				:class="{waiting}">
 			<button @click="tryDeleteSession">Cancel session</button>
 		</div>
@@ -212,6 +234,10 @@ session-item {
 	}
 
 	&.unclaimed {
+		opacity: 0.5;
+	}
+
+	&.past {
 		opacity: 0.5;
 	}
 

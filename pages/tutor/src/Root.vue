@@ -9,18 +9,23 @@ import {Availability} from "../../util";
 import {config} from "./store";
 
 const props = defineProps({
-    username: {
+    clientUsername: {
         type: String,
         required: true,
     },
 
-    isTutor: {
+    clientIsTutor: {
         type: Boolean,
         required: true,
     },
     
-    tutorUsername: {
+    pageOwnerUsername: {
         type: String,
+        required: true,
+    },
+
+    isTutorPage: {
+        type: Boolean,
         required: true,
     },
 });

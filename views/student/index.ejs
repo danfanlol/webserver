@@ -3,6 +3,20 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/top.ejs', {pagename: student.user}) %>
+		<link rel="stylesheet" href="/tutor/index.css" />
+		<link rel="stylesheet" href="/findtutors/index.css" />
+
+		<link rel="stylesheet" href="/tutor/app.css" />
+
+		<script type="module">
+import mount from "/tutor/app.js";
+mount("tutor-session-controls", {
+	clientUsername: "<%- user.user %>",
+	clientIsTutor: <%- user.isTutor %>,
+	pageOwnerUsername: "<%- student.user %>",
+	isTutorPage: false,
+});
+		</script>
 	</head>
 
 	<body>
@@ -10,11 +24,11 @@
 
 		<main>
 			<article>
-				<section>
-					<div>
-						<h1><%- student.user %></h1>
-					</div>
-				</section>
+				<tutor-dashboard>
+					<h1><%- student.user %></h1>
+
+					<tutor-session-controls></tutor-session-controls>
+				</tutor-dashboard>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

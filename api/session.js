@@ -36,7 +36,7 @@ router.get("/", async (request, response) => {
     const subjects = request.query.subject?.split("|") ?? null;
     const open = request.query.open !== undefined ? request.query.open !== "0" : null;
     const tutors = request.query.tutor?.split("|") ?? null;
-    const students = request.query.students?.split("|") ?? null;
+    const students = request.query.student?.split("|") ?? null;
 
     const sessions = (await Session.find({
         $and: [

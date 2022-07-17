@@ -9,8 +9,8 @@
 		<script type="module">
 import mount from "./app.js";
 mount("session-viewer", {
-	username: "<%- user.user // lil hacky %>",
-	isTutor: <%- user.isTutor %>,
+	clientUsername: "<%- user.user // lil hacky %>",
+	clientIsTutor: <%- user.isTutor %>,
 });
 		</script>
 	</head>

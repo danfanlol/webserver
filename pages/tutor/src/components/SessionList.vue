@@ -26,7 +26,7 @@ const sessionQuery = computed(() => {
 		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
 	}
 
-	params.set("tutor", config.tutorUsername);
+	params.set(config.isTutorPage ? "tutor" : "student", config.pageOwnerUsername);
 
 	return params;
 });
