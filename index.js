@@ -65,6 +65,7 @@ auth(app);
 
 app.use(express.static('views'));
 app.use(express.static('public'));
+app.use(express.static("pages/dist"));
 app.use("/api", api);
 app.use("/forms", forms);
 app.use("/findtutors", findtutorsRouter);

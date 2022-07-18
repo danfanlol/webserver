@@ -20,13 +20,13 @@ router.get("/", async (request, response) => {
 	}
 });
 
-router.get("/app.js", (request, response) => {
-	// Change path alongside ./pages/findtutors/vite.config.ts
-	response.sendFile(path.resolve("./pages/findtutors/dist/index.js"));
-});
+// router.get("/app.js", (request, response) => {
+// 	// Change path alongside ./pages/findtutors/vite.config.ts
+// 	response.sendFile(path.resolve("./pages/findtutors/dist/index.js"));
+// });
 
 router.get("/app.css", (request, response) => {
-	response.sendFile(path.resolve("./pages/findtutors/dist/style.css"));
+	response.sendFile(path.resolve("./pages/dist/style.css"));
 });
 
 export default router;

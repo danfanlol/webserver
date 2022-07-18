@@ -27,13 +27,13 @@ tutorRouter.get("/:name/", async (request, response, next) => {
 	// res.sendFile(path.join(process.cwd(),"views",fn));
 });
 
-tutorRouter.get("/app.js", (request, response) => {
-	// Change path alongside ./pages/tutor/vite.config.ts
-	response.sendFile(path.resolve("./pages/tutor/dist/index.js"));
-});
+// tutorRouter.get("/app.js", (request, response) => {
+// 	// Change path alongside ./pages/tutor/vite.config.ts
+// 	response.sendFile(path.resolve("./pages/tutor/dist/index.js"));
+// });
 
 tutorRouter.get("/app.css", (request, response) => {
-	response.sendFile(path.resolve("./pages/tutor/dist/style.css"));
+	response.sendFile(path.resolve("./pages/dist/style.css"));
 });
 
 export const studentRouter = express.Router();
