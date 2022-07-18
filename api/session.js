@@ -94,4 +94,20 @@ router.post("/", async (req,res) => {
     }
 });
 
+router.post("/edit", async (request, response) => {
+    if (!request.isAuthenticated()) return response.status(401).json({message: "Not logged in!"});
+
+    const session = await Session.findById(request.body.sessionId);
+    
+    if(!session) return response.status(401).json({message:"No such session!"})
+    console.log(session.tutor);
+    if(session.tutor !== request.user.user) return response.status(401).json({message:"You are not the tutor!"});
+
+    session.startDate = new Date(request.body.startDate);
+    session.duration = request.body.duration;
+
+    await session.save();
+    return response.status(200).json(session);
+});
+
 export default router;

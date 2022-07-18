@@ -47,6 +47,6 @@ export default Session;
 export const compareSessions = username =>
         (a, b) =>
                 Number(b.student === username) - Number(a.student === username)
-                || Number(Boolean(a.student)) - Number(Boolean(b.student)) 
-                || (a.begin ?? 0) - (b.begin ?? 0)
-                || (b.startDate?.getTime() ?? 0) - (a.startDate?.getTime() ?? 0);
+                || Number(Boolean(a.student)) - Number(Boolean(b.student))
+                || (a.startDate?.getTime() ?? 0) - (b.startDate?.getTime() ?? 0)
+                || (a.begin ?? 0) - (b.begin ?? 0);

@@ -71,6 +71,10 @@ const sessionQuery = computed(() => {
 });
 
 const {reloadSessions, latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
+const onDeleteSession = (session: object) => {
+	sessions.value.splice(sessions.value.indexOf(session), 1);
+	sessions.value = sessions.value; // trigger reaction
+};
 
 
 const tryCreateSession = async (startDate: Date) => {
@@ -123,7 +127,8 @@ const tryCreateSession = async (startDate: Date) => {
 						:clientUsername="config.clientUsername"
 						:displayDate="false"
 						:isOnDashboard="true"
-						:isTutorPage="config.isTutorPage" />
+						:isTutorPage="config.isTutorPage"
+						@delete="onDeleteSession" />
 			</calendar-day-sessions>
 		</calendar-day>
 

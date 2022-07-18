@@ -7,7 +7,7 @@ router.post("/",async (req,res) => {
     if(!req.isAuthenticated()) return res.status(401).json({message:"Not logged in!"})
     var session=await Session.findById(req.body.session);
     if(!session) return res.status(401).json({message:"No such session!"})
-    if(!session.tutor==req.user.user) return res.status(401).json({message:"You are not the tutor!"});
+    if(session.tutor !== req.user.user) return res.status(401).json({message:"You are not the tutor!"});
 
     switch (req.body.operation) {
         case "delete":

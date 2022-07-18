@@ -36,6 +36,10 @@ const sessionQuery = computed(() => {
 });
 
 const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
+const onDeleteSession = (session: object) => {
+	sessions.value.splice(sessions.value.indexOf(session), 1);
+	sessions.value = sessions.value; // trigger reaction
+};
 </script>
 
 <template>
@@ -47,7 +51,8 @@ const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(ses
 				v-if="hasSessions"
 				:key="session._id"
 				:session="session"
-				:clientUsername="config.clientUsername" />
+				:clientUsername="config.clientUsername"
+				@delete="onDeleteSession" />
 		<div v-else>No results! Check the search filters.</div>
     </session-list>
 </template>

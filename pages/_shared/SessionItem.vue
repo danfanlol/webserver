@@ -3,6 +3,8 @@ import {ref, computed} from "vue";
 
 import {categoriesBySubject} from "../../lib/subjects";
 
+import DateEntry from "./DateEntry.vue";
+
 const props = defineProps({
 	session: {
 		type: Object,
@@ -29,14 +31,20 @@ const props = defineProps({
 	},
 });
 
+const emit = defineEmits<{
+	(event: "delete", session: object): void,
+}>();
+
 const reserved = computed(() => Boolean(props.session.student)
 		&& props.session.student !== props.clientUsername);
 const reservedByYou = computed(() => Boolean(props.session.student)
 		&& props.session.student === props.clientUsername);
 const taughtByYou = computed(() => props.session.tutor === props.clientUsername);
 
+const addHours = (date: Date, nHours: number) => new Date(date.getTime() + nHours * 60 * 60 * 1000);
+
 const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
-const endDate = computed(() => new Date(startDate.value.getTime() + props.session.duration * 60 * 60 * 1000));
+const endDate = computed(() => addHours(startDate.value, props.session.duration));
 const past = computed(() => endDate.value.getTime() < Date.now());
 const category = computed(() => categoriesBySubject.get(props.session.subject)!);
 
@@ -90,6 +98,8 @@ const tryDeleteSession = async () => {
 	}).finally(() => {
 		waiting.value = false;
 	});
+
+	emit("delete", props.session);
 };
 
 const tryConfirmStudent = async () => {
@@ -128,7 +138,46 @@ const tryKickStudent = async () => {
 	props.session.reserved = false;
 };
 
-const beginEditSession = () => {};
+
+const isEditing = ref(false);
+const newStartDate = ref(startDate.value);
+const newDuration = ref(props.session.duration);
+const newEndDate = computed({
+	get: () => addHours(newStartDate.value, newDuration.value),
+	set(value) {
+		newDuration.value = (value.getTime() - newStartDate.value.getTime()) / 1000 / 60 / 60;
+	},
+});
+const beginEditSession = () => {
+	isEditing.value = true;
+};
+const endEditSession = () => {
+	isEditing.value = false;
+
+	newStartDate.value = startDate.value;
+};
+const tryUpdateSession = async () => {
+	waiting.value = true;
+	await fetch("/api/session/edit/", {
+		method: "POST",
+		body: JSON.stringify({
+			sessionId: props.session._id,
+			startDate: newStartDate.value.getTime(),
+			duration: newDuration.value,
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	});
+
+	// temp
+	props.session.startDate = newStartDate.value.toISOString();
+	props.session.duration = newDuration.value;
+
+	endEditSession();
+};
 </script>
 
 <template>
@@ -140,6 +189,7 @@ const beginEditSession = () => {};
 						? !session.reserved && taughtByYou
 						: false,
 				past,
+				editing: isEditing,
 				'reserved-by-you': reservedByYou,
 			}"
 			:style="{
@@ -186,7 +236,7 @@ const beginEditSession = () => {};
 			</template>
 		</session-people>
 
-		<session-time>
+		<session-time v-if="!isEditing">
 			<div>{{displayDate
 					? startDate.toLocaleString([], {
 						weekday: 'short',
@@ -202,14 +252,33 @@ const beginEditSession = () => {};
 			<div><b>{{session.duration * 60}} min</b></div>
 		</session-time>
 
-		<div v-if="taughtByYou && !past"
-				:class="{waiting}">
-			<button @click="tryDeleteSession">Cancel session</button>
-		</div>
+		<session-time v-else>
+			Start
+			<DateEntry v-model="newStartDate" />
+			<br />
+			End
+			<DateEntry v-model="newEndDate" />
+			<br />
+			Duration:
+			<input type="number"
+					v-model="newDuration"
+					min="0"
+					max="24" /> hours
+		</session-time>
 
 		<div v-if="taughtByYou"
 				:class="{waiting}">
-			<button @click="beginEditSession">Edit session</button>
+			<button v-if="!isEditing"
+					@click="beginEditSession">Edit session</button>
+			<template v-else>
+				<button @click="tryUpdateSession">Save changes</button>
+				<button @click="endEditSession">Cancel</button>
+			</template>
+		</div>
+
+		<div v-if="taughtByYou && !past"
+				:class="{waiting}">
+			<button @click="tryDeleteSession">Cancel session</button>
 		</div>
 	</session-item>
 </template>
@@ -232,6 +301,8 @@ session-item {
 
 	box-shadow: 0 0.125em 2em -0.5em var(--session-col-main);
 
+	transition: opacity 0.1s ease-in-out;
+
 	&.reserved-by-you {
 		animation: none;
 
@@ -245,6 +316,10 @@ session-item {
 
 	&.past {
 		opacity: 0.5;
+	}
+
+	&.editing {
+		opacity: unset;
 	}
 
 	.unclaimed-notice {
