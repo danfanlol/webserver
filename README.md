@@ -16,3 +16,16 @@ SESSION_SECRET=
 run-init=true
 run-script=true
 ```
+
+## NPM scripts
+
+A `:dev` suffix indicates a script for development, and `:public` for production.
+
+Script | Description
+-|-
+`build-frontend-hot:dev` | Builds the frontend apps in `./pages/` and rebuilds them when their source code changes.
+`build-frontend:dev`<br />`build-frontend:public` | Builds the frontend apps in `./pages/` once.
+`server:dev`<br />`server:public` | Starts the backend server. If `:dev`, the server will restart when its source code changes.
+`start:dev`<br />`start:public` | Builds the frontend apps in `./pages/` and then starts the server. If `:dev`, the frontend apps and the server will update when their respective source code changes.
+`install-subdir-deps` | Installs the dependencies of the frontend apps in `./pages/`.
+`heroku-postbuild` | Automatically called when deploying to Heroku. Runs `install-subdir-deps` and then `build-frontend:public`.

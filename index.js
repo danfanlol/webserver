@@ -24,7 +24,7 @@ import { baseViewParams } from "./utils/base-view-objects.js";
 
 import mongo_init from "./model/index.js";
 
-import forms from "./forms/index.js"
+import forms from "./routes/forms.js"
 import bodyParser from "body-parser";
 
 await mongo_init();
