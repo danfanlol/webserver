@@ -30,6 +30,11 @@ const props = defineProps({
 		type: Boolean,
 		default: false,
 	},
+
+	isOwnPage: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 const emit = defineEmits<{
@@ -153,7 +158,7 @@ const tryKickStudent = async () => {
 };
 
 
-const isEditing = ref(false);
+const isEditing = ref(props.session.unpublished ?? false);
 const newSubject = ref(props.session.subject);
 const newStartDate = ref(startDate.value);
 const newDuration = ref(props.session.duration);
@@ -198,17 +203,42 @@ const tryUpdateSession = async () => {
 	endEditSession();
 };
 
+const tryPublishSession = async () => {
+	waiting.value = true;
+	const session = await fetch("/api/session/", {
+		method: "POST",
+		body: JSON.stringify({
+			subject: newSubject.value,
+			startDate: newStartDate.value.getTime(),
+			duration: newDuration.value,
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	})
+			.then(response => response.json());
+	props.session.unpublished = false;
+	Object.assign(props.session, session);
+	
+	endEditSession();
+};
+
+const cancelPublishSession = async () => {
+	emit("delete", props.session);
+	endEditSession();
+};
+
 const workingSubject = computed(() => isEditing ? newSubject.value : props.session.subject);
 </script>
 
 <template>
 	<session-item :class="{
-				reserved: isOnDashboard
-						? reserved && !taughtByYou
-						: reserved,
-				unclaimed: isOnDashboard && !session.reserved && taughtByYou,
+				reserved: reserved && (!isOnDashboard || !taughtByYou),
+				unclaimed: isOwnPage && !session.reserved && taughtByYou,
 				past,
-				unregistered: isOnDashboard && !isTutorPage && !reservedByYou,
+				unregistered: isOwnPage && !isTutorPage && !reservedByYou,
 				editing: isEditing,
 				'reserved-by-you': reservedByYou,
 			}"
@@ -294,13 +324,17 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				:class="{waiting}">
 			<button v-if="!isEditing"
 					@click="beginEditSession">Edit session</button>
-			<template v-else>
-				<button @click="tryUpdateSession">Save changes</button>&nbsp;
+			<template v-else-if="!session.unpublished">
+				<button @click="tryUpdateSession">Save changes</button>
 				<button @click="endEditSession">Cancel</button>
+			</template>
+			<template v-else>
+				<button @click="tryPublishSession">Publish new session</button>&nbsp;
+				<button @click="cancelPublishSession">Delete session</button>
 			</template>
 		</div>
 
-		<div v-if="taughtByYou && !past"
+		<div v-if="taughtByYou && !past && !session.unpublished"
 				:class="{waiting}">
 			<button @click="tryDeleteSession">Cancel session</button>
 		</div>

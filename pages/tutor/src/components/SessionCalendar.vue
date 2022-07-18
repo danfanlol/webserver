@@ -72,22 +72,19 @@ const onDeleteSession = (session: object) => {
 };
 
 
-const tryCreateSession = async (startDate: Date) => {
-	const session = await fetch("/api/session/", {
-		method: "POST",
-		body: JSON.stringify({
-			subject: "Spanish",
-			duration: 1,
-			startDate: startDate.getTime(),
-		}),
-		headers: {
-			"Content-Type": "application/json",
-		},
-	})
-			.then(response => response.json());
+const createUnpublishedSession = async (startDate: Date) => {
+	const newStartDate = new Date();
+	newStartDate.setFullYear(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
+	newStartDate.setMinutes(Math.floor(newStartDate.getMinutes() / 15) * 15, 0, 0);
+	const newSession = {
+		tutor: config.clientUsername,
+		subject: "Spanish",
+		startDate: newStartDate.toISOString(),
+		duration: 1,
+		unpublished: true,
+	};
 
-	sessions.value.push(session);
-	sessions.value = sessions.value;
+	sessions.value.push(newSession);
 };
 </script>
 
@@ -125,7 +122,7 @@ const tryCreateSession = async (startDate: Date) => {
 							&& config.isTutorPage
 							&& !dayHasPast(addDays(startingLocalDate, i))"
 							
-							@click="tryCreateSession(addDays(startingLocalDate, i))">+</button>
+							@click="createUnpublishedSession(addDays(startingLocalDate, i))">+</button>
 				</div>
 
 				<calendar-day-date
@@ -142,6 +139,7 @@ const tryCreateSession = async (startDate: Date) => {
 						:displayDate="false"
 						:isOnDashboard="true"
 						:isTutorPage="config.isTutorPage"
+						:isOwnPage="config.isOwnPage"
 						@delete="onDeleteSession" />
 			</calendar-day-sessions>
 		</calendar-day>
