@@ -9,6 +9,9 @@ const emit = defineEmits<{
 }>();
 
 const date = computed(() => isNaN(props.modelValue.getTime()) ? new Date() : props.modelValue);
+if (date.value !== props.modelValue) {
+	emit("update:modelValue", date.value);
+}
 
 const localIsoTimeString = computed({
 	// Extract YYYY-MM-DDTHH:mm

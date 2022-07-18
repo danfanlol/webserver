@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import {ref, computed} from "vue";
 
-import {categoriesBySubject} from "../../lib/subjects";
+import {sameLocalDay} from "../util";
+import subjectCategories, {categoriesBySubject} from "../../lib/subjects";
 
 import DateEntry from "./DateEntry.vue";
 
@@ -46,7 +47,20 @@ const addHours = (date: Date, nHours: number) => new Date(date.getTime() + nHour
 const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
 const endDate = computed(() => addHours(startDate.value, props.session.duration));
 const past = computed(() => endDate.value.getTime() < Date.now());
-const category = computed(() => categoriesBySubject.get(props.session.subject)!);
+const category = computed(() => categoriesBySubject.get(workingSubject.value)!);
+
+const dateString = (date: Date, displayDate: boolean=false) => displayDate
+			? date.toLocaleString([], {
+				weekday: "short",
+				year: "numeric",
+				month: "short",
+				day: "numeric",
+				hour: "numeric",
+				minute: "numeric",
+			})
+			: date.toLocaleTimeString([], {
+				timeStyle: "short",
+			});
 
 
 const waiting = ref(false);
@@ -140,6 +154,7 @@ const tryKickStudent = async () => {
 
 
 const isEditing = ref(false);
+const newSubject = ref(props.session.subject);
 const newStartDate = ref(startDate.value);
 const newDuration = ref(props.session.duration);
 const newEndDate = computed({
@@ -154,7 +169,9 @@ const beginEditSession = () => {
 const endEditSession = () => {
 	isEditing.value = false;
 
+	newSubject.value = props.session.subject;
 	newStartDate.value = startDate.value;
+	newDuration.value = props.session.duration;
 };
 const tryUpdateSession = async () => {
 	waiting.value = true;
@@ -162,6 +179,7 @@ const tryUpdateSession = async () => {
 		method: "POST",
 		body: JSON.stringify({
 			sessionId: props.session._id,
+			subject: newSubject.value,
 			startDate: newStartDate.value.getTime(),
 			duration: newDuration.value,
 		}),
@@ -173,11 +191,14 @@ const tryUpdateSession = async () => {
 	});
 
 	// temp
+	props.session.subject = newSubject.value;
 	props.session.startDate = newStartDate.value.toISOString();
 	props.session.duration = newDuration.value;
 
 	endEditSession();
 };
+
+const workingSubject = computed(() => isEditing ? newSubject.value : props.session.subject);
 </script>
 
 <template>
@@ -197,9 +218,20 @@ const tryUpdateSession = async () => {
 				'--session-col-dark': category.color.dark,
 				'--session-col-accent': category.color.accent,
 			} as any">
-		<h3>{{session.subject}}</h3>
+		<h3 v-if="!isEditing">{{session.subject}}</h3>
+		<h3 v-else>
+			<select v-model="newSubject">
+				<optgroup v-for="[category, subjects] of subjectCategories"
+						:label="category.label">
+					<option v-for="subject of subjects"
+							:value="subject">
+						{{subject}}
+					</option>
+				</optgroup>
+			</select>
+		</h3>
 
-		<session-people >
+		<session-people>
 			<div v-if="!isTutorPage">Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 
 			<template v-if="taughtByYou && isOnDashboard">
@@ -209,7 +241,8 @@ const tryUpdateSession = async () => {
 					<div>Requested by <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
-						<button @click="tryConfirmStudent">Confirm</button> <button @click="tryKickStudent">Reject</button>
+						<button @click="tryConfirmStudent">Confirm</button>&nbsp;
+						<button @click="tryKickStudent">Reject</button>
 					</div>
 				</template>
 				<div v-else>
@@ -237,19 +270,9 @@ const tryUpdateSession = async () => {
 		</session-people>
 
 		<session-time v-if="!isEditing">
-			<div>{{displayDate
-					? startDate.toLocaleString([], {
-						weekday: 'short',
-						year: 'numeric',
-						month: 'short',
-						day: 'numeric',
-						hour: 'numeric',
-						minute: 'numeric',
-					})
-					: startDate.toLocaleTimeString([], {
-						timeStyle: 'short',
-					})}}</div>
-			<div><b>{{session.duration * 60}} min</b></div>
+			<div><b>{{dateString(startDate, displayDate)}}</b></div>
+			<div>– <b>{{dateString(endDate, !sameLocalDay(startDate, endDate))}}</b></div>
+			<div>({{session.duration * 60}} min)</div>
 		</session-time>
 
 		<session-time v-else>
@@ -263,7 +286,9 @@ const tryUpdateSession = async () => {
 			<input type="number"
 					v-model="newDuration"
 					min="0"
-					max="24" /> hours
+					max="24"
+					step="0.25"
+					title="" /> hours
 		</session-time>
 
 		<div v-if="taughtByYou"
@@ -271,7 +296,7 @@ const tryUpdateSession = async () => {
 			<button v-if="!isEditing"
 					@click="beginEditSession">Edit session</button>
 			<template v-else>
-				<button @click="tryUpdateSession">Save changes</button>
+				<button @click="tryUpdateSession">Save changes</button>&nbsp;
 				<button @click="endEditSession">Cancel</button>
 			</template>
 		</div>
@@ -320,6 +345,16 @@ session-item {
 
 	&.editing {
 		opacity: unset;
+
+		select {
+			width: 100%;
+			text-overflow: ellipsis;
+			font-size: unset;
+
+			> optgroup {
+				font-size: 0.85rem;
+			}
+		}
 	}
 
 	.unclaimed-notice {

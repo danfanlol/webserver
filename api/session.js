@@ -100,9 +100,9 @@ router.post("/edit", async (request, response) => {
     const session = await Session.findById(request.body.sessionId);
     
     if(!session) return response.status(401).json({message:"No such session!"})
-    console.log(session.tutor);
     if(session.tutor !== request.user.user) return response.status(401).json({message:"You are not the tutor!"});
 
+    session.subject = request.body.subject;
     session.startDate = new Date(request.body.startDate);
     session.duration = request.body.duration;
 

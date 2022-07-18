@@ -4,7 +4,7 @@ import {ref, computed, watch, PropType} from "vue";
 import SessionItem from "../../../_shared/SessionItem.vue";
 import {useSessionFetch} from "../../../_shared/useSessionFetch";
 
-import {SessionFilters, Availability} from "../../../util";
+import {SessionFilters, Availability, sameLocalDay} from "../../../util";
 
 import {config} from "../store";
 
@@ -15,11 +15,6 @@ const props = defineProps({
 	},
 });
 
-
-const sameLocalDay = (date0: Date, date1: Date) =>
-		date0.getFullYear() === date1.getFullYear()
-		&& date0.getMonth() === date1.getMonth()
-		&& date0.getDate() === date1.getDate();
 
 const currentDate = new Date();
 
@@ -78,19 +73,21 @@ const onDeleteSession = (session: object) => {
 
 
 const tryCreateSession = async (startDate: Date) => {
-	await fetch("/api/session/", {
+	const session = await fetch("/api/session/", {
 		method: "POST",
 		body: JSON.stringify({
-			subject: "US History",
+			subject: "Spanish",
 			duration: 1,
 			startDate: startDate.getTime(),
 		}),
 		headers: {
 			"Content-Type": "application/json",
 		},
-	});
+	})
+			.then(response => response.json());
 
-	reloadSessions();
+	sessions.value.push(session);
+	sessions.value = sessions.value;
 };
 </script>
 
