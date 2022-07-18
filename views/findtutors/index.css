@@ -4,7 +4,7 @@ session-viewer {
 	gap: 1em;
 	padding: 0 var(--article-padding-horizontal);
 }
-
+/* 
 session-list {
 	display: flex;
 	flex-flow: wrap;
@@ -12,7 +12,7 @@ session-list {
 	height: min-content;
 	justify-content: center;
 	gap: 1em;
-}
+} */
 
 session-item {
 	min-width: 13.5em;

@@ -48,15 +48,16 @@ const categoryElementId = (category: Category) => `category-${category.label}`;
 				:id="categoryElementId(category)"
 				v-model="selectAll" />
 		<label :for="categoryElementId(category)">
-			<span :style="{
+			<div :style="{
 					'background': category.color.dark,
-				}">{{category.label}}</span>
+				}">{{category.label}}</div>
 		</label>
 	</h4>
 </template>
 
 <style lang="scss" scoped>
-label > span {
+label > div {
+	display: inline-block;
 	padding: 0.25em 0.5em;
 	font-size: 0.75em;
 	line-height: 1;

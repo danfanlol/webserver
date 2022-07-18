@@ -206,10 +206,9 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				reserved: isOnDashboard
 						? reserved && !taughtByYou
 						: reserved,
-				unclaimed: isOnDashboard
-						? !session.reserved && taughtByYou
-						: false,
+				unclaimed: isOnDashboard && !session.reserved && taughtByYou,
 				past,
+				unregistered: isOnDashboard && !isTutorPage && !reservedByYou,
 				editing: isEditing,
 				'reserved-by-you': reservedByYou,
 			}"
@@ -335,11 +334,7 @@ session-item {
 		outline-offset: 2px;
 	}
 
-	&.unclaimed {
-		opacity: 0.5;
-	}
-
-	&.past {
+	&:is(.unclaimed, .past, .unregistered) {
 		opacity: 0.5;
 	}
 

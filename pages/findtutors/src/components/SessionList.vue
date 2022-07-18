@@ -35,7 +35,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
+const {reloadSessions, latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
 const onDeleteSession = (session: object) => {
 	sessions.value.splice(sessions.value.indexOf(session), 1);
 	sessions.value = sessions.value; // trigger reaction
@@ -47,18 +47,48 @@ const onDeleteSession = (session: object) => {
 			:class="{
 				waiting: !latestPromiseResolved,
 			}">
-		<SessionItem v-for="session of sessions"
-				v-if="hasSessions"
-				:key="session._id"
-				:session="session"
-				:clientUsername="config.clientUsername"
-				@delete="onDeleteSession" />
+		<session-list-top>
+			<button @click="reloadSessions">Reload</button>
+			{{sessions.length}} result{{sessions.length !== 1 ? "s" : ""}}
+		</session-list-top>
+		<session-items v-if="hasSessions">
+			<SessionItem v-for="session of sessions"
+					:key="session._id"
+					:session="session"
+					:clientUsername="config.clientUsername"
+					@delete="onDeleteSession" />
+		</session-items>
 		<div v-else>No results! Check the search filters.</div>
     </session-list>
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
+session-list {
+	display: flex;
+	flex-flow: column;
+	width: 100%;
+
+	flex-grow: 1;
+
+	gap: 0.5em;
+
+	&.waiting {
+		opacity: 0.25;
+	}
+
+	> session-list-top {
+		font-size: 0.75em;
+		text-align: left;
+	}
+
+	> session-items {
+		display: flex;
+		flex-flow: wrap;
+		width: 100%;
+		height: min-content;
+		justify-content: center;
+		align-items: center;
+		gap: 1em;
+	}
 }
 </style>

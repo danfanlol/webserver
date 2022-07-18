@@ -97,10 +97,27 @@ const tryCreateSession = async (startDate: Date) => {
 				waiting: !latestPromiseResolved,
 			}">
 		<div class="note">Dates and times are in your local timezone</div>
+		<session-calendar-top>
+			<button @click="reloadSessions">Reload</button>&nbsp;
+			<template v-if="sessions.length === 0">
+				<div v-if="config.isTutorPage">No sessions available!</div>
+				<div v-else>You don’t have any upcoming sessions!</div>
+			</template>
 
-		<calendar-day v-for="(number, i) of nDaysDisplayed"
+			<a v-if="!config.isTutorPage && config.isOwnPage"
+					href="/findtutors/">Find more sessions</a> 
+		</session-calendar-top>
+
+		<calendar-weekday v-for="number, i of 7">
+			{{addDays(startingLocalDate, i).toLocaleDateString([], {
+				weekday: "short",
+			})}}
+		</calendar-weekday>
+
+		<calendar-day v-for="number, i of nDaysDisplayed"
 				:class="{
 					past: dayHasPast(addDays(startingLocalDate, i)),
+					weekend: [0, 6].includes(addDays(startingLocalDate, i).getDay()),
 				}">
 			<calendar-day-top>
 				<div>
@@ -159,8 +176,19 @@ session-calendar {
 
 	> .note {
 		grid-column: 1 / -1;
+		margin-bottom: 0.5em;
+
 		opacity: 0.5;
 		font-style: italic;
+	}
+
+	> session-calendar-top {
+		grid-column: 1 / -1;
+	}
+
+	> calendar-weekday {
+		text-align: right;
+		font-family: var(--font-large);
 	}
 
 	> calendar-day {
@@ -172,6 +200,10 @@ session-calendar {
 
 		&.past {
 			opacity: 0.25;
+		}
+
+		&.weekend {
+			background: #eeeeee7f;
 		}
 
 		calendar-day-top {
