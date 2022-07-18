@@ -12,6 +12,14 @@ export default ({mode}) => defineConfig({
         },
     })],
 
+    /* resolve: {
+        alias: {
+            "@shared": path.resolve("./_shared/"),
+            "@lib": path.resolve("../lib/"),
+            "@": path.resolve("./"),
+        },
+    }, */
+
     build: {
         sourcemap: mode === "development",
 

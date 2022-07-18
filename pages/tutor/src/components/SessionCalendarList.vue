@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import SessionItem from "./SessionItem.vue";
+import SessionItem from "../../../_shared/SessionItem.vue";
+import {useSessionFetch} from "../../../_shared/useSessionFetch";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -31,32 +32,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const reloadResults = async () => {
-	const promise = fetch(`/api/session/?${sessionQuery.value}`)
-			.then(response => response.json());
-
-	latestPromise.value = promise;
-	const newSessions = await promise;
-
-	if (promise !== latestPromise.value) return;
-	sessions.value = newSessions;
-};
-
-const latestPromise = ref(Promise.resolve());
-const latestPromiseResolved = ref(true);
-watch(latestPromise, () => {
-	latestPromiseResolved.value = false;
-
-	const promise = latestPromise.value;
-	promise.finally(() => {
-		if (promise !== latestPromise.value) return;
-		latestPromiseResolved.value = true;
-	});
-});
-
-const sessions = ref<any[]>(await (await fetch(`/api/session/?${sessionQuery.value}`)).json());
-const hasSessions = computed(() => sessions.value.length !== 0);
-watch(props.filters, reloadResults);
+const {latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
 
 /* const sameDay = (date0: Date, date1: Date) =>
 		date0.getUTCFullYear() === date1.getUTCFullYear()

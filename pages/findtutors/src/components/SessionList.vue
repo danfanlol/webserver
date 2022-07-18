@@ -2,6 +2,7 @@
 import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "../../../_shared/SessionItem.vue";
+import {useSessionFetch} from "../../../_shared/useSessionFetch";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -13,7 +14,6 @@ const props = defineProps({
 		required: true,
 	},
 });
-
 
 const sessionQuery = computed(() => {
 	const params = new URLSearchParams();
@@ -33,32 +33,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const reloadResults = async () => {
-	const promise = fetch(`/api/session/?${sessionQuery.value}`)
-			.then(response => response.json());
-
-	latestPromise.value = promise;
-	const newSessions = await promise;
-
-	if (promise !== latestPromise.value) return;
-	sessions.value = newSessions;
-};
-
-const latestPromise = ref(Promise.resolve());
-const latestPromiseResolved = ref(true);
-watch(latestPromise, () => {
-	latestPromiseResolved.value = false;
-
-	const promise = latestPromise.value;
-	promise.finally(() => {
-		if (promise !== latestPromise.value) return;
-		latestPromiseResolved.value = true;
-	});
-});
-
-const sessions = ref(await (await fetch("/api/session/")).json());
-const hasSessions = computed(() => sessions.value.length !== 0);
-watch(props.filters, reloadResults);
+const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
 </script>
 
 <template>
