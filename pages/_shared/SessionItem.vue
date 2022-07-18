@@ -127,6 +127,8 @@ const tryKickStudent = async () => {
 	props.session.student = "";
 	props.session.reserved = false;
 };
+
+const beginEditSession = () => {};
 </script>
 
 <template>
@@ -197,13 +199,17 @@ const tryKickStudent = async () => {
 					: startDate.toLocaleTimeString([], {
 						timeStyle: 'short',
 					})}}</div>
-			<div><b>{{session.begin}}</b></div>
 			<div><b>{{session.duration * 60}} min</b></div>
 		</session-time>
 
 		<div v-if="taughtByYou && !past"
 				:class="{waiting}">
 			<button @click="tryDeleteSession">Cancel session</button>
+		</div>
+
+		<div v-if="taughtByYou"
+				:class="{waiting}">
+			<button @click="beginEditSession">Edit session</button>
 		</div>
 	</session-item>
 </template>

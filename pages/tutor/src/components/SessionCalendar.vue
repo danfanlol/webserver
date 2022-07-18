@@ -16,25 +16,6 @@ const props = defineProps({
 });
 
 
-const sessionQuery = computed(() => {
-	const params = new URLSearchParams();
-
-	if (props.filters.subjects.length !== 0) {
-		params.set("subject", props.filters.subjects.join("|"));
-	}
-
-	if (props.filters.availability !== Availability.All) {
-		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
-	}
-
-	params.set(config.isTutorPage ? "tutor" : "student", config.pageOwnerUsername);
-
-	return params;
-});
-
-const {reloadSessions, latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
-
-
 const sameLocalDay = (date0: Date, date1: Date) =>
 		date0.getFullYear() === date1.getFullYear()
 		&& date0.getMonth() === date1.getMonth()
@@ -70,6 +51,27 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 	day: "numeric",
 	// year: "numeric",
 });
+
+
+const sessionQuery = computed(() => {
+	const params = new URLSearchParams();
+
+	if (props.filters.subjects.length !== 0) {
+		params.set("subject", props.filters.subjects.join("|"));
+	}
+
+	if (props.filters.availability !== Availability.All) {
+		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
+	}
+
+	params.set(config.isTutorPage ? "tutor" : "student", config.pageOwnerUsername);
+	params.set("afterDate", startingLocalDate.getTime().toString());
+
+	return params;
+});
+
+const {reloadSessions, latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
+
 
 const tryCreateSession = async (startDate: Date) => {
 	await fetch("/api/session/", {

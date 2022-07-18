@@ -37,6 +37,7 @@ router.get("/", async (request, response) => {
     const open = request.query.open !== undefined ? request.query.open !== "0" : null;
     const tutors = request.query.tutor?.split("|") ?? null;
     const students = request.query.student?.split("|") ?? null;
+    const afterDate = request.query.afterDate ?? null;
 
     const sessions = (await Session.find({
         $and: [
@@ -56,6 +57,12 @@ router.get("/", async (request, response) => {
             } : {},
             students ? {
                 $or: students.map(student => ({student})),
+            } : {},
+            afterDate ? {
+                $or: [
+                    {startDate: {$gte: afterDate}},
+                    {startDate: undefined},
+                ]
             } : {},
         ],
     })

@@ -30,6 +30,8 @@ const sessionQuery = computed(() => {
 		params.set("tutor", config.clientUsername);
 	}
 
+	params.set("afterDate", Date.now().toString());
+
 	return params;
 });
 
