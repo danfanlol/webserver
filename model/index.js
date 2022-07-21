@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-import init from "./init.js";
 import script from "./script.js"
 
 async function init_mongoose(){
@@ -15,7 +14,6 @@ async function init_mongoose(){
     console.log('Connected to mongodb!');
   });
 
-  init();
   script();
 }
 

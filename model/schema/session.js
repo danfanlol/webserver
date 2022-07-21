@@ -6,7 +6,6 @@ const sessionSchema=new mongoose.Schema( {
     duration: {
         type:Number,
         required:true,
-
     },
     tutor: {
         type:String,
@@ -14,7 +13,6 @@ const sessionSchema=new mongoose.Schema( {
     },
     student: {
         type:String,
-        default:"",
     },
     subject: {
         type:String,
@@ -27,6 +25,10 @@ const sessionSchema=new mongoose.Schema( {
 
     startDate: {
         type: Date,
+    },
+
+    meetingUrl: {
+        type: String,
     },
 });
 

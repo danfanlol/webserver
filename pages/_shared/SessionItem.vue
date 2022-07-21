@@ -52,20 +52,47 @@ const addHours = (date: Date, nHours: number) => new Date(date.getTime() + nHour
 const startDate = computed(() => new Date(Date.parse(props.session.startDate)));
 const endDate = computed(() => addHours(startDate.value, props.session.duration));
 const past = computed(() => endDate.value.getTime() < Date.now());
-const category = computed(() => categoriesBySubject.get(workingSubject.value)!);
+const category = computed(() => categoriesBySubject.get(workingSubject.value));
 
 const dateString = (date: Date, displayDate: boolean=false) => displayDate
-			? date.toLocaleString([], {
-				weekday: "short",
-				year: "numeric",
-				month: "short",
-				day: "numeric",
-				hour: "numeric",
-				minute: "numeric",
-			})
-			: date.toLocaleTimeString([], {
-				timeStyle: "short",
-			});
+		? date.toLocaleString([], {
+			weekday: "short",
+			year: "numeric",
+			month: "short",
+			day: "numeric",
+			hour: "numeric",
+			minute: "numeric",
+		})
+		: date.toLocaleTimeString([], {
+			timeStyle: "short",
+		});
+
+const timeDenominationString = (timeSpan: number) => {
+	if (timeSpan < 60 * 1000) {
+		return "< 1 min";
+	} else if (timeSpan < 60 * 60 * 1000) {
+		return `${Math.floor(timeSpan / 60 / 1000)} min`;
+	} else if (timeSpan < 24 * 60 * 60 * 1000) {
+		return `${Math.floor(timeSpan / 60 / 60 / 1000)} hr`;
+	} else {
+		const nDays = Math.floor(timeSpan / 24 / 60 / 60 / 1000);
+		return `${nDays} day${nDays !== 1 ? "s" : ""}`;
+	}
+};
+
+const fuzzyTime = computed(() => {
+	if (isNaN(startDate.value.getTime())) return "";
+
+	const now = Date.now();
+
+	if (now < startDate.value.getTime()) {
+		return `In ${timeDenominationString(startDate.value.getTime() - now)}`;
+	} else if (now > endDate.value.getTime()) {
+		return `${timeDenominationString(now - endDate.value.getTime())} ago`;
+	} else {
+		return "Currently ongoing!";
+	}
+});
 
 
 const waiting = ref(false);
@@ -241,11 +268,12 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				unregistered: isOwnPage && !isTutorPage && !reservedByYou,
 				editing: isEditing,
 				'reserved-by-you': reservedByYou,
+				'no-category': category === undefined,
 			}"
 			:style="{
-				'--session-col-main': category.color.main,
-				'--session-col-dark': category.color.dark,
-				'--session-col-accent': category.color.accent,
+				'--session-col-main': category?.color.main ?? 'inherit',
+				'--session-col-dark': category?.color.dark ?? 'inherit',
+				'--session-col-accent': category?.color.accent ?? 'inherit',
 			} as any">
 		<h3 v-if="!isEditing">{{session.subject}}</h3>
 		<h3 v-else>
@@ -299,6 +327,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</session-people>
 
 		<session-time v-if="!isEditing">
+			<div class="fuzzy-time">{{fuzzyTime}}</div>
 			<div><b>{{dateString(startDate, displayDate)}}</b></div>
 			<div>– <b>{{dateString(endDate, !sameLocalDay(startDate, endDate))}}</b></div>
 			<div>({{session.duration * 60}} min)</div>
@@ -357,9 +386,17 @@ session-item {
 	color: #fff;
 	padding: 0.5em 1em;
 
-	box-shadow: 0 0.125em 2em -0.5em var(--session-col-main);
+	--session-box-shadow-col: var(--session-col-main);
+	box-shadow: 0 0.125em 2em -0.5em var(--session-box-shadow-col);
 
 	transition: opacity 0.1s ease-in-out;
+
+	&.no-category {
+		color: inherit;
+		// border: 2px solid;
+
+		--session-box-shadow-col: currentcolor;
+	}
 
 	&.reserved-by-you {
 		animation: none;
@@ -370,6 +407,10 @@ session-item {
 
 	&:is(.unclaimed, .past, .unregistered) {
 		opacity: 0.5;
+	}
+
+	.fuzzy-time {
+		margin-bottom: 0.5em;
 	}
 
 	&.editing {

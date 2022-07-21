@@ -1,11 +1,18 @@
 export class Category {
-	constructor (
-		public label: string,
-		public color: {
-			main: string,
-			dark: string,
-			accent: string,
+	constructor(
+		readonly label: string,
+		readonly color: {
+			readonly main: string,
+			readonly dark: string,
+			readonly accent: string,
 		},
+	) {}
+}
+
+class Subject {
+	constructor(
+		readonly internalId: string,
+		readonly label: string,
 	) {}
 }
 
@@ -16,7 +23,12 @@ const subjectCategories = new Map<Category, string[]>([
 		dark: "hsl(237 54% 39%)",
 		accent: "hsla(240 100% 80% / 0.5)",
 	}), [
+		"Essay Proofreading",
+		"English K–8",
+		"English 9–12",
 		"World Literature",
+		"AP Language and Composition",
+		"AP Literature and Composition",
 	]],
 	[new Category("Social Studies", {
 		main: "hsl(160 98% 30%)",
@@ -24,7 +36,13 @@ const subjectCategories = new Map<Category, string[]>([
 		accent: "hsla(70 41% 70% / 0.5)",
 	}), [
 		"World History",
+		"AP World History",
 		"US History",
+		"AP US History",
+		"US Government",
+		"AP US Government",
+		"Psychology",
+		"AP Psychology",
 	]],
 	[new Category("Mathematics", {
 		main: "hsl(337 81% 53%)",
@@ -35,13 +53,10 @@ const subjectCategories = new Map<Category, string[]>([
 		"Prealgebra",
 		"Algebra",
 		"Precalculus",
-		"Calculus AB",
-		"Calculus BC",
-		"Physics Level 1",
-		"Physics Level 2",
-		"Physics C: Mechanics",
-		"Physics C: Electricity and Magnetism",
+		"AP Calculus AB",
+		"AP Calculus BC",
 		"Statistics",
+		"AP Statistics",
 	]],
 	[new Category("Science", {
 		main: "hsl(31 100% 45%)",
@@ -49,7 +64,14 @@ const subjectCategories = new Map<Category, string[]>([
 		accent: "hsla(350 61% 80% / 0.5)",
 	}), [
 		"Biology",
+		"AP Biology",
+		"Environmental Science",
 		"Chemistry",
+		"AP Chemistry",
+		"Physics Level 1",
+		"Physics Level 2",
+		"Physics C: Mechanics",
+		"Physics C: Electricity and Magnetism",
 	]],
 	[new Category("Language", {
 		main: "hsl(192 96% 45%)",
@@ -57,6 +79,7 @@ const subjectCategories = new Map<Category, string[]>([
 		accent: "hsla(200 61% 70% / 0.5)",
 	}), [
 		"Spanish",
+		"French",
 		"Latin",
 	]],
 ]);
