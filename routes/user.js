@@ -14,6 +14,7 @@ tutorRouter.get("/:name/", async (request, response, next) => {
 
 	const tutor = await User.findOne({
 		user: request.params.name,
+		permissions: "post-session",
 	});
 
 	if (!tutor || !tutor.isTutor) {
@@ -44,12 +45,15 @@ studentRouter.get("/:name/", async (request, response, next) => {
 	}
 
 	if (!request.user.isStaff && request.user.user !== request.params.name) {
-		response.sendStatus(404);
+		response.sendStatus(401);
 		return;
 	}
 
 	const student = await User.findOne({
 		user: request.params.name,
+		permissions: {
+			$ne: "post-session",
+		},
 	});
 
 	if (!student) {

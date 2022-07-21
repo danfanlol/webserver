@@ -4,6 +4,7 @@ const router=express.Router();
 router.post("/",async (req,res) => {
     if(!req.isAuthenticated()) return res.status(401).json({message:"Not logged in!"});
     // if(!req.user.hasPermission("signup")) return res.status(403).json({message:"Not enough permissions!"})
+    if (req.user.isTutor) return res.status(403).json({message: "Tutors may not register for sessions"});
     
     var session=await Session.findById(req.body.sessionId);
     if (!session) {

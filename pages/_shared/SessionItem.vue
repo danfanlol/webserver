@@ -15,6 +15,11 @@ const props = defineProps({
 	clientUsername: {
 		type: String,
 	},
+	
+	clientIsTutor: {
+		type: Boolean,
+		default: false,
+	},
 
 	displayDate: {
 		type: Boolean,
@@ -320,13 +325,13 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 			<template v-else>
 				<div v-if="reserved"
 						class="notice">Reserved</div>
-				<div v-else-if="reservedByYou && !past"
+				<div v-else-if="reservedByYou && !past && !clientIsTutor"
 						:class="{waiting}">
 					<i>Signed up</i>
 					&#x2002;•&#x2002;
 					<button @click="tryQuitSession">Unregister</button>
 				</div>
-				<div v-else-if="!taughtByYou && !past"
+				<div v-else-if="!taughtByYou && !past && !clientIsTutor"
 						:class="{waiting}">
 					<button @click="tryReserveSession">Register</button>
 				</div>
@@ -340,10 +345,10 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 						class="notice">
 					Awaiting meeting link!
 				</div>
-				<div v-else-if="session.meetingUrl && (taughtByYou || reservedByYou)">
-					Meeting link:
+				<div v-else-if="session.meetingUrl && (taughtByYou || reservedByYou)"
+						class="meeting-link">
 					<a :href="session.meetingUrl"
-							target="_blank">{{session.meetingUrl}}</a>
+							target="_blank">Join meeting</a>
 				</div>
 			</template>
 
@@ -414,14 +419,19 @@ session-item {
 	--session-col-dark: hsl(337, 81%, 33%);
 	--session-col-accent: hsla(20, 61%, 80%, 0.5);
 
+	min-width: 13.5em;
 	max-width: 26ch; // temp?
+	padding: 0.5em 0;
+	display: flex;
+	flex-flow: column;
+	gap: 0.5em;
+
+	font-size: 0.85em;
 
 	background: radial-gradient(circle at top right, var(--session-col-accent) 3em, #0000 3.125em),
 			radial-gradient(circle at bottom right, var(--session-col-dark), var(--session-col-main));
 	border-radius: 1.8em .5em / 2em .5em;
 	color: #fff;
-
-	padding: 0.5em 0;
 
 	> * {
 		padding: 0 1rem;
@@ -440,10 +450,13 @@ session-item {
 	}
 
 	&.reserved-by-you {
-		animation: none;
-
 		outline: 4px dashed var(--session-col-main);
 		outline-offset: 2px;
+	}
+
+	&.reserved {
+		opacity: 0.3;
+		transform: scale(0.875);
 	}
 
 	&:is(.unclaimed, .past, .unregistered) {
@@ -474,9 +487,16 @@ session-item {
 
 		background: #0000003f;
 		box-shadow: 0 2em 2em #0000003f inset;
+
+		&:empty {
+			display: none;
+		}
 	}
 
 	> session-time {
+		display: block;
+		text-align: right;
+
 		color: #ffffffef;
 	}
 
@@ -489,6 +509,11 @@ session-item {
 
 	.fuzzy-time {
 		margin-bottom: 0.5em;
+	}
+
+	.meeting-link {
+		text-align: right;
+		font-weight: 800;
 	}
 
 	input[type="text"] {

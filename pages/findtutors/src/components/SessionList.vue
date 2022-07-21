@@ -56,6 +56,7 @@ const onDeleteSession = (session: object) => {
 					:key="session._id"
 					:session="session"
 					:clientUsername="config.clientUsername"
+					:clientIsTutor="config.clientIsTutor"
 					@delete="onDeleteSession" />
 		</session-items>
 		<div v-else>No results! Check the search filters.</div>

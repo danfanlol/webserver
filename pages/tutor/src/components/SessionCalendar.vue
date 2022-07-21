@@ -136,6 +136,7 @@ const createUnpublishedSession = async (startDate: Date) => {
 						:key="session._id"
 						:session="session"
 						:clientUsername="config.clientUsername"
+						:clientIsTutor="config.clientIsTutor"
 						:displayDate="false"
 						:isOnDashboard="true"
 						:isTutorPage="config.isTutorPage"
