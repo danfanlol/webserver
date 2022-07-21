@@ -16,6 +16,7 @@ import routeinit from "./utils/route-init.js"
 import findtutorsRouter from "./routes/findtutors.js";
 import {tutorRouter, studentRouter} from "./routes/user.js"
 import meRouter from "./routes/me.js"
+import adminRouter from "./routes/admin.js";
 import auth from "./login/index.js";
 import api from "./api/index.js"
 
@@ -72,6 +73,7 @@ app.use("/findtutors", findtutorsRouter);
 app.use("/tutor", tutorRouter);
 app.use("/student", studentRouter);
 app.use("/me", meRouter);
+app.use("/admin", adminRouter);
 
 
 app.listen(process.env.PORT ?? 3000, () => {

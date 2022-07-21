@@ -3,12 +3,13 @@ import { computed } from 'vue';
 
 const props = defineProps<{
 	modelValue: Date,
+	fallbackValue?: Date,
 }>();
 const emit = defineEmits<{
 	(event: "update:modelValue", date: Date),
 }>();
 
-const date = computed(() => isNaN(props.modelValue.getTime()) ? new Date() : props.modelValue);
+const date = computed(() => isNaN(props.modelValue.getTime()) ? (props.fallbackValue ?? new Date()) : props.modelValue);
 if (date.value !== props.modelValue) {
 	emit("update:modelValue", date.value);
 }

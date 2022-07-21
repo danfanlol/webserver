@@ -190,6 +190,7 @@ const isEditing = ref(props.session.unpublished ?? false);
 const newSubject = ref(props.session.subject);
 const newStartDate = ref(startDate.value);
 const newDuration = ref(props.session.duration);
+const newMeetingUrl = ref(props.session.meetingUrl);
 const newEndDate = computed({
 	get: () => addHours(newStartDate.value, newDuration.value),
 	set(value) {
@@ -205,6 +206,7 @@ const endEditSession = () => {
 	newSubject.value = props.session.subject;
 	newStartDate.value = startDate.value;
 	newDuration.value = props.session.duration;
+	newMeetingUrl.value = props.session.meetingUrl;
 };
 const tryUpdateSession = async () => {
 	waiting.value = true;
@@ -215,6 +217,7 @@ const tryUpdateSession = async () => {
 			subject: newSubject.value,
 			startDate: newStartDate.value.getTime(),
 			duration: newDuration.value,
+			meetingUrl: newMeetingUrl.value,
 		}),
 		headers: {
 			"Content-Type": "application/json",
@@ -227,6 +230,7 @@ const tryUpdateSession = async () => {
 	props.session.subject = newSubject.value;
 	props.session.startDate = newStartDate.value.toISOString();
 	props.session.duration = newDuration.value;
+	props.session.meetingUrl = newMeetingUrl.value;
 
 	endEditSession();
 };
@@ -239,6 +243,7 @@ const tryPublishSession = async () => {
 			subject: newSubject.value,
 			startDate: newStartDate.value.getTime(),
 			duration: newDuration.value,
+			meetingUrl: newMeetingUrl.value,
 		}),
 		headers: {
 			"Content-Type": "application/json",
@@ -295,7 +300,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 			<template v-if="taughtByYou && isOnDashboard">
 				<div v-if="!session.reserved"
 						class="notice">Unclaimed</div>
-				<template v-else-if="session.reserved && !session.confirmed">
+				<template v-else-if="!session.confirmed">
 					<div>Requestee: <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
@@ -329,6 +334,24 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				<div v-if="reservedByYou && !session.confirmed"
 						class="notice">Not yet confirmed!</div>
 			</template>
+
+			<template v-if="session.confirmed && !isEditing">
+				<div v-if="!session.meetingUrl && taughtByYou"
+						class="notice">
+					Awaiting meeting link!
+				</div>
+				<div v-else-if="session.meetingUrl && (taughtByYou || reservedByYou)">
+					Meeting link:
+					<a :href="session.meetingUrl"
+							target="_blank">{{session.meetingUrl}}</a>
+				</div>
+			</template>
+
+			<div v-if="isEditing">
+				Meeting link:
+				<input v-model.lazy="newMeetingUrl"
+						type="text" />
+			</div>
 		</session-people>
 
 		<session-time v-if="!isEditing">
@@ -340,12 +363,12 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 
 		<session-time v-else>
 			<div>
-				Start
+				Start:
 				<DateEntry v-model="newStartDate" />
 			</div>
 
 			<div>
-				End
+				End:
 				<DateEntry v-model="newEndDate" />
 			</div>
 
@@ -427,10 +450,6 @@ session-item {
 		opacity: 0.5;
 	}
 
-	.fuzzy-time {
-		margin-bottom: 0.5em;
-	}
-
 	&.editing {
 		opacity: unset;
 
@@ -466,6 +485,14 @@ session-item {
 		text-align: right;
 
 		margin-top: 0.25em;
+	}
+
+	.fuzzy-time {
+		margin-bottom: 0.5em;
+	}
+
+	input[type="text"] {
+		width: 100%;
 	}
 }
 </style>
