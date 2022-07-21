@@ -26,9 +26,19 @@ mount("tutor-session-controls", {
 			<article>
 				<tutor-dashboard>
 					<h1><%- student.user %></h1>
+					<div>
+						<member-label>Student</member-label>
+					</div>
 
 					<tutor-session-controls></tutor-session-controls>
 				</tutor-dashboard>
+
+				<section>
+					<dl>
+						<dt>I’ve registered for a session! What do I do now?</dt>
+						<dd>The tutor of the session will see your request. Wait for them to confirm your session. If you’ve been confirmed, then your tutor will follow up with a meeting link that you can view on this page!</dd>
+					</dl>
+				</section>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

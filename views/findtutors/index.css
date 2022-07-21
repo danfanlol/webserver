@@ -50,10 +50,10 @@ session-item.reserved-by-you {
 		background: #fff4dd;
 	}
 }
-
+/* 
 session-item > h3 {
-	margin: 0 0 0.25em 0;
-}
+	margin: 0;
+} */
 
 session-item > session-people {
 	flex-grow: 1;

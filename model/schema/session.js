@@ -1,30 +1,42 @@
 import mongoose from "mongoose";
-const sessionSchema=new mongoose.Schema( {
-    begin:{
-        type:Number,
-    },
-    duration: {
-        type:Number,
-        required:true,
-    },
+const sessionSchema = new mongoose.Schema({
     tutor: {
-        type:String,
-        required:true,
+        type: String,
+        required: true,
     },
-    student: {
-        type:String,
+
+    begin: {
+        type: Number,
     },
+
+    startDate: {
+        type: Date,
+    },
+
+    duration: {
+        type: Number,
+        required: true,
+    },
+
     subject: {
-        type:String,
-        required:true,
+        type: String,
+        required: true,
     },
+
+    student: {
+        type: String,
+    },
+
     confirmed: {
         type: Boolean,
         default: false,
     },
 
-    startDate: {
-        type: Date,
+    confirmationWaitlist: {
+        type: [{
+            type: mongoose.Types.ObjectId,
+            ref: "Student",
+        }],
     },
 
     meetingUrl: {

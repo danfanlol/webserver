@@ -147,7 +147,7 @@ input,
 button,
 select {
 	font-family: var(--font-body);
-	font-size: inherit;
+	/* font-size: inherit; */
 }
 
 header {
@@ -782,10 +782,11 @@ article > section.stat-row {
 					var(--col-blue-lighter-1f) 33.333333%,
 					var(--col-blue-lighter-1f) 66.666667%,
 					#0000 66.666667%), */
-			radial-gradient(var(--col-blue-lighter), var(--col-blue));
+			/* radial-gradient(var(--col-blue-lighter), var(--col-blue)), */
+			url("../assets/header-mesh.svg") var(--col-blue);
 	text-shadow: 0 0.5em 1em var(--col-blue-shadow);
-	box-shadow: 0 0.125em 0.5em 0em var(--col-blue-af)/* ,
-			0 0.125em 1em var(--col-blue-shadow) inset */;
+	box-shadow: 0 0.125em 0.5em 0em var(--col-blue-af),/* 
+			0 0.125em 2em var(--col-blue-shadow) inset */;
 	/* transform: skewY(-1deg); */
 
 	color: var(--col-yellow);

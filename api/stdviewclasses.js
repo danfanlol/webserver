@@ -11,8 +11,9 @@ router.post("/",async (req,res) => {
 
     if(req.body.operation=="quit") {
         session.student = "";
+        session.confirmed = false;
         await session.save();
-        return res.status(200).json({message:"Operation Successful"})
+        return res.status(200).json({message:"Operation Successful"});
     }
     return res.status(401).json({message:"Invalid operation!"})
 })

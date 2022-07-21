@@ -99,7 +99,7 @@ const waiting = ref(false);
 
 const tryQuitSession = async () => {
 	waiting.value = true;
-	await fetch("/api/stdviewclasses/", {
+	const session = await fetch("/api/stdviewclasses/", {
 		method: "POST",
 		body: JSON.stringify({
 			session: props.session._id,
@@ -112,6 +112,7 @@ const tryQuitSession = async () => {
 		waiting.value = false;
 	});
 	props.session.student = "";
+	props.session.confirmed = false;
 };
 
 const tryReserveSession = async () => {
@@ -289,13 +290,13 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</h3>
 
 		<session-people>
-			<div v-if="!isTutorPage">Offered by <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
+			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
 
 			<template v-if="taughtByYou && isOnDashboard">
 				<div v-if="!session.reserved"
-						class="unclaimed-notice">Unclaimed</div>
+						class="notice">Unclaimed</div>
 				<template v-else-if="session.reserved && !session.confirmed">
-					<div>Requested by <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
+					<div>Requestee: <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryConfirmStudent">Confirm</button>&nbsp;
@@ -312,7 +313,8 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 			</template>
 
 			<template v-else>
-				<div v-if="reserved">Reserved</div>
+				<div v-if="reserved"
+						class="notice">Reserved</div>
 				<div v-else-if="reservedByYou && !past"
 						:class="{waiting}">
 					<i>Signed up</i>
@@ -323,6 +325,9 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 						:class="{waiting}">
 					<button @click="tryReserveSession">Register</button>
 				</div>
+
+				<div v-if="reservedByYou && !session.confirmed"
+						class="notice">Not yet confirmed!</div>
 			</template>
 		</session-people>
 
@@ -334,19 +339,25 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</session-time>
 
 		<session-time v-else>
-			Start
-			<DateEntry v-model="newStartDate" />
-			<br />
-			End
-			<DateEntry v-model="newEndDate" />
-			<br />
-			Duration:
-			<input type="number"
-					v-model="newDuration"
-					min="0"
-					max="24"
-					step="0.25"
-					title="" /> hours
+			<div>
+				Start
+				<DateEntry v-model="newStartDate" />
+			</div>
+
+			<div>
+				End
+				<DateEntry v-model="newEndDate" />
+			</div>
+
+			<div>
+				Duration:
+				<input type="number"
+						v-model="newDuration"
+						min="0"
+						max="24"
+						step="0.25"
+						title="" /> hours
+			</div>
 		</session-time>
 
 		<div v-if="taughtByYou"
@@ -354,7 +365,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 			<button v-if="!isEditing"
 					@click="beginEditSession">Edit session</button>
 			<template v-else-if="!session.unpublished">
-				<button @click="tryUpdateSession">Save changes</button>
+				<button @click="tryUpdateSession">Save changes</button>&nbsp;
 				<button @click="endEditSession">Cancel</button>
 			</template>
 			<template v-else>
@@ -365,7 +376,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 
 		<div v-if="taughtByYou && !past && !session.unpublished"
 				:class="{waiting}">
-			<button @click="tryDeleteSession">Cancel session</button>
+			<button @click="tryDeleteSession">Delete session</button>
 		</div>
 	</session-item>
 </template>
@@ -380,11 +391,18 @@ session-item {
 	--session-col-dark: hsl(337, 81%, 33%);
 	--session-col-accent: hsla(20, 61%, 80%, 0.5);
 
+	max-width: 26ch; // temp?
+
 	background: radial-gradient(circle at top right, var(--session-col-accent) 3em, #0000 3.125em),
 			radial-gradient(circle at bottom right, var(--session-col-dark), var(--session-col-main));
 	border-radius: 1.8em .5em / 2em .5em;
 	color: #fff;
-	padding: 0.5em 1em;
+
+	padding: 0.5em 0;
+
+	> * {
+		padding: 0 1rem;
+	}
 
 	--session-box-shadow-col: var(--session-col-main);
 	box-shadow: 0 0.125em 2em -0.5em var(--session-box-shadow-col);
@@ -427,8 +445,27 @@ session-item {
 		}
 	}
 
-	.unclaimed-notice {
+	> h3 {
+		margin: 0;
+	}
+
+	> session-people {
+		padding-top: 0.5em;
+		padding-bottom: 0.5em;
+
+		background: #0000003f;
+		box-shadow: 0 2em 2em #0000003f inset;
+	}
+
+	> session-time {
+		color: #ffffffef;
+	}
+
+	.notice {
 		font-style: italic;
+		text-align: right;
+
+		margin-top: 0.25em;
 	}
 }
 </style>
