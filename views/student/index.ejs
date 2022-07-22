@@ -25,10 +25,14 @@ mount("tutor-session-controls", {
 		<main>
 			<article>
 				<tutor-dashboard>
-					<h1><%- student.user %></h1>
-					<div>
-						<member-label>Student</member-label>
+					<div class="user-heading">
+						<h1><%- student.user %></h1>
+						<div>
+							<member-label>Student</member-label>
+						</div>
 					</div>
+
+					<div class="user-email">Contact: <a href="mailto:<%- student.email %>"><%- student.email %></a></div>
 
 					<tutor-session-controls></tutor-session-controls>
 				</tutor-dashboard>

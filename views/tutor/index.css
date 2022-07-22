@@ -4,6 +4,14 @@ tutor-dashboard {
 	padding: 0 var(--article-padding-horizontal);
 }
 
+.user-heading {
+	margin-bottom: 0.5em;
+}
+
 member-label {
 	text-transform: uppercase;
+}
+
+.user-email {
+	font-size: 0.85em;
 }
