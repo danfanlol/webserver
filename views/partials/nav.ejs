@@ -31,7 +31,7 @@
 			Welcome, <%=user.user%>!
 		</div>
 
-		<a href="/me">My dashboard</a>
+		<a href="/me"><%- user.isTutor ? "Tutor" : "Student" %> dashboard</a>
 
 		<a class="strong" href="/logout">
 			<span class="glyphicon glyphicon-log-in"></span> Log out

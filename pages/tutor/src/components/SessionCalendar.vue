@@ -4,7 +4,7 @@ import {ref, computed, watch, PropType} from "vue";
 import SessionItem from "../../../_shared/SessionItem.vue";
 import {useSessionFetch} from "../../../_shared/useSessionFetch";
 
-import {SessionFilters, Availability, sameLocalDay} from "../../../util";
+import {SessionFilters, Availability, sameLocalDay, nowGreatest15Minutes} from "../../../util";
 
 import {config} from "../store";
 
@@ -73,13 +73,10 @@ const onDeleteSession = (session: object) => {
 
 
 const createUnpublishedSession = async (startDate: Date) => {
-	const newStartDate = new Date();
-	newStartDate.setFullYear(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
-	newStartDate.setMinutes(Math.floor(newStartDate.getMinutes() / 15) * 15, 0, 0);
 	const newSession = {
 		tutor: config.clientUsername,
 		subject: "Spanish",
-		startDate: newStartDate.toISOString(),
+		startDate: nowGreatest15Minutes(startDate).toISOString(),
 		duration: 1,
 		unpublished: true,
 	};
@@ -93,16 +90,12 @@ const createUnpublishedSession = async (startDate: Date) => {
 			:class="{
 				waiting: !latestPromiseResolved,
 			}">
-		<div class="note">Dates and times are in your local timezone</div>
 		<session-calendar-top>
 			<button @click="reloadSessions">Reload</button>&nbsp;
 			<template v-if="sessions.length === 0">
 				<div v-if="config.isTutorPage">No sessions available!</div>
 				<div v-else>You don’t have any upcoming sessions!</div>
 			</template>
-
-			<a v-if="!config.isTutorPage && config.isOwnPage"
-					href="/findtutors/">Find more sessions</a> 
 		</session-calendar-top>
 
 		<calendar-weekday v-for="number, i of 7">
@@ -172,14 +165,6 @@ session-calendar {
 	grid-template-columns: repeat(7, 1fr);
 
 	font-size: 0.85em;
-
-	> .note {
-		grid-column: 1 / -1;
-		margin-bottom: 0.5em;
-
-		opacity: 0.5;
-		font-style: italic;
-	}
 
 	> session-calendar-top {
 		grid-column: 1 / -1;

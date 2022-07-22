@@ -88,7 +88,6 @@ watch(selectedSubjects, () => {
 
                 <div class="manage-sessions">
                     <div><a href="/forms/tutorviewclasses/">Manage your sessions</a></div>
-                    <div><a href="/forms/newsession/">Add a session</a></div>
                 </div>
             </option->
         </template>

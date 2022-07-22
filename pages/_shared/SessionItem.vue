@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import {ref, computed} from "vue";
 
-import {sameLocalDay} from "../util";
+import {sameLocalDay, nowGreatest15Minutes} from "../util";
 import subjectCategories, {categoriesBySubject} from "../../lib/subjects";
 
 import DateEntry from "./DateEntry.vue";
@@ -290,7 +290,10 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		<h3 v-else>
 			<select v-model="newSubject">
 				<optgroup v-for="[category, subjects] of subjectCategories"
-						:label="category.label">
+						:label="category.label"
+						:style="{
+							'background': category.color.dark,
+						}">
 					<option v-for="subject of subjects"
 							:value="subject">
 						{{subject}}
@@ -327,8 +330,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 						class="notice">Reserved</div>
 				<div v-else-if="reservedByYou && !past && !clientIsTutor"
 						:class="{waiting}">
-					<i>Signed up</i>
-					&#x2002;•&#x2002;
+					<i>Signed up</i>&#x2003;
 					<button @click="tryQuitSession">Unregister</button>
 				</div>
 				<div v-else-if="!taughtByYou && !past && !clientIsTutor"
@@ -339,7 +341,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				<div v-if="reservedByYou && !session.confirmed"
 						class="notice">Not yet confirmed!</div>
 			</template>
-
+		
 			<template v-if="session.confirmed && !isEditing">
 				<div v-if="!session.meetingUrl && taughtByYou"
 						class="notice">
@@ -352,10 +354,12 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				</div>
 			</template>
 
-			<div v-if="isEditing">
+			<div v-if="isEditing"
+					class="meeting-link-editor">
 				Meeting link:
 				<input v-model.lazy="newMeetingUrl"
-						type="text" />
+						type="text"
+						placeholder="https://zoom.us/XXXXXXXXX" />
 			</div>
 		</session-people>
 
@@ -369,12 +373,14 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		<session-time v-else>
 			<div>
 				Start:
-				<DateEntry v-model="newStartDate" />
+				<DateEntry v-model="newStartDate"
+						:fallbackValue="nowGreatest15Minutes()" />
 			</div>
 
 			<div>
 				End:
-				<DateEntry v-model="newEndDate" />
+				<DateEntry v-model="newEndDate"
+						:fallbackValue="addHours(nowGreatest15Minutes(), newDuration)" />
 			</div>
 
 			<div>
@@ -384,7 +390,8 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 						min="0"
 						max="24"
 						step="0.25"
-						title="" /> hours
+						title=""
+						placeholder="1" /> hours
 			</div>
 		</session-time>
 
@@ -479,6 +486,17 @@ session-item {
 
 	> h3 {
 		margin: 0;
+
+		optgroup {
+			color: #fff;
+			font-family: var(--font-large);
+
+			option {
+				color: #000;
+				background: #fff;
+				font-family: var(--font-body);
+			}
+		}
 	}
 
 	> session-people {
@@ -490,6 +508,10 @@ session-item {
 
 		&:empty {
 			display: none;
+		}
+
+		> .meeting-link-editor {
+			margin-top: 0.5em;
 		}
 	}
 

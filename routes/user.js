@@ -45,7 +45,7 @@ studentRouter.get("/:name/", async (request, response, next) => {
 	}
 
 	if (!request.user.isStaff && request.user.user !== request.params.name) {
-		response.sendStatus(401);
+		response.sendStatus(403);
 		return;
 	}
 

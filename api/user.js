@@ -12,7 +12,7 @@ router.get("/:userid",async (req,res) => {
         res.status(401).json(e);
     }
     
-})
+});
 
 var Query=router;
 export default Query;
