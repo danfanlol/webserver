@@ -1,7 +1,13 @@
 import express from "express";
 import User from "../model/schema/user.js";
 
-const router=express.Router();
+const router = express.Router();
+
+router.get("/", (req, res) => {
+    const returnObj = {user: req.isAuthenticated() ? req.user.user : ""};
+    return res.status(200).json(returnObj);
+});
+
 router.get("/:userid",async (req,res) => {
     try {
         var user=await User.findById(req.params.userid).select("-pass -isVerified -resetPasswordToken -resetPasswordExpires");
@@ -14,5 +20,4 @@ router.get("/:userid",async (req,res) => {
     
 });
 
-var Query=router;
-export default Query;
+export default router;

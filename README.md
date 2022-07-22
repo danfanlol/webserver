@@ -19,7 +19,7 @@ run-script=true
 
 ## NPM scripts
 
-A `:dev` suffix indicates a script for development, and `:public` for production.
+A `:dev` suffix indicates a script for development, and `:public` for production. By default, the server will be hosted on port 3000, which can be specified via the `PORT` environment variable.
 
 Script | Description
 -|-

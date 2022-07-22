@@ -1,6 +1,6 @@
 import User from "./schema/user.js";
-import sendEmail from "../utils/email.js";
-import { baseViewParams } from "../utils/base-view-objects.js";
+import sendEmail from "../util/email.js";
+import { baseViewParams } from "../util/base-view-objects.js";
 const exports={};
 
 exports.recover = async (req, res) => {

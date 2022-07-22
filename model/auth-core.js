@@ -1,6 +1,6 @@
 import User from './schema/user.js';
 import Token from './schema/token.js';
-import sendEmail from '../utils/email.js';
+import sendEmail from '../util/email.js';
 
 const exports={};
 

@@ -1,7 +1,7 @@
 import express from "express";
 
 import User from "../model/schema/user.js";
-import { baseViewParams } from "../utils/base-view-objects.js";
+import { baseViewParams } from "../util/base-view-objects.js";
 
 import * as path from "path";
 

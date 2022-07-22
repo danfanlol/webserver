@@ -1,5 +1,5 @@
 import express from "express";
-import { baseViewParams } from "../utils/base-view-objects";
+import { baseViewParams } from "../util/base-view-objects";
 
 const router = express.Router();
 router.get("/", (req, res) => {

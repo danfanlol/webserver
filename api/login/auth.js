@@ -1,9 +1,9 @@
 import express from "express"
 import expressvalidator from "express-validator";
 import validate from "./validate.js";
-import authcore from "../model/auth-core.js";
+import authcore from "../../model/auth-core.js";
 import passport from "passport";
-import Password from "../model/password-core.js";
+import Password from "../../model/password-core.js";
 
 const {body}=expressvalidator;
 const router=express.Router();

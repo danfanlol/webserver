@@ -1,5 +1,5 @@
 import express from "express";
-import { baseViewParams } from "../utils/base-view-objects.js";
+import { baseViewParams } from "../util/base-view-objects.js";
 import Session, {compareSessions} from "../model/schema/session.js";
 import * as path from "path";
 

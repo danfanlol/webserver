@@ -11,17 +11,16 @@ import fileUpload from "express-fileupload";
 import path from "path";
 import initializePassport from "./passport-config.js";
 
-import routeinit from "./utils/route-init.js"
+import routeinit from "./util/route-init.js"
 
 import findtutorsRouter from "./routes/findtutors.js";
 import {tutorRouter, studentRouter} from "./routes/user.js"
 import meRouter from "./routes/me.js"
 import adminRouter from "./routes/admin.js";
-import auth from "./login/index.js";
 import api from "./api/index.js"
 
-import sendEmail from "./utils/email.js";
-import { baseViewParams } from "./utils/base-view-objects.js";
+import sendEmail from "./util/email.js";
+import { baseViewParams } from "./util/base-view-objects.js";
 
 import mongo_init from "./model/index.js";
 
@@ -30,10 +29,8 @@ import bodyParser from "body-parser";
 
 await mongo_init();
 
+const app = express();
 sendEmail.init();
-const app=express();
-
-console.log(process.env.SESSION_SECRET);
 
 //app.set('view-engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
@@ -61,8 +58,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(routeinit);
-
-auth(app);
 
 app.use(express.static('views'));
 app.use(express.static('public'));
