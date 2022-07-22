@@ -3,12 +3,10 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/top.ejs', {pagename: "Admin dashboard"}) %>
-		<link rel="stylesheet" href="/tutor/index.css" />
-		<link rel="stylesheet" href="/findtutors/index.css" />
-
-		<link rel="stylesheet" href="/tutor/app.css" />
 
 		<script type="module">
+import mount from "./app.js";
+mount("admin-dashboard", {});
 		</script>
 	</head>
 
@@ -16,7 +14,8 @@
 		<%- include('../partials/nav.ejs')%>
 
 		<main>
-			<article>
+			<article class="with-padding no-large-font no-uppercase-h2">
+				<admin-dashboard></admin-dashboard>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

@@ -27,6 +27,7 @@ export default ({mode}) => defineConfig({
             input: {
                 findtutors: path.resolve("./findtutors/src/index.ts"),
                 tutor: path.resolve("./tutor/src/index.ts"),
+                admin: path.resolve("./admin/index.ts"),
             },
             output: {
                 entryFileNames: "[name]/app.js",

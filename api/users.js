@@ -8,7 +8,7 @@ router.get("/",
 	allowAdminOnly,
 	async (request, response, next) => {
 		const users = await User.find().select("-pass -isVerified -resetPasswordToken -resetPasswordExpires");
-		response.status(200).json(users);
+		response.status(200).json(users.map(user => user.toJSON({virtuals: true})));
 	}, 
 );
 

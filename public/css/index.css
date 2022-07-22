@@ -607,8 +607,13 @@ main > article {
 	padding-bottom: 1.5em;
 }
 
-main > :is(article, footer) {
+main > :is(article:not(.no-large-font), footer) {
 	font-size: 1.2em;
+}
+
+article.with-padding { 
+	padding-left: var(--article-padding-horizontal);
+	padding-right: var(--article-padding-horizontal);
 }
 
 article {
@@ -662,6 +667,10 @@ h2 {
 	font-family: var(--font-heading);
 	font-size: 2.5em;
 	text-transform: uppercase;
+}
+
+article.no-uppercase-h2 h2 {
+	text-transform: unset;
 }
 
 h3 {
