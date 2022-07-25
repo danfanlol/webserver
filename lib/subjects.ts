@@ -17,7 +17,7 @@ class Subject {
 }
 
 // TODO separate labels from internal ids
-const subjectCategories = new Map<Category, string[]>([
+const subjectCategories: ReadonlyMap<Category, string[]> = new Map([
 	[new Category("English", {
 		main: "hsl(217 65% 54%)",
 		dark: "hsl(237 54% 39%)",

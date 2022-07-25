@@ -19,4 +19,7 @@ const props = defineProps();
 </template>
 
 <style lang="scss" scoped>
+h2 {
+    margin: 0;
+}
 </style>

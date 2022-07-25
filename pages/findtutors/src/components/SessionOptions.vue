@@ -8,12 +8,9 @@ import subjectCategories from "../../../../lib/subjects";
 import {SessionFilters, Availability} from "../../../util";
 import {config} from "../store";
 
-const props = defineProps({
-	filters: {
-		type: Object as PropType<SessionFilters>,
-		required: true,
-	},
-});
+const props = defineProps<{
+	filters: SessionFilters,
+}>();
 
 const subjectElementId = (subject: string) => `subject-${subject}`;
 

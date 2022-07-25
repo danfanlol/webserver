@@ -8,12 +8,9 @@ import {SessionFilters, Availability, sameLocalDay, nowGreatest15Minutes} from "
 
 import {config} from "../store";
 
-const props = defineProps({
-	filters: {
-		type: Object as PropType<SessionFilters>,
-		required: true,
-	},
-});
+const props = defineProps<{
+	filters: SessionFilters,
+}>();
 
 
 const currentDate = new Date();
@@ -179,6 +176,7 @@ session-calendar {
 		display: flex;
 		flex-flow: column;
 		border: 1px solid #ddd;
+		box-shadow: 0 0 0 1px #ddd;
 		padding: 0.25em 0.25em 2em 0.25em;
 		gap: 0.25em;
 

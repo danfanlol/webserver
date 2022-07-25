@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import UserItem from "./UserItem.vue";
+import UserList from "./UserList.vue";
 
 import { useUserFetch } from "../../_shared/useUserFetch";
 
@@ -20,23 +20,30 @@ const students = computed(() => users.value.filter(user => !user.isTutor));
 				waiting: !latestPromiseResolved,
 			}">
 		<h3>Admins</h3>
-		<UserItem v-for="user of admins"
-				:key="user._id"
-				:user="user" />
+		<UserList :users="admins"
+				listLabel="admins" />
 
 		<h3>Tutors</h3>
-		<UserItem v-for="user of tutors"
-				:key="user._id"
-				:user="user" />
+		<UserList :users="tutors"
+				listLabel="tutors" />
 
 		<h3>Students</h3>
-		<UserItem v-for="user of students"
-				:key="user._id"
-				:user="user" />
+		<UserList :users="students"
+				listLabel="students" />
 	</div>
 </template>
 
 <style lang="scss" scoped>
+// .user-lists {
+// 	display: grid;
+// 	grid-template-columns: auto 1fr;
+// 	gap: 0 .5em;
+
+// 	> h3 {
+// 		grid-column: 1 / -1;
+// 	}
+// }
+
 .waiting {
 	opacity: 0.25;
 }

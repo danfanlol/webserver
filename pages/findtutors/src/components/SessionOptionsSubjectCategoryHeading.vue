@@ -5,22 +5,11 @@ import subjectCategories, {Category} from "../../../../lib/subjects";
 
 import {SessionFilters} from "../../../util";
 
-const props = defineProps({
-	filters: {
-		type: Object as PropType<SessionFilters>,
-		required: true,
-	},
-
-	category: {
-		type: Category,
-		required: true,
-	},
-
-	selectedSubjects: {
-		type: Set as PropType<Set<string>>,
-		required: true,
-	},
-});
+const props = defineProps<{
+	filters: SessionFilters,
+	category: Category,
+	selectedSubjects: Set<string>,
+}>();
 
 const subjects = subjectCategories.get(props.category)!;
 

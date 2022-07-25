@@ -32,6 +32,10 @@
 		</div>
 
 		<a href="/me"><%- user.isTutor ? "Tutor" : "Student" %> dashboard</a>
+		
+		<% if (user.isAdmin) {%>
+		<a href="/admin">Admin controls</a>
+		<% } %>
 
 		<a class="strong" href="/logout">
 			<span class="glyphicon glyphicon-log-in"></span> Log out
