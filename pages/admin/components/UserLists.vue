@@ -3,11 +3,11 @@ import {ref, computed, watch, PropType} from "vue";
 
 import UserList from "./UserList.vue";
 
-import { useUserFetch } from "../../_shared/useUserFetch";
+import {useUserFetch} from "../../_shared/useApiFetch";
 
 const props = defineProps();
 
-const {latestPromiseResolved, users, hasResults} = await useUserFetch();
+const {users, hasResults, waiting} = await useUserFetch();
 
 const admins = computed(() => users.value.filter(user => user.isAdmin));
 const tutors = computed(() => users.value.filter(user => user.isTutor));
@@ -17,7 +17,7 @@ const students = computed(() => users.value.filter(user => !user.isTutor));
 <template>
 	<div class="user-lists"
 			:class="{
-				waiting: !latestPromiseResolved,
+				waiting,
 			}">
 		<h3>Admins</h3>
 		<UserList :users="admins"
@@ -43,8 +43,4 @@ const students = computed(() => users.value.filter(user => !user.isTutor));
 // 		grid-column: 1 / -1;
 // 	}
 // }
-
-.waiting {
-	opacity: 0.25;
-}
 </style>

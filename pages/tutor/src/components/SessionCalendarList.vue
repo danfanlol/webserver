@@ -2,7 +2,7 @@
 import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useSessionFetch";
+import {useSessionFetch} from "../../../_shared/useApiFetch";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -32,7 +32,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const {latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
+const {sessions, waiting} = await useSessionFetch(sessionQuery);
 
 /* const sameDay = (date0: Date, date1: Date) =>
 		date0.getUTCFullYear() === date1.getUTCFullYear()
@@ -56,7 +56,7 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 <template>
     <session-calendar-list
 			:class="{
-				waiting: !latestPromiseResolved,
+				waiting,
 			}">
 		<div class="note">Dates and times are in your local timezone</div>
 
@@ -78,10 +78,6 @@ const dateString = (date: Date) => date.toLocaleDateString(undefined, {
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
-}
-
 session-calendar-list {
 	display: grid;
 	gap: 1em;

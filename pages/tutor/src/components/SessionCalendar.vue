@@ -2,7 +2,7 @@
 import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useSessionFetch";
+import {useSessionFetch} from "../../../_shared/useApiFetch";
 
 import {SessionFilters, Availability, sameLocalDay, nowGreatest15Minutes} from "../../../util";
 
@@ -62,7 +62,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const {reloadSessions, latestPromiseResolved, sessions} = await useSessionFetch(sessionQuery);
+const {sessions, reloadResults, waiting} = await useSessionFetch(sessionQuery);
 const onDeleteSession = (session: object) => {
 	sessions.value.splice(sessions.value.indexOf(session), 1);
 	sessions.value = sessions.value; // trigger reaction
@@ -85,10 +85,10 @@ const createUnpublishedSession = async (startDate: Date) => {
 <template>
     <session-calendar
 			:class="{
-				waiting: !latestPromiseResolved,
+				waiting,
 			}">
 		<session-calendar-top>
-			<button @click="reloadSessions">Reload</button>&nbsp;
+			<button @click="reloadResults">Reload</button>&nbsp;
 			<template v-if="sessions.length === 0">
 				<div v-if="config.isTutorPage">No sessions available!</div>
 				<div v-else>You don’t have any upcoming sessions!</div>
@@ -153,10 +153,6 @@ const createUnpublishedSession = async (startDate: Date) => {
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
-}
-
 session-calendar {
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);

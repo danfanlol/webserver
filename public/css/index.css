@@ -150,6 +150,10 @@ select {
 	/* font-size: inherit; */
 }
 
+.waiting {
+	opacity: 0.25;
+}
+
 header {
 	--gradient-height: max(150px, 22.5vh);
 

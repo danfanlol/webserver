@@ -2,7 +2,7 @@
 import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useSessionFetch";
+import {useSessionFetch} from "../../../_shared/useApiFetch";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -32,16 +32,16 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
+const {sessions, hasResults, waiting} = await useSessionFetch(sessionQuery);
 </script>
 
 <template>
     <session-list
 			:class="{
-				waiting: !latestPromiseResolved,
+				waiting,
 			}">
 		<SessionItem v-for="session of sessions"
-				v-if="hasSessions"
+				v-if="hasResults"
 				:key="session._id"
 				:session="session" />
 		<div v-else>No results! Check the search filters.</div>
@@ -49,7 +49,4 @@ const {latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(ses
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
-}
 </style>

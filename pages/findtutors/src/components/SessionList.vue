@@ -2,7 +2,7 @@
 import {ref, computed, watch, PropType} from "vue";
 
 import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useSessionFetch";
+import {useSessionFetch} from "../../../_shared/useApiFetch";
 
 import {SessionFilters, Availability} from "../../../util";
 
@@ -32,7 +32,7 @@ const sessionQuery = computed(() => {
 	return params;
 });
 
-const {reloadSessions, latestPromiseResolved, sessions, hasSessions} = await useSessionFetch(sessionQuery);
+const {sessions, hasResults, reloadResults, waiting} = await useSessionFetch(sessionQuery);
 const onDeleteSession = (session: object) => {
 	sessions.value.splice(sessions.value.indexOf(session), 1);
 	sessions.value = sessions.value; // trigger reaction
@@ -42,13 +42,13 @@ const onDeleteSession = (session: object) => {
 <template>
     <session-list
 			:class="{
-				waiting: !latestPromiseResolved,
+				waiting,
 			}">
 		<session-list-top>
-			<button @click="reloadSessions">Reload</button>
+			<button @click="reloadResults">Reload</button>
 			{{sessions.length}} result{{sessions.length !== 1 ? "s" : ""}}
 		</session-list-top>
-		<session-items v-if="hasSessions">
+		<session-items v-if="hasResults">
 			<SessionItem v-for="session of sessions"
 					:key="session._id"
 					:session="session"
@@ -69,10 +69,6 @@ session-list {
 	flex-grow: 1;
 
 	gap: 0.5em;
-
-	&.waiting {
-		opacity: 0.25;
-	}
 
 	> session-list-top {
 		font-size: 0.75em;

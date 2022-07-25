@@ -95,10 +95,6 @@ const tryUpdatePermissions = async () => {
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
-}
-
 td:not(:last-child) {
 	padding-right: 1em;
 }

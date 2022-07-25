@@ -417,10 +417,6 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 </template>
 
 <style lang="scss" scoped>
-.waiting {
-	opacity: 0.25;
-}
-
 session-item {
 	--session-col-main: hsl(337deg 81% 53%);
 	--session-col-dark: hsl(337, 81%, 33%);
