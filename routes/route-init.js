@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import User from "../model/schema/user.js";
 import path from "path"
-import { baseViewParams } from "./base-view-objects.js";
+import { baseViewParams } from "../util/base-view-objects.js";
 
 const router = express.Router();
 

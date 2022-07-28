@@ -3,9 +3,9 @@ import {ref, PropType, watch} from "vue";
 
 import SessionOptionsSubjectCategoryHeading from "./SessionOptionsSubjectCategoryHeading.vue";
 
-import subjectCategories from "../../../../lib/subjects";
+import subjectCategories from "../../../lib/subjects";
 
-import {SessionFilters, Availability} from "../../../util";
+import {SessionFilters, Availability} from "../../util";
 import {config} from "../store";
 
 const props = defineProps<{

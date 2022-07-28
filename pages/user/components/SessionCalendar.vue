@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useApiFetch";
+import SessionItem from "../../_shared/SessionItem.vue";
+import {useSessionFetch} from "../../_shared/useApiFetch";
 
-import {SessionFilters, Availability, sameLocalDay, nowGreatest15Minutes} from "../../../util";
+import {SessionFilters, Availability, sameLocalDay, nowGreatest15Minutes} from "../../util";
 
 import {config} from "../store";
 
@@ -37,7 +37,7 @@ const futureSessions = computed(() => Array.from({length: nDaysDisplayed}, (_, n
 		)
 ));
 
-const dateString = (date: Date) => date.toLocaleDateString(undefined, {
+const dateString = (date: Date) => date.toLocaleDateString([], {
 	// weekday: "short",
 	month: "short",
 	day: "numeric",

@@ -4,10 +4,10 @@
 	<head>
 		<%- include('../partials/top.ejs', {pagename: "Admin dashboard"}) %>
 
-		<link rel="stylesheet" href="/style.css" />
+		<link rel="stylesheet" href="/bundle/style.css" />
 
 		<script type="module">
-import mount from "./app.js";
+import mount from "/bundle/admin/index.js";
 mount("admin-dashboard", {});
 		</script>
 	</head>

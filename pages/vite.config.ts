@@ -25,12 +25,12 @@ export default ({mode}) => defineConfig({
 
         rollupOptions: {
             input: {
-                findtutors: path.resolve("./findtutors/src/index.ts"),
-                tutor: path.resolve("./tutor/src/index.ts"),
+                findtutors: path.resolve("./findtutors/index.ts"),
+                user: path.resolve("./user/index.ts"),
                 admin: path.resolve("./admin/index.ts"),
             },
             output: {
-                entryFileNames: "[name]/app.js",
+                entryFileNames: "[name]/index.js",
             },
         },
 

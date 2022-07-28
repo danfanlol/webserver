@@ -21,21 +21,21 @@ tutorRouter.get("/:name/", async (request, response, next) => {
 		return next();
 	}
 
-	response.render("tutor/index.ejs", {
+	response.render("user/tutor.ejs", {
 		...baseViewParams(request),
 		tutor,
 	});
 	// res.sendFile(path.join(process.cwd(),"views",fn));
 });
 
-// tutorRouter.get("/app.js", (request, response) => {
-// 	// Change path alongside ./pages/tutor/vite.config.ts
-// 	response.sendFile(path.resolve("./pages/tutor/dist/index.js"));
-// });
+/* tutorRouter.get("/app.js", (request, response) => {
+	// Change path alongside ./pages/tutor/vite.config.ts
+	response.sendFile(path.resolve("./pages/tutor/dist/index.js"));
+});
 
 tutorRouter.get("/app.css", (request, response) => {
 	response.sendFile(path.resolve("./pages/dist/style.css"));
-});
+}); */
 
 export const studentRouter = express.Router();
 studentRouter.get("/:name/", async (request, response, next) => {
@@ -61,7 +61,7 @@ studentRouter.get("/:name/", async (request, response, next) => {
 		return next();
 	}
 
-	response.render("student/index.ejs", {
+	response.render("user/student.ejs", {
 		...baseViewParams(request),
 		student,
 	});

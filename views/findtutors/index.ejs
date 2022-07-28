@@ -4,10 +4,10 @@
 	<head>
 		<%- include('../partials/top.ejs', {pagename: "Find tutors"}) %>
 		<link rel="stylesheet" href="/findtutors/index.css" />
-		<link rel="stylesheet" href="/findtutors/app.css" />
+		<link rel="stylesheet" href="/bundle/style.css" />
 
 		<script type="module">
-import mount from "./app.js";
+import mount from "/bundle/findtutors/index.js";
 mount("session-viewer", {
 	clientUsername: "<%- user.user // lil hacky %>",
 	clientIsTutor: <%- user.isTutor %>,

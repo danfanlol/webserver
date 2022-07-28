@@ -11,7 +11,7 @@ import fileUpload from "express-fileupload";
 import path from "path";
 import initializePassport from "./passport-config.js";
 
-import routeinit from "./util/route-init.js"
+import routeinit from "./routes/route-init.js"
 
 import findtutorsRouter from "./routes/findtutors.js";
 import {tutorRouter, studentRouter} from "./routes/user.js"
@@ -61,7 +61,7 @@ app.use(routeinit);
 
 app.use(express.static('views'));
 app.use(express.static('public'));
-app.use(express.static("pages/dist"));
+app.use("/bundle", express.static("pages/dist"));
 app.use("/api", api);
 app.use("/forms", forms);
 app.use("/findtutors", findtutorsRouter);

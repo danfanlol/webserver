@@ -4,7 +4,7 @@ import {reactive} from "vue";
 import SessionOptions from "./components/SessionOptions.vue";
 import SessionCalendar from "./components/SessionCalendar.vue";
 
-import {Availability} from "../../util";
+import {Availability} from "../util";
 
 import {config} from "./store";
 

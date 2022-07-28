@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import {ref, computed, watch, PropType} from "vue";
 
-import SessionItem from "../../../_shared/SessionItem.vue";
-import {useSessionFetch} from "../../../_shared/useApiFetch";
+import SessionItem from "../../_shared/SessionItem.vue";
+import {useSessionFetch} from "../../_shared/useApiFetch";
 
-import {SessionFilters, Availability} from "../../../util";
+import {SessionFilters, Availability} from "../../util";
 
 import {config} from "../store";
 

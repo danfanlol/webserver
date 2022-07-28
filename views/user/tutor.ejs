@@ -3,14 +3,14 @@
 <html lang="en">
 	<head>
 		<%- include('../partials/top.ejs', {pagename: tutor.user}) %>
-		<link rel="stylesheet" href="/tutor/index.css" />
+		<link rel="stylesheet" href="/user/index.css" />
 		<link rel="stylesheet" href="/findtutors/index.css" />
 
-		<link rel="stylesheet" href="/tutor/app.css" />
+		<link rel="stylesheet" href="/bundle/style.css" />
 
 		<script type="module">
-import mount from "./app.js";
-mount("tutor-session-controls", {
+import mount from "/bundle/user/index.js";
+mount("user-session-controls", {
 	clientUsername: "<%- user.user %>",
 	clientIsTutor: <%- user.isTutor %>,
 	pageOwnerUsername: "<%- tutor.user %>",
@@ -24,7 +24,7 @@ mount("tutor-session-controls", {
 
 		<main>
 			<article>
-				<tutor-dashboard>
+				<user-dashboard>
 					<div class="user-heading">
 						<h1><%- tutor.user %></h1>
 						<div>
@@ -34,8 +34,8 @@ mount("tutor-session-controls", {
 					
 					<div class="user-email">Contact: <a href="mailto:<%- tutor.email %>"><%- tutor.email %></a></div>
 
-					<tutor-session-controls></tutor-session-controls>
-				</tutor-dashboard>
+					<user-session-controls></user-session-controls>
+				</user-dashboard>
 			</article>
 
 			<%- include('../partials/footer.ejs')%>

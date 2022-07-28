@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import {computed, PropType} from "vue";
 
-import subjectCategories, {Category} from "../../../../lib/subjects";
+import subjectCategories, {Category} from "../../../lib/subjects";
 
-import {SessionFilters} from "../../../util";
+import {SessionFilters} from "../../util";
 
 const props = defineProps<{
 	filters: SessionFilters,
