@@ -12,6 +12,10 @@ const {users, hasResults, waiting} = await useUserFetch();
 const admins = computed(() => users.value.filter(user => user.isAdmin));
 const tutors = computed(() => users.value.filter(user => user.isTutor));
 const students = computed(() => users.value.filter(user => !user.isTutor));
+
+const deleteUser = (user: any) => {
+	users.value.splice(users.value.indexOf(user), 1);
+};
 </script>
 
 <template>
@@ -21,15 +25,18 @@ const students = computed(() => users.value.filter(user => !user.isTutor));
 			}">
 		<h3>Admins</h3>
 		<UserList :users="admins"
-				listLabel="admins" />
+				listLabel="admins"
+				@deleteUser="deleteUser" />
 
 		<h3>Tutors</h3>
 		<UserList :users="tutors"
-				listLabel="tutors" />
+				listLabel="tutors"
+				@deleteUser="deleteUser" />
 
 		<h3>Students</h3>
 		<UserList :users="students"
-				listLabel="students" />
+				listLabel="students"
+				@deleteUser="deleteUser" />
 	</div>
 </template>
 

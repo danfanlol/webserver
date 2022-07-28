@@ -6,6 +6,10 @@ const props = defineProps<{
 	listLabel: string,
 }>();
 
+const emit = defineEmits<{
+	(event: "delete", user: any): void,
+}>();
+
 const waiting = ref(false);
 
 const newPermissions = reactive({
@@ -63,6 +67,23 @@ const tryUpdatePermissions = async () => {
 	Object.assign(props.user, newPermissions);
 	edited.value = false;
 };
+
+const tryDeleteUser = async () => {
+	waiting.value = true;
+	await fetch("/api/user/delete", {
+		method: "POST",
+		body: JSON.stringify({
+			userId: props.user._id,
+		}),
+		headers: {
+			"Content-Type": "application/json",
+		},
+	}).finally(() => {
+		waiting.value = false;
+	});
+
+	emit("delete", props.user);
+};
 </script>
 
 <template>
@@ -91,10 +112,26 @@ const tryUpdatePermissions = async () => {
 				<button @click="endEdit">Cancel</button>
 			</template>
 		</td>
+
+		<td>
+			<template v-if="!user.isTutor && !user.isAdmin">
+				<button @click="tryDeleteUser">Delete user</button>
+			</template>
+		</td>
 	</tr>
 </template>
 
 <style lang="scss" scoped>
+tr {
+	&:nth-child(even) {
+		background: #dddddd7f;
+	}
+
+	&.edited {
+		background: var(--col-button-yellow-light);
+	}
+}
+
 td:not(:last-child) {
 	padding-right: 1em;
 }

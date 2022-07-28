@@ -5,6 +5,10 @@ const props = defineProps<{
 	users: any[],
 	listLabel: string,
 }>();
+
+const emit = defineEmits<{
+	(event: "deleteUser", user: any): void,
+}>();
 </script>
 
 <template>
@@ -12,6 +16,14 @@ const props = defineProps<{
 		<UserItem v-for="user of users"
 				:key="user._id"
 				:user="user"
-				:listLabel="listLabel" />
+				:listLabel="listLabel"
+				
+				@delete="deletedUser => $emit('deleteUser', deletedUser)" />
 	</table>
 </template>
+
+<style lang="scss" scoped>
+table {
+	border-spacing: 0;
+}
+</style>

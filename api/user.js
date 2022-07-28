@@ -1,5 +1,6 @@
 import express from "express";
 import User from "../model/schema/user.js";
+import { allowAdminOnly } from "../util/express-middleware.js";
 
 const router = express.Router();
 
@@ -19,5 +20,19 @@ router.get("/:userid",async (req,res) => {
     }
     
 });
+
+router.post("/delete",
+    allowAdminOnly,
+    async (request, response, next) => {
+        await User.findByIdAndDelete(request.body.userId)
+                .then(
+                    () => response.status(200).json({}),
+                    error => {
+                        console.log(error);
+                        response.status(404).json(error);
+                    },
+                );
+    }, 
+);
 
 export default router;
