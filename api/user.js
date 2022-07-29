@@ -1,4 +1,5 @@
 import express from "express";
+import Session from "../model/schema/session.js";
 import User from "../model/schema/user.js";
 import { allowAdminOnly } from "../util/express-middleware.js";
 
@@ -24,6 +25,11 @@ router.get("/:userid",async (req,res) => {
 router.post("/delete",
     allowAdminOnly,
     async (request, response, next) => {
+        const user = await User.findById(request.body.userId);
+
+        await Session.updateMany({student: user.user}, {student: ""});
+        // await Session.deleteMany({tutor: user.user});
+
         await User.findByIdAndDelete(request.body.userId)
                 .then(
                     () => response.status(200).json({}),
