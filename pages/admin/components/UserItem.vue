@@ -124,7 +124,7 @@ const tryDeleteUser = async () => {
 <style lang="scss" scoped>
 tr {
 	&:nth-child(even) {
-		background: #dddddd7f;
+		background: var(--col-cyan-1f);
 	}
 
 	&.edited {

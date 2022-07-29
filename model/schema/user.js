@@ -20,6 +20,14 @@ const userSchema = new mongoose.Schema(
       max: 256,
     },
 
+    name: {
+      type: String,
+    },
+
+    birthDate: {
+      type: Date,
+    },
+
     pass: {
       type: String,
       required: "Your password is required",
