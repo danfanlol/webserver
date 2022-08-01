@@ -19,28 +19,26 @@ mount("session-viewer", {
 		<%- include('../partials/nav.ejs')%>
 
 		<main>
-			<article class="with-padding">
-				<session-viewer>
-					<!-- <noscript>
-						<session-list>
-							<% for (const session of sessions) { %>
-							<session-item <%- session.student ? 'class="reserved"' : '' %>>
-								<h3><%- session.subject %></h3>
-								<session-people>
-									<div>Offered by <b><%- session.tutor %></b></div>
-									<% if (session.student) { %>
-									<div>Reserved</div>
-									<% } %>
-								</session-people>
-								<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>
-							</session-item>
-							<% } %>
-						</session-list>
-					</noscript> -->
-				</session-viewer>
-			</article>
-
-			<%- include('../partials/footer.ejs')%>
+			<session-viewer>
+				<!-- <noscript>
+					<session-list>
+						<% for (const session of sessions) { %>
+						<session-item <%- session.student ? 'class="reserved"' : '' %>>
+							<h3><%- session.subject %></h3>
+							<session-people>
+								<div>Offered by <b><%- session.tutor %></b></div>
+								<% if (session.student) { %>
+								<div>Reserved</div>
+								<% } %>
+							</session-people>
+							<session-time>Starts at <b><%- session.begin %></b>&#x2002;•&#x2002;Up to <b><%- session.duration * 60 %> min</b></session-time>
+						</session-item>
+						<% } %>
+					</session-list>
+				</noscript> -->
+			</session-viewer>
 		</main>
+
+		<%- include('../partials/footer.ejs')%>
 	</body>
 </html>

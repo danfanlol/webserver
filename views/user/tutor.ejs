@@ -23,22 +23,20 @@ mount("user-session-controls", {
 		<%- include('../partials/nav.ejs')%>
 
 		<main>
-			<article class="with-padding">
-				<user-dashboard>
-					<div class="user-heading">
-						<h1><%- tutor.user %></h1>
-						<div>
-							<member-label>Tutor</member-label>
-						</div>
+			<user-dashboard>
+				<div class="user-heading">
+					<h1><%- tutor.user %></h1>
+					<div>
+						<member-label>Tutor</member-label>
 					</div>
-					
-					<div class="user-email">Contact: <a href="mailto:<%- tutor.email %>"><%- tutor.email %></a></div>
+				</div>
+				
+				<div class="user-email">Contact: <a href="mailto:<%- tutor.email %>"><%- tutor.email %></a></div>
 
-					<user-session-controls></user-session-controls>
-				</user-dashboard>
-			</article>
-
-			<%- include('../partials/footer.ejs')%>
+				<user-session-controls></user-session-controls>
+			</user-dashboard>
 		</main>
+
+		<%- include('../partials/footer.ejs')%>
 	</body>
 </html>

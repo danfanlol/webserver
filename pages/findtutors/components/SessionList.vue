@@ -71,7 +71,6 @@ session-list {
 	gap: 0.5em;
 
 	> session-list-top {
-		font-size: 0.75em;
 		text-align: left;
 	}
 

@@ -51,7 +51,6 @@ const filters = reactive({
     gap: 2ch;
     
     margin-bottom: 0.5em;
-    font-size: 0.85em;
 
     > .note {
 

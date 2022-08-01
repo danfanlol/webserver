@@ -1,8 +1,8 @@
-main > section {
+main {
 	position: relative;
 }
 
-main > section::before {
+main::before {
 	content: " ";
 	
 	position: absolute;
@@ -14,6 +14,6 @@ main > section::before {
 	backdrop-filter: hue-rotate(63deg) saturate(0.95) brightness(0.9);
 }
 
-main > section > main-area {
+main > div {
 	z-index: 1;
 }

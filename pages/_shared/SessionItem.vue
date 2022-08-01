@@ -429,8 +429,6 @@ session-item {
 	flex-flow: column;
 	gap: 0.5em;
 
-	font-size: 0.85em;
-
 	background: radial-gradient(circle at top right, var(--session-col-accent) 3em, #0000 3.125em),
 			radial-gradient(circle at bottom right, var(--session-col-dark), var(--session-col-main));
 	border-radius: 1.8em .5em / 2em .5em;
@@ -473,6 +471,11 @@ session-item {
 			width: 100%;
 			text-overflow: ellipsis;
 			font-size: unset;
+			font-family: inherit;
+
+			option {
+				font-family: var(--font-body);
+			}
 
 			> optgroup {
 				font-size: 0.85rem;

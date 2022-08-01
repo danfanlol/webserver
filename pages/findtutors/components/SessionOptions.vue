@@ -82,10 +82,6 @@ watch(selectedSubjects, () => {
                             id="taught-by-you" />
                     <label for="taught-by-you">Offered by you</label>
                 </div>
-
-                <div class="manage-sessions">
-                    <div><a href="/forms/tutorviewclasses/">Manage your sessions</a></div>
-                </div>
             </option->
         </template>
     </session-options>
@@ -103,8 +99,6 @@ session-options {
     top: var(--scroll-padding-top);
     
     // white-space: nowrap;
-        
-    font-size: 0.75em;
 
     h3 {
         margin: 0;

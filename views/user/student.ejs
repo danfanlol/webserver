@@ -23,29 +23,27 @@ mount("user-session-controls", {
 		<%- include('../partials/nav.ejs')%>
 
 		<main>
-			<article class="with-padding">
-				<user-dashboard>
-					<div class="user-heading">
-						<h1><%- student.user %></h1>
-						<div>
-							<member-label>Student</member-label>
-						</div>
+			<user-dashboard>
+				<div class="user-heading">
+					<h1><%- student.user %></h1>
+					<div>
+						<member-label>Student</member-label>
 					</div>
+				</div>
 
-					<div class="user-email">Contact: <a href="mailto:<%- student.email %>"><%- student.email %></a></div>
+				<div class="user-email">Contact: <a href="mailto:<%- student.email %>"><%- student.email %></a></div>
 
-					<user-session-controls></user-session-controls>
-				</user-dashboard>
+				<user-session-controls></user-session-controls>
+			</user-dashboard>
 
-				<section>
-					<dl>
-						<dt>I’ve registered for a session! What do I do now?</dt>
-						<dd>The tutor of the session will see your request. Wait for them to confirm your session. If you’ve been confirmed, then your tutor will follow up with a meeting link that you can view on this page!</dd>
-					</dl>
-				</section>
-			</article>
-
-			<%- include('../partials/footer.ejs')%>
+			<section>
+				<dl>
+					<dt>I’ve registered for a session! What do I do now?</dt>
+					<dd>The tutor of the session will see your request. Wait for them to confirm your session. If you’ve been confirmed, then your tutor will follow up with a meeting link that you can view on this page!</dd>
+				</dl>
+			</section>
 		</main>
+
+		<%- include('../partials/footer.ejs')%>
 	</body>
 </html>

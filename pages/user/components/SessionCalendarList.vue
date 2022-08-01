@@ -83,8 +83,6 @@ session-calendar-list {
 	gap: 1em;
 	grid-template-columns: min-content auto;
 
-	font-size: 0.85em;
-
 	> .note {
 		grid-column: 1 / -1;
 		opacity: 0.5;

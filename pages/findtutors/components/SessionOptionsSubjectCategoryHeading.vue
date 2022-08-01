@@ -48,7 +48,6 @@ const categoryElementId = (category: Category) => `category-${category.label}`;
 label > div {
 	display: inline-block;
 	padding: 0.25em 0.5em;
-	font-size: 0.75em;
 	line-height: 1;
 
 	color: #fff;

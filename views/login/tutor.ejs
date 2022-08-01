@@ -18,73 +18,71 @@
 	<body>
 		<%- include('../partials/nav.ejs')%>
 
-		<main class="no-padding">
-			<section>
-				<main-area>
-					<!-- <h1>Thanks for your interest!</h1> -->
-					<h1>Tutor login</h1>
-	
-					<div class="form">
-						<h2>Log in</h2>
+		<main class="no-top-padding">
+			<div>
+				<!-- <h1>Thanks for your interest!</h1> -->
+				<h1>Tutor login</h1>
 
-						<form method="POST" action="/api/login" class="login" id="login-form">
-							<div id="login-error" class="login-error"></div>
+				<div class="form">
+					<h2>Log in</h2>
 
-							<input
-								name="user"
-								type="text"
-								id="login-username"
-								class="login-field"
-								placeholder="username..."
-							/>
-							<input
-								name="pass"
-								type="password"
-								id="login-password"
-								class="login-field"
-								placeholder="password..."
-							/>
+					<form method="POST" action="/api/login" class="login" id="login-form">
+						<div id="login-error" class="login-error"></div>
 
-							<!-- <hexagonal-button class="strong">
-									<label for="login-submit">
-										
-									</label>
-								<button-top>Login</button-top>
-							</hexagonal-button> -->
+						<input
+							name="user"
+							type="text"
+							id="login-username"
+							class="login-field"
+							placeholder="username..."
+						/>
+						<input
+							name="pass"
+							type="password"
+							id="login-password"
+							class="login-field"
+							placeholder="password..."
+						/>
 
-							<input
-								type="submit"
-								id="login-submit"
-								value="Login"
-								class="login-button"
-							/>
+						<!-- <hexagonal-button class="strong">
+								<label for="login-submit">
+									
+								</label>
+							<button-top>Login</button-top>
+						</hexagonal-button> -->
 
-							<div class="login-bottom">
-								<div>
-									Don't have an account?
-									<a href="/register">Register</a>
-								</div>
-								<div>
-									Lost your password?
-									<a href="/resetpassword">Reset your password</a>
-								</div>
+						<input
+							type="submit"
+							id="login-submit"
+							value="Login"
+							class="login-button"
+						/>
+
+						<div class="login-bottom">
+							<div>
+								Don't have an account?
+								<a href="/register">Register</a>
 							</div>
-						</form>
-					</div>
-		
-					<article>
-						<dl>
-							<dt>I already have an account!</dt>
-							<dd>Great! You can sign on using this page.</dd>
-		
-							<dt>I want to create a tutor account!</dt>
-							<dd>Thanks for your interest! First, <a href="/register" target="_blank">register</a> a student account, and then fill out <a href="#">this form</a>. An admin will review your request and contact you soon. We hope to see you with us!</dd>
-						</dl>
-					</article>
-				</main-area>
-			</section>
-
-			<%- include('../partials/footer.ejs')%>
+							<div>
+								Lost your password?
+								<a href="/resetpassword">Reset your password</a>
+							</div>
+						</div>
+					</form>
+				</div>
+	
+				<article>
+					<dl>
+						<dt>I already have an account!</dt>
+						<dd>Great! You can sign on using this page.</dd>
+	
+						<dt>I want to create a tutor account!</dt>
+						<dd>Thanks for your interest! First, <a href="/register" target="_blank">register</a> a student account, and then fill out <a href="#">this form</a>. An admin will review your request and contact you soon. We hope to see you with us!</dd>
+					</dl>
+				</article>
+			</div>
 		</main>
+	
+		<%- include('../partials/footer.ejs')%>
 	</body>
 </html>
