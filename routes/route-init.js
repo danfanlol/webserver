@@ -51,7 +51,8 @@ standardroute('/resetpasswordsuccess', 'login/resetpasswordsuccess.ejs');
 standardroute('/accountcreated', 'login/accountcreated.ejs');
 standardroute('/test', 'static/test.ejs');
 standardroute('/create', 'main/main.ejs');
-standardroute('/terms', 'terms/index.ejs');
+standardroute('/legal/terms', 'legal/terms.ejs');
+standardroute('/legal/privacy', 'legal/privacy.ejs');
 
 const loginRouter = express.Router();
 loginRouter.get("/student", (request, response, next) => {

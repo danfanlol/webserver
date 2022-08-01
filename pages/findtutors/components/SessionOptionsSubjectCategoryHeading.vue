@@ -45,6 +45,10 @@ const categoryElementId = (category: Category) => `category-${category.label}`;
 </template>
 
 <style lang="scss" scoped>
+h4 {
+	font-size: 1em;
+}
+
 label > div {
 	display: inline-block;
 	padding: 0.25em 0.5em;
