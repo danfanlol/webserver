@@ -329,12 +329,14 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 				<div v-if="reserved"
 						class="notice">Reserved</div>
 				<div v-else-if="reservedByYou && !past && !clientIsTutor"
-						:class="{waiting}">
+						:class="{waiting}"
+						class="buttons">
 					<i>Signed up</i>&#x2003;
 					<button @click="tryQuitSession">Unregister</button>
 				</div>
 				<div v-else-if="!taughtByYou && !past && !clientIsTutor"
-						:class="{waiting}">
+						:class="{waiting}"
+						class="buttons">
 					<button @click="tryReserveSession">Register</button>
 				</div>
 
@@ -372,13 +374,13 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 
 		<session-time v-else>
 			<div>
-				Start:
+				Start:<br />
 				<DateEntry v-model="newStartDate"
 						:fallbackValue="nowGreatest15Minutes()" />
 			</div>
 
 			<div>
-				End:
+				End:<br />
 				<DateEntry v-model="newEndDate"
 						:fallbackValue="addHours(nowGreatest15Minutes(), newDuration)" />
 			</div>
@@ -396,22 +398,25 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</session-time>
 
 		<div v-if="taughtByYou"
-				:class="{waiting}">
+				:class="{waiting}"
+				class="buttons">
 			<button v-if="!isEditing"
 					@click="beginEditSession">Edit session</button>
 			<template v-else-if="!session.unpublished">
-				<button @click="tryUpdateSession">Save changes</button>&nbsp;
+				<button @click="tryUpdateSession">Save changes</button>
 				<button @click="endEditSession">Cancel</button>
 			</template>
 			<template v-else>
-				<button @click="tryPublishSession">Publish new session</button>&nbsp;
+				<button @click="tryPublishSession">Publish new session</button>
 				<button @click="cancelPublishSession">Delete session</button>
 			</template>
 		</div>
 
 		<div v-if="taughtByYou && !past && !session.unpublished"
-				:class="{waiting}">
-			<button @click="tryDeleteSession">Delete session</button>
+				:class="{waiting}"
+				class="buttons">
+			<button @click="tryDeleteSession"
+					class="danger">Delete session</button>
 		</div>
 	</session-item>
 </template>
@@ -466,21 +471,6 @@ session-item {
 
 	&.editing {
 		opacity: unset;
-
-		select {
-			width: 100%;
-			text-overflow: ellipsis;
-			font-size: unset;
-			font-family: inherit;
-
-			option {
-				font-family: var(--font-body);
-			}
-
-			> optgroup {
-				font-size: 0.85rem;
-			}
-		}
 	}
 
 	> h3 {
@@ -515,10 +505,18 @@ session-item {
 	}
 
 	> session-time {
-		display: block;
+		display: flex;
+		gap: 0.25em;
+		flex-flow: column;
 		text-align: right;
 
 		color: #ffffffef;
+	}
+
+	> .buttons {
+		display: flex;
+		flex-flow: row wrap;
+		gap: 0.5em;
 	}
 
 	.notice {
@@ -539,6 +537,64 @@ session-item {
 
 	input[type="text"] {
 		width: 100%;
+	}
+
+	input[type="number"] {
+		width: 8ch;
+	}
+	
+	input:is([type="text"], [type="number"], [type="datetime-local"]) {
+		padding: 0.25em;
+
+		background: #0000001f;
+		color: inherit;
+		border: 2px solid #ffffff7f;
+		border-radius: 0.5em;
+		box-shadow: 0 0.5em 2em #0000007f inset;
+	}
+
+	select {
+		width: 100%;
+		text-overflow: ellipsis;
+		font-size: unset;
+		font-family: inherit;
+
+		option {
+			font-family: var(--font-body);
+		}
+
+		> optgroup {
+			font-size: 0.85rem;
+		}
+	}
+
+	select,
+	button {
+		padding: 0.25em;
+		
+		background: var(--session-col-accent);
+		color: inherit;
+		border: 2px solid #ffffff7f;
+		border-radius: 1em;
+		box-shadow: 0 -0.25em 0.75em var(--session-col-dark) inset,
+				0 0.25em 0.5em var(--session-col-dark);
+
+		filter: saturate(1.5) brightness(1.0625);
+
+		&:hover {
+			filter: saturate(1.25) brightness(1.5);
+		}
+
+		&:active,
+		&:focus {
+			filter: brightness(1.25);
+			background: var(--session-col-dark);
+			box-shadow: 0 0.25em 0.75em #0000003f inset;
+		}
+
+		&.danger {
+			background: #f57;
+		}
 	}
 }
 </style>
