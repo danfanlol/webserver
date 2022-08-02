@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {ref, reactive, watch} from "vue";
+import {ref, reactive, computed, watch} from "vue";
 
 const props = defineProps<{
 	user: any,
@@ -28,6 +28,8 @@ const endEdit = () => {
 		isAdmin: props.user.isAdmin,
 	});
 };
+
+const pageUrl = computed(() => `/${props.user.isTutor ? "tutor" : "student"}/${props.user.user}`);
 
 watch(props.user, () => {
 	if (edited.value) return;
@@ -84,6 +86,17 @@ const tryDeleteUser = async () => {
 
 	emit("delete", props.user);
 };
+
+const confirmDeleteUser = () => {
+	let response = "";
+	do {
+		response = prompt(`Really delete this user? Enter their username:\n\n${props.user.user}`);
+		if (response === props.user.user) {
+			tryDeleteUser();
+			return;
+		};
+	} while (response);
+};
 </script>
 
 <template>
@@ -91,7 +104,9 @@ const tryDeleteUser = async () => {
 		waiting,
 		edited,
 	}">
-		<td>{{user.user}}</td>
+		<th>
+			<a :href="pageUrl">{{user.user}}</a>
+		</th>
 		<td>
 			<a :href="`mailto:${user.email}`">{{user.email}}</a>
 		</td>
@@ -115,7 +130,7 @@ const tryDeleteUser = async () => {
 
 		<td>
 			<template v-if="!user.isTutor && !user.isAdmin">
-				<button @click="tryDeleteUser">Delete user</button>
+				<button @click="confirmDeleteUser">Delete user</button>
 			</template>
 		</td>
 	</tr>
@@ -130,6 +145,11 @@ tr {
 	&.edited {
 		background: var(--col-button-yellow-light);
 	}
+}
+
+th {
+	text-align: left;
+	padding-right: 1em;
 }
 
 td:not(:last-child) {
