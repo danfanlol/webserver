@@ -47,13 +47,24 @@ app.use(
 app.use(flash());
 initializePassport(passport);
 app.use(cookieParser());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+
+import getSessionStoreConstructor from "connect-mongodb-session";
+
+const MongoSessionStore = getSessionStoreConstructor(session);
+const store = new MongoSessionStore({
+  uri: process.env.MONGO_URL,
+  collection: "authSessions",
+});
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  // cookie: {
+  //   maxAge: 7 * 24 * 60 * 60 * 1000,
+  // },
+  saveUninitialized: false,
+  store,
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
