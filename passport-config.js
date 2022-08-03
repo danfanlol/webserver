@@ -3,12 +3,12 @@ import bcrypt from "bcrypt";
 import User from "./model/schema/user.js";
 
 function initializePassport(passport) {
-  const authenticateUser = async (usern, pass, done) => {
-    console.log(usern);
-    const user = await User.findOne({ user: usern });
+  const authenticateUser = async (email, pass, done) => {
+    console.log(email);
+    const user = await User.findOne({ email });
     if (user == null) {
       console.log("Uh oh!");
-      return done(null, false, { message: "No user with that username" });
+      return done(null, false, { message: "No user with that email" });
     }
 
     try {
@@ -25,7 +25,7 @@ function initializePassport(passport) {
 
   passport.use(
     new LocalStrategy(
-      { usernameField: "user", passwordField: "pass" },
+      { usernameField: "email", passwordField: "pass" },
       authenticateUser
     )
   );

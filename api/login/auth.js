@@ -1,7 +1,7 @@
 import express from "express"
 import expressvalidator from "express-validator";
 import validate from "./validate.js";
-import authcore from "../../model/auth-core.js";
+import authcore from "./auth-core.js";
 import passport from "passport";
 import Password from "../../model/password-core.js";
 
@@ -22,7 +22,6 @@ router.post(
       .isEmpty()
       .isLength({ min: 6 })
       .withMessage('Must be at least 6 chars long'),
-    body('user').not().isEmpty().withMessage('Username is required'),
   ],
   validate,
   authcore.register
@@ -30,7 +29,7 @@ router.post(
 router.get('/verify/:token', authcore.verify);
 router.post(
   '/login',
-  [body('user').not().isEmpty(), body('pass').not().isEmpty()],
+  [body('email').not().isEmpty(), body('pass').not().isEmpty()],
   validate,
   checkNotAuthenticated,
   

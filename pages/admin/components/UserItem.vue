@@ -29,7 +29,7 @@ const endEdit = () => {
 	});
 };
 
-const pageUrl = computed(() => `/${props.user.isTutor ? "tutor" : "student"}/${props.user.user}`);
+const pageUrl = computed(() => `/${props.user.isTutor ? "tutor" : "student"}/${props.user._id}`);
 
 watch(props.user, () => {
 	if (edited.value) return;
@@ -94,7 +94,7 @@ const confirmDeleteUser = () => {
 		if (response === props.user.user) {
 			tryDeleteUser();
 			return;
-		};
+		}
 	} while (response);
 };
 </script>
@@ -105,7 +105,8 @@ const confirmDeleteUser = () => {
 		edited,
 	}">
 		<th>
-			<a :href="pageUrl">{{user.user}}</a>
+			<a :href="pageUrl">{{user.name.full}}</a>&nbsp;
+			({{user.user}})
 		</th>
 		<td>
 			<a :href="`mailto:${user.email}`">{{user.email}}</a>

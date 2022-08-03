@@ -2,7 +2,8 @@ $(() => {
   console.log("ready!");
   const errbar = document.getElementById("login-error");
   const form = document.getElementById("login-form");
-  const user = document.getElementById("login-username");
+  const nameFirst = document.getElementById("login-name-first");
+  const nameLast = document.getElementById("login-name-last");
   const email = document.getElementById("login-email");
   const pass = document.getElementById("login-password");
   const submit = document.getElementById("login-submit");
@@ -10,12 +11,14 @@ $(() => {
   const confirm = document.getElementById("login-confirm");
   submit.addEventListener("click", (event) => {
     event.preventDefault();
-    const username = user.value;
+    const firstName = nameFirst.value;
+    const lastName = nameLast.value;
     const password = pass.value;
     const emaile = email.value;
     const confpass = confirm.value;
     const readTos = tos.checked;
-    if (!username || !password || !email || !confpass) {
+    const selectedAge = document.querySelector("input[name='age']:checked")?.value;
+    if (!firstName || !lastName || !password || !email || !confpass) {
       errbar.innerHTML = "All fields needed.";
       errbar.style.opacity = 1;
       return;
@@ -39,7 +42,12 @@ $(() => {
       errbar.style.opacity = 1;
       return;
     }
-    var info = { user: username, pass: password, email: emaile };
+    if (!selectedAge) {
+      errbar.innerHTML = "Please select an age group!";
+      errbar.style.opacity = 1;
+      return;
+    }
+    var info = { name: { first: firstName, last: lastName }, pass: password, email: emaile };
     $.ajax({
       type: "POST",
       url: "/api/auth/register",

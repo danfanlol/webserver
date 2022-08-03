@@ -1,6 +1,6 @@
-import User from './schema/user.js';
-import Token from './schema/token.js';
-import sendEmail from '../util/email.js';
+import User from '../../model/schema/user.js';
+import Token from '../../model/schema/token.js';
+import sendEmail from '../../util/email.js';
 
 const exports={};
 
@@ -8,10 +8,12 @@ exports.register = async (req, res) => {
   try {
     const email = req.body.email;
     const user = await User.findOne({ email: email });
-    console.log(req.body.user);
-    if (req.body.user.match(/([^a-z0-9-_]+)/gi)) {
+    console.log(req.body);
+    const nonalphanumeric = /([^a-z0-9-_]+)/gi;
+    if (req.body.name.first.match(nonalphanumeric)
+        || req.body.name.last.match(nonalphanumeric)) {
       return res.status(401).json({
-        message: 'Your username can only contain alphanumeric characters',
+        message: 'Your name can only contain alphanumeric characters',
       });
     }
     var newUser;

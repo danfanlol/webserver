@@ -303,13 +303,13 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</h3>
 
 		<session-people>
-			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutor}`"><b>{{session.tutor}}</b></a></div>
+			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutorId}`"><b>{{session.tutor}}</b></a></div>
 
 			<template v-if="taughtByYou && isOnDashboard">
 				<div v-if="!session.reserved"
 						class="notice">Unclaimed</div>
 				<template v-else-if="!session.confirmed">
-					<div>Requestee: <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
+					<div>Requestee: <a :href="`/student/${session.studentId}`"><b>{{session.student}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryConfirmStudent">Confirm</button>&nbsp;
@@ -317,7 +317,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 					</div>
 				</template>
 				<div v-else>
-					<div>Student: <a :href="`/student/${session.student}`"><b>{{session.student}}</b></a></div>
+					<div>Student: <a :href="`/student/${session.studentId}`"><b>{{session.student}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryKickStudent">Kick</button>

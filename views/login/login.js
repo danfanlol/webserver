@@ -2,20 +2,20 @@ $(() => {
   console.log("ready!");
   const form = document.getElementById("login-form");
   const errbar = document.getElementById("login-error");
-  const user = document.getElementById("login-username");
+  const email = document.getElementById("login-email");
   const pass = document.getElementById("login-password");
   const submit = document.getElementById("login-submit");
   submit.addEventListener("click", (event) => {
     event.preventDefault();
-    const username = user.value;
+    const emaile = email.value;
     const password = pass.value;
-    if (!username || !password) {
+    if (!emaile || !password) {
       errbar.innerHTML = "All fields needed.";
       errbar.style.opacity = 1;
       return;
     }
 
-    var login = { user: username, pass: password };
+    var login = { email: emaile, pass: password };
     $.ajax({
       type: "POST",
       url: "/api/auth/login",
@@ -32,7 +32,7 @@ $(() => {
         if (xhr.responseJSON) {
           console.log(xhr.responseJSON.message);
         }
-        errbar.innerHTML = "Incorrect username or password";
+        errbar.innerHTML = "Incorrect email or password";
         errbar.style.opacity = 1;
       },
     });

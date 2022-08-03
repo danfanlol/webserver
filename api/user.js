@@ -27,7 +27,7 @@ router.post("/delete",
     async (request, response, next) => {
         const user = await User.findById(request.body.userId);
 
-        await Session.updateMany({student: user.user}, {student: ""});
+        await Session.updateMany({student: user.user}, {student: "", confirmed: false});
         // await Session.deleteMany({tutor: user.user});
 
         await User.findByIdAndDelete(request.body.userId)

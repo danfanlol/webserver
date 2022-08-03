@@ -28,6 +28,7 @@ export default ({mode}) => defineConfig({
                 findtutors: path.resolve("./findtutors/index.ts"),
                 user: path.resolve("./user/index.ts"),
                 admin: path.resolve("./admin/index.ts"),
+                // register: path.resolve("./register/index.ts"),
             },
             output: {
                 entryFileNames: "[name]/index.js",

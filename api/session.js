@@ -1,4 +1,5 @@
 import express from "express";
+import User from "../model/schema/user.js";
 import Session, { compareSessions } from "../model/schema/session.js";
 import {allowLoggedInOnly, allowTutorOnly} from "../util/express-middleware.js";
 const router = express.Router();
@@ -73,7 +74,16 @@ router.get("/",
                 .select("_id tutor begin startDate duration subject meetingUrl student confirmed")
         )
                 .sort(compareSessions(request.user?.user));
-        response.status(200).json(sessions.map(session => session.toJSON({virtuals: true})));
+
+        const sessionsResponse = await Promise.all(sessions.map(async session => {
+            const sessionJson = session.toJSON({virtuals: true});
+            await Promise.all([
+                (sessionJson.tutorId = (await User.findOne({user: session.tutor}).lean())?._id),
+                (sessionJson.studentId = (await User.findOne({user: session.student}).lean())?._id),
+            ]);
+            return sessionJson;
+        }));
+        response.status(200).json(sessionsResponse);
     },
 );
 

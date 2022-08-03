@@ -21,7 +21,12 @@ const userSchema = new mongoose.Schema(
     },
 
     name: {
-      type: String,
+      first: {
+        type: String,
+      },
+      last: {
+        type: String,
+      },
     },
 
     birthDate: {
@@ -95,6 +100,11 @@ userSchema.methods.hasPermission=function(perm) {
 userSchema.virtual("isTutor").get(function () { return this.hasPermission("post-session") });
 userSchema.virtual("isAdmin").get(function () { return this.hasPermission("admin") });
 userSchema.virtual("isStaff").get(function () { return this.isTutor || this.isAdmin; });
+userSchema.virtual("name.full").get(function () {
+  return this.name.first && this.name.last
+      ? `${this.name.first} ${this.name.last}`
+      : "";
+});
 
 const User = mongoose.model("Users", userSchema);
 export default User;

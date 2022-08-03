@@ -13,7 +13,7 @@ router.get("/", async (request, response) => {
 	}
 
 	const isTutor = request.user.hasPermission("post-session");
-	response.redirect(`/${isTutor ? "tutor" : "student"}/${encodeURIComponent(request.user.user)}`);
+	response.redirect(`/${isTutor ? "tutor" : "student"}/${encodeURIComponent(request.user._id)}`);
 });
 
 export default router;
