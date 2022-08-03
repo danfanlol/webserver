@@ -90,8 +90,8 @@ const tryDeleteUser = async () => {
 const confirmDeleteUser = () => {
 	let response = "";
 	do {
-		response = prompt(`Really delete this user? Enter their username:\n\n${props.user.user}`);
-		if (response === props.user.user) {
+		response = prompt(`Really delete this user? Enter their email:\n\n${props.user.email}`);
+		if (response === props.user.email) {
 			tryDeleteUser();
 			return;
 		}

@@ -2,6 +2,7 @@ import express from "express"
 import expressvalidator from "express-validator";
 import validate from "./validate.js";
 import authcore from "./auth-core.js";
+import bcrypt from "bcrypt";
 import passport from "passport";
 import Password from "../../model/password-core.js";
 
@@ -54,6 +55,29 @@ router.post(
 );
 
 router.get('/reset/:token', Password.reset);
+
+router.post("/edit/",
+    [
+        body("pass").notEmpty(),
+    ],
+    validate,
+    async (request, response, next) => {
+        if (!await bcrypt.compare(request.body.pass, request.user.pass)) {
+            return response.status(403).json({message: "Incorrect password"});
+        }
+
+        if (request.body.name && (!request.body.name.first || !request.body.name.last)) {
+            return response.status(400).json({message: "Name field specified but first or last name is missing"});
+        }
+
+        const user = request.user;
+        const {first, last} = request.body.name;
+        Object.assign(user.name, {first, last});
+        user.save();
+
+        return response.status(200).json({});
+    },
+);
 
 router.post(
   '/reset/:token',

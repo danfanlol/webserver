@@ -40,7 +40,7 @@ function initializePassport(passport) {
       }
     });
   });
-  console.log("Initializing passport...");
+  // console.log("Initializing passport...");
 }
 
 export default initializePassport;

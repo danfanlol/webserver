@@ -38,7 +38,7 @@ router.post("/delete",
                         response.status(404).json(error);
                     },
                 );
-    }, 
+    },
 );
 
 export default router;

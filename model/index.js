@@ -7,12 +7,12 @@ async function init_mongoose(){
   await mongoose.connect(process.env.MONGO_URL).catch((e) => {
     console.log(e);
   });
-  console.log("apparently connected?");
+  // console.log("apparently connected?");
   const db = mongoose.connection;
   db.on('error', console.error.bind(console, 'connection error:'));
-  db.once('open', function () {
-    console.log('Connected to mongodb!');
-  });
+  // db.once('open', function () {
+  //   console.log('Connected to mongodb!');
+  // });
 
   script();
 }

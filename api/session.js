@@ -75,11 +75,28 @@ router.get("/",
         )
                 .sort(compareSessions(request.user?.user));
 
+        const pickUserProps = user => {
+            if (!user) return user;
+
+            const {_id, name: {full}} = user;
+            return {_id, name: full};
+        };
+
         const sessionsResponse = await Promise.all(sessions.map(async session => {
             const sessionJson = session.toJSON({virtuals: true});
             await Promise.all([
-                (sessionJson.tutorId = (await User.findOne({user: session.tutor}).lean())?._id),
-                (sessionJson.studentId = (await User.findOne({user: session.student}).lean())?._id),
+                (sessionJson.tutor = pickUserProps(
+                        (await User.findOne({user: session.tutor})
+                                .select("_id name")
+                        )
+                        ?.toJSON({virtuals: ["name.full"]})
+                )),
+                (sessionJson.student = pickUserProps(
+                        (await User.findOne({user: session.student})
+                                .select("_id name")
+                        )
+                        ?.toJSON({virtuals: ["name.full"]})
+                )),
             ]);
             return sessionJson;
         }));

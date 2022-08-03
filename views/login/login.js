@@ -25,7 +25,8 @@ $(() => {
       },
 
       success: function (xhr, status, error) {
-        window.location.href = "/findtutors";
+        window.location.href = new URLSearchParams(location.search).get("next")
+            ?? "/findtutors";
         // console.log(xhr);
       },
       error: function (xhr, status, error) {

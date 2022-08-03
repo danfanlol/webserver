@@ -23,3 +23,14 @@ export const allowLoggedInOnly = filter(
 	request => request.isAuthenticated(),
 	"Not logged in",
 );
+
+export const requestLogin = (request, response, next) => {
+	if (request.isAuthenticated() && !request.user.name.first && !request.user.name.last
+			&& !request.originalUrl.startsWith("/manage")) {
+		return response.redirect(`/manage/`);
+	}
+
+	if (request.isAuthenticated()) return next();
+
+	response.redirect(`/login/?next=${encodeURIComponent(request.originalUrl)}`);
+};

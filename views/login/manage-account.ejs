@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<%- include('../partials/top.ejs', {pagename: "Login"}) %>
+		
+		<link rel="stylesheet" href="/login/login.css" media="screen" />
+		<link rel="stylesheet" href="/login/tutor.css" />
+
+		<style>
+		main > div {
+			grid-template-columns: 1fr;
+		}
+
+		main > div > * {
+			margin: unset;
+		}
+
+		main::before {
+			backdrop-filter: hue-rotate(145deg) saturate(0.75) brightness(1.4);
+		}
+		</style>
+
+		<script
+			src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"
+		></script>
+		<script src="/login/manage.js"></script>
+	</head>
+
+	<body>
+		<%- include('../partials/nav.ejs')%>
+
+		<main>
+			<div>
+				<!-- <h1>Thanks for your interest!</h1> -->
+				<h1>Manage account</h1>
+
+				<div class="form">
+					<h2>Name</h2>
+
+					<p>We're migrating away from usernames! Please enter your name:</p>
+
+					<form method="POST" action="/api/login" class="login" id="login-form">
+						<div id="login-error" class="login-error"></div>
+
+						<!-- <input
+						name="user"
+						type="email"
+						id="login-email"
+						class="login-field"
+						placeholder="email..."
+					  /> -->
+
+						<div>
+							<input
+							name="name-first"
+							type="text"
+							id="login-name-first"
+							class="login-field"
+							placeholder="first name..."
+							/>
+							<input
+							name="name-last"
+							type="text"
+							id="login-name-last"
+							class="login-field"
+							placeholder="last name..."
+							/>
+						</div>
+
+						<input
+							name="pass"
+							type="password"
+							id="login-password"
+							class="login-field"
+							placeholder="password..."
+						/>
+
+						<!-- <hexagonal-button class="strong">
+								<label for="login-submit">
+									
+								</label>
+							<button-top>Login</button-top>
+						</hexagonal-button> -->
+
+						<input
+							type="submit"
+							id="login-submit"
+							value="Update"
+							class="login-button"
+						/>
+					</form>
+				</div>
+			</div>
+		</main>
+	
+		<%- include('../partials/footer.ejs')%>
+	</body>
+</html>

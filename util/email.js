@@ -1,7 +1,7 @@
 import sgMail from "@sendgrid/mail";
 
 function init() {
-  console.log(process.env.SENDGRID_API_KEY);
+  // console.log(process.env.SENDGRID_API_KEY);
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);  
 }
 

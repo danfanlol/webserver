@@ -2,23 +2,23 @@ import express from "express";
 import { baseViewParams } from "../util/base-view-objects.js";
 import Session, {compareSessions} from "../model/schema/session.js";
 import * as path from "path";
+import { requestLogin } from "../util/express-middleware.js";
 
 const router = express.Router();
 
-router.get("/", async (request, response) => {
-	// const sessions = (await Session.find())
-	// 		.sort(compareSessions(request.user?.user));
+router.get("/",
+	requestLogin,
+	async (request, response) => {
+		// const sessions = (await Session.find())
+		// 		.sort(compareSessions(request.user?.user));
 
-	if (request.isAuthenticated()) {
 		response.render("findtutors/index.ejs", {
 			...baseViewParams(request),
 			// sessions,
 			sessions: [],
 		});
-	} else {
-		response.redirect("/login");
-	}
-});
+	},
+);
 
 // router.get("/app.js", (request, response) => {
 // 	// Change path alongside ./pages/findtutors/vite.config.ts

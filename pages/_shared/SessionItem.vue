@@ -303,24 +303,26 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</h3>
 
 		<session-people>
-			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutorId}`"><b>{{session.tutor}}</b></a></div>
+			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutor.id}`"><b>{{session.tutor.name}}</b></a></div>
 
 			<template v-if="taughtByYou && isOnDashboard">
 				<div v-if="!session.reserved"
 						class="notice">Unclaimed</div>
 				<template v-else-if="!session.confirmed">
-					<div>Requestee: <a :href="`/student/${session.studentId}`"><b>{{session.student}}</b></a></div>
+					<div>Requestee: <a :href="`/student/${session.student.id}`"><b>{{session.student.name}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryConfirmStudent">Confirm</button>&nbsp;
-						<button @click="tryKickStudent">Reject</button>
+						<button @click="tryKickStudent"
+								class="danger">Reject</button>
 					</div>
 				</template>
 				<div v-else>
-					<div>Student: <a :href="`/student/${session.studentId}`"><b>{{session.student}}</b></a></div>
+					<div>Student: <a :href="`/student/${session.student.id}`"><b>{{session.student.name}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
-						<button @click="tryKickStudent">Kick</button>
+						<button @click="tryKickStudent"
+								class="danger">Kick</button>
 					</div>
 				</div>
 			</template>
@@ -332,7 +334,8 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 						:class="{waiting}"
 						class="buttons">
 					<i>Signed up</i>&#x2003;
-					<button @click="tryQuitSession">Unregister</button>
+					<button @click="tryQuitSession"
+							class="danger">Unregister</button>
 				</div>
 				<div v-else-if="!taughtByYou && !past && !clientIsTutor"
 						:class="{waiting}"

@@ -14,7 +14,7 @@ import initializePassport from "./passport-config.js";
 import routeinit from "./routes/route-init.js"
 
 import findtutorsRouter from "./routes/findtutors.js";
-import {tutorRouter, studentRouter} from "./routes/user.js"
+import {tutorRouter, studentRouter, manageRouter} from "./routes/user.js"
 import meRouter from "./routes/me.js"
 import adminRouter from "./routes/admin.js";
 import api from "./api/index.js"
@@ -80,6 +80,7 @@ app.use("/tutor", tutorRouter);
 app.use("/student", studentRouter);
 app.use("/me", meRouter);
 app.use("/admin", adminRouter);
+app.use("/manage", manageRouter);
 
 
 app.listen(process.env.PORT ?? 3000, () => {
