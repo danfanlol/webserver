@@ -1,7 +1,7 @@
 export const config = {
-	clientUsername: "",
+	clientId: "",
 	clientIsTutor: false,
-	pageOwnerUsername: "",
+	pageOwnerId: "",
 	isTutorPage: false,
 
 	set(props: object) {
@@ -9,6 +9,6 @@ export const config = {
 	},
 
 	get isOwnPage() {
-		return this.clientUsername === this.pageOwnerUsername;
+		return this.clientId === this.pageOwnerId;
 	},
 };

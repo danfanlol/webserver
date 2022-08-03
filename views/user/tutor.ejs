@@ -2,7 +2,7 @@
 
 <html lang="en">
 	<head>
-		<%- include('../partials/top.ejs', {pagename: tutor.name.full}) %>
+		<%- include('../partials/top.ejs', {pagename: tutor.name.full || tutor.user}) %>
 		<link rel="stylesheet" href="/user/index.css" />
 		<link rel="stylesheet" href="/findtutors/index.css" />
 
@@ -11,9 +11,9 @@
 		<script type="module">
 import mount from "/bundle/user/index.js";
 mount("user-session-controls", {
-	clientUsername: "<%- user.user %>",
+	clientId: "<%- user._id %>",
 	clientIsTutor: <%- user.isTutor %>,
-	pageOwnerUsername: "<%- tutor.user %>",
+	pageOwnerId: "<%- tutor._id %>",
 	isTutorPage: true,
 });
 		</script>
@@ -25,7 +25,7 @@ mount("user-session-controls", {
 		<main>
 			<user-dashboard>
 				<div class="user-heading">
-					<h1><%- tutor.name.full %></h1>
+					<h1><%- tutor.name.full || tutor.user %></h1>
 					<div>
 						<member-label>Tutor</member-label>
 					</div>

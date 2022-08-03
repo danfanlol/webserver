@@ -1,5 +1,5 @@
 export const config = {
-	clientUsername: "",
+	clientId: "",
 	clientIsTutor: false,
 
 	set(props: object) {

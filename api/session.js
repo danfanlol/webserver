@@ -39,8 +39,8 @@ router.get("/",
     async (request, response) => {
         const subjects = request.query.subject?.split("|") ?? null;
         const open = request.query.open !== undefined ? request.query.open !== "0" : null;
-        const tutors = request.query.tutor?.split("|") ?? null;
-        const students = request.query.student?.split("|") ?? null;
+        const tutorIds = request.query.tutorId?.split("|") ?? null;
+        const studentIds = request.query.studentId?.split("|") ?? null;
         const afterDate = request.query.afterDate ?? null;
 
         const sessions = (await Session.find({
@@ -56,11 +56,11 @@ router.get("/",
                                 ]}
                                 : {student: {$ne: ""}}
                         : {},
-                tutors ? {
-                    $or: tutors.map(tutor => ({tutor})),
+                tutorIds ? {
+                    $or: tutorIds.map(tutorId => ({tutorId})),
                 } : {},
-                students ? {
-                    $or: students.map(student => ({student})),
+                studentIds ? {
+                    $or: studentIds.map(studentId => ({studentId})),
                 } : {},
                 afterDate ? {
                     $or: [
@@ -71,29 +71,29 @@ router.get("/",
             ],
         })
                 // .lean()
-                .select("_id tutor begin startDate duration subject meetingUrl student confirmed")
+                .select("_id tutorId begin startDate duration subject meetingUrl studentId confirmed")
         )
-                .sort(compareSessions(request.user?.user));
+                .sort(compareSessions(request.user?._id.toString()));
 
         const pickUserProps = user => {
             if (!user) return user;
 
-            const {_id, name: {full}} = user;
-            return {_id, name: full};
+            const {_id, name: {full}, user: username} = user;
+            return {_id, name: full, user: username};
         };
 
         const sessionsResponse = await Promise.all(sessions.map(async session => {
             const sessionJson = session.toJSON({virtuals: true});
             await Promise.all([
                 (sessionJson.tutor = pickUserProps(
-                        (await User.findOne({user: session.tutor})
-                                .select("_id name")
+                        (await User.findById(session.tutorId)
+                                .select("_id name user")
                         )
                         ?.toJSON({virtuals: ["name.full"]})
                 )),
                 (sessionJson.student = pickUserProps(
-                        (await User.findOne({user: session.student})
-                                .select("_id name")
+                        (await User.findById(session.studentId)
+                                .select("_id name user")
                         )
                         ?.toJSON({virtuals: ["name.full"]})
                 )),
@@ -111,7 +111,7 @@ router.post("/",
             const session = new Session({
                 begin: req.body.begin,
                 duration: req.body.duration,
-                tutor: req.user.user,
+                tutorId: req.user._id,
                 subject: req.body.subject,
                 startDate: new Date(req.body.startDate),
             });

@@ -24,7 +24,7 @@ const sessionQuery = computed(() => {
 	}
 
 	if (props.filters.taughtByYou) {
-		params.set("tutor", config.clientUsername);
+		params.set("tutorId", config.clientId);
 	}
 
 	params.set("afterDate", Date.now().toString());
@@ -52,7 +52,7 @@ const onDeleteSession = (session: object) => {
 			<SessionItem v-for="session of sessions"
 					:key="session._id"
 					:session="session"
-					:clientUsername="config.clientUsername"
+					:clientId="config.clientId"
 					:clientIsTutor="config.clientIsTutor"
 					@delete="onDeleteSession" />
 		</session-items>

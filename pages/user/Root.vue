@@ -9,9 +9,9 @@ import {Availability} from "../util";
 import {config} from "./store";
 
 const props = defineProps<{
-    clientUsername: string,
+    clientId: string,
     clientIsTutor: boolean,
-    pageOwnerUsername: string,
+    pageOwnerId: string,
     isTutorPage: boolean,
 }>();
 

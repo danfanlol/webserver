@@ -10,7 +10,7 @@ import {config} from "./store";
 
 // May want to make these checks cookie-based in the future?
 const props = defineProps<{
-    clientUsername: string,
+    clientId: string,
     clientIsTutor: string,
 }>();
 

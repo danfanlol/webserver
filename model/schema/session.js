@@ -5,6 +5,11 @@ const sessionSchema = new mongoose.Schema({
         required: true,
     },
 
+    tutorId: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+    },
+
     begin: {
         type: Number,
     },
@@ -27,6 +32,11 @@ const sessionSchema = new mongoose.Schema({
         type: String,
     },
 
+    studentId: {
+        type: mongoose.Types.ObjectId,
+        ref: "User",
+    },
+
     confirmed: {
         type: Boolean,
         default: false,
@@ -35,7 +45,7 @@ const sessionSchema = new mongoose.Schema({
     confirmationWaitlist: {
         type: [{
             type: mongoose.Types.ObjectId,
-            ref: "Student",
+            ref: "User",
         }],
     },
 
@@ -44,7 +54,7 @@ const sessionSchema = new mongoose.Schema({
     },
 });
 
-sessionSchema.virtual("reserved").get(function () { return Boolean(this.student); });
+sessionSchema.virtual("reserved").get(function () { return Boolean(this.studentId); });
 
 
 const Session = mongoose.model("Session", sessionSchema);
@@ -55,12 +65,12 @@ export default Session;
  * 1. Sessions reserved by the given user come first
  * 1. Remaining open sessions come first
  * 1. Start time, ascending
- * @param {*} username 
+ * @param {string} id 
  * @returns A sorting comparator for sessions.
  */
-export const compareSessions = username =>
+export const compareSessions = id =>
         (a, b) =>
-                Number(b.student === username) - Number(a.student === username)
-                || Number(Boolean(a.student)) - Number(Boolean(b.student))
+                Number(b.studentId?.toString() === id) - Number(a.studentId?.toString() === id)
+                || Number(Boolean(a.studentId)) - Number(Boolean(b.studentId))
                 || (a.startDate?.getTime() ?? 0) - (b.startDate?.getTime() ?? 0)
                 || (a.begin ?? 0) - (b.begin ?? 0);

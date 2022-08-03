@@ -56,7 +56,7 @@ const sessionQuery = computed(() => {
 		params.set("open", props.filters.availability === Availability.Open ? "1" : "0");
 	}
 
-	params.set(config.isTutorPage ? "tutor" : "student", config.pageOwnerUsername);
+	params.set(config.isTutorPage ? "tutorId" : "studentId", config.pageOwnerId);
 	params.set("afterDate", startingLocalDate.getTime().toString());
 
 	return params;
@@ -71,7 +71,9 @@ const onDeleteSession = (session: object) => {
 
 const createUnpublishedSession = async (startDate: Date) => {
 	const newSession = {
-		tutor: config.clientUsername,
+		tutor: {
+			_id: config.clientId
+		},
 		subject: "Spanish",
 		startDate: nowGreatest15Minutes(startDate).toISOString(),
 		duration: 1,
@@ -125,7 +127,7 @@ const createUnpublishedSession = async (startDate: Date) => {
 				<SessionItem v-for="session of futureSessions[i]"
 						:key="session._id"
 						:session="session"
-						:clientUsername="config.clientUsername"
+						:clientId="config.clientId"
 						:clientIsTutor="config.clientIsTutor"
 						:displayDate="false"
 						:isOnDashboard="true"

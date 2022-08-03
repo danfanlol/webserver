@@ -28,7 +28,7 @@
 		<% if (logged_in) {%>
 		<div class="item">
 			<span class="glyphicon glyphicon-user"></span>
-			Welcome, <%=user.name.full%>!
+			Welcome, <%=user.name.full || user.user%>!
 		</div>
 
 		<a href="/me"><%- user.isTutor ? "Tutor" : "Student" %> dashboard</a>

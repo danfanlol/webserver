@@ -12,7 +12,7 @@ const props = defineProps({
 		required: true,
 	},
 
-	clientUsername: {
+	clientId: {
 		type: String,
 	},
 	
@@ -47,10 +47,10 @@ const emit = defineEmits<{
 }>();
 
 const reserved = computed(() => Boolean(props.session.student)
-		&& props.session.student !== props.clientUsername);
+		&& props.session.student._id !== props.clientId);
 const reservedByYou = computed(() => Boolean(props.session.student)
-		&& props.session.student === props.clientUsername);
-const taughtByYou = computed(() => props.session.tutor === props.clientUsername);
+		&& props.session.student._id === props.clientId);
+const taughtByYou = computed(() => props.session.tutor?._id === props.clientId);
 
 const addHours = (date: Date, nHours: number) => new Date(date.getTime() + nHours * 60 * 60 * 1000);
 
@@ -116,7 +116,7 @@ const tryQuitSession = async () => {
 	}).finally(() => {
 		waiting.value = false;
 	});
-	props.session.student = "";
+	props.session.student = null;
 	props.session.confirmed = false;
 };
 
@@ -133,7 +133,9 @@ const tryReserveSession = async () => {
 	}).finally(() => {
 		waiting.value = false;
 	});
-	props.session.student = props.clientUsername;
+	props.session.student = {
+		_id: props.clientId,
+	};
 };
 
 const tryDeleteSession = async () => {
@@ -186,7 +188,7 @@ const tryKickStudent = async () => {
 		waiting.value = false;
 	});
 	props.session.confirmed = false;
-	props.session.student = "";
+	props.session.student = null;
 	props.session.reserved = false;
 };
 
@@ -303,13 +305,13 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 		</h3>
 
 		<session-people>
-			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutor.id}`"><b>{{session.tutor.name}}</b></a></div>
+			<div v-if="!isTutorPage">Tutor: <a :href="`/tutor/${session.tutor?._id}`"><b>{{session.tutor.name || session.tutor.user}}</b></a></div>
 
 			<template v-if="taughtByYou && isOnDashboard">
 				<div v-if="!session.reserved"
 						class="notice">Unclaimed</div>
 				<template v-else-if="!session.confirmed">
-					<div>Requestee: <a :href="`/student/${session.student.id}`"><b>{{session.student.name}}</b></a></div>
+					<div>Requestee: <a :href="`/student/${session.student?._id}`"><b>{{session.student.name || session.student.user}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryConfirmStudent">Confirm</button>&nbsp;
@@ -318,7 +320,7 @@ const workingSubject = computed(() => isEditing ? newSubject.value : props.sessi
 					</div>
 				</template>
 				<div v-else>
-					<div>Student: <a :href="`/student/${session.student.id}`"><b>{{session.student.name}}</b></a></div>
+					<div>Student: <a :href="`/student/${session.student?._id}`"><b>{{session.student.name || session.student.user}}</b></a></div>
 					<div v-if="!past"
 							:class="{waiting}">
 						<button @click="tryKickStudent"
@@ -461,6 +463,17 @@ session-item {
 	&.reserved-by-you {
 		outline: 4px dashed var(--session-col-main);
 		outline-offset: 2px;
+
+		/* animation: session-pulsate 1s ease-in-out alternate infinite;
+		@keyframes session-pulsate {
+			0% {
+				filter: contrast(1);
+			}
+
+			100% {
+				filter: contrast(2);
+			}
+		} */
 	}
 
 	&.reserved {
