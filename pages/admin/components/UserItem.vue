@@ -44,7 +44,7 @@ const tryUpdatePermissions = async () => {
 			body: JSON.stringify({
 				operation: newPermissions.isTutor ? "grant" : "revoke",
 				permission: "post-session",
-				user: props.user.user,
+				userId: props.user._id,
 			}),
 			headers: {
 				"Content-Type": "application/json",
@@ -56,7 +56,7 @@ const tryUpdatePermissions = async () => {
 			body: JSON.stringify({
 				operation: newPermissions.isAdmin ? "grant" : "revoke",
 				permission: "admin",
-				user: props.user.user,
+				userId: props.user._id,
 			}),
 			headers: {
 				"Content-Type": "application/json",
