@@ -18,18 +18,18 @@ exports.register = async (req, res) => {
     }
     var newUser;
     if (user) {
-      if (user.isVerified) {
+      // if (user.isVerified) {
         console.log('Error: already exists user');
         return res.status(401).json({
           message:
             'The email address you have entered is already associated with another account.',
         });
-      } else {
+      /* } else {
         newUser = user;
         newUser.email = req.body.email;
         newUser.pass = req.body.pass;
         newUser.user = req.body.user;
-      }
+      } */
     } else {
       newUser = new User({ ...req.body });
     }
