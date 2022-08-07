@@ -12,6 +12,7 @@
     "server:public": "node .",
     "start:public": "npm run build-frontend:public && npm run server:public",
     "install-subdir-deps": "npm --prefix ./pages/ ci",
+    "babel": "babel . -d babel-dist --ignore node_modules,pages,views,public",
     "heroku-postbuild": "npm run install-subdir-deps && npm run build-frontend:public"
   },
   "author": "",
@@ -37,6 +38,10 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.18.10",
+    "@babel/core": "^7.18.10",
+    "@babel/plugin-syntax-top-level-await": "^7.14.5",
+    "@babel/preset-env": "^7.18.10",
     "concurrently": "^7.2.2",
     "ts-node": "^10.8.1"
   },
