@@ -12,7 +12,7 @@
     "server:public": "node .",
     "start:public": "npm run build-frontend:public && npm run server:public",
     "install-subdir-deps": "npm --prefix ./pages/ ci",
-    "babel": "babel . -d babel-dist --ignore node_modules,pages,views,public",
+    "babel": "babel . -d babel-dist --ignore node_modules,pages,views,public,babel-dist",
     "heroku-postbuild": "npm run install-subdir-deps && npm run build-frontend:public"
   },
   "author": "",
@@ -32,7 +32,6 @@
     "express-session": "^1.17.2",
     "express-validator": "^6.12.1",
     "mongoose": "^6.0.7",
-    "nodemon": "^2.0.12",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "uuid": "^8.3.2"
@@ -40,9 +39,9 @@
   "devDependencies": {
     "@babel/cli": "^7.18.10",
     "@babel/core": "^7.18.10",
-    "@babel/plugin-syntax-top-level-await": "^7.14.5",
     "@babel/preset-env": "^7.18.10",
     "concurrently": "^7.2.2",
+    "nodemon": "^2.0.19",
     "ts-node": "^10.8.1"
   },
   "type": "module"

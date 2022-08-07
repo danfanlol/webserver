@@ -28,4 +28,16 @@ Script | Description
 `server:dev`<br />`server:public` | Starts the backend server. If `:dev`, the server will restart when its source code changes.
 `start:dev`<br />`start:public` | Builds the frontend apps in `./pages/` and then starts the server. If `:dev`, the frontend apps and the server will update when their respective source code changes.
 `install-subdir-deps` | Installs the dependencies of the frontend apps in `./pages/`.
+`babel` | Transpiles server code using Babel to be compatible with older NodeJS versions.
 `heroku-postbuild` | Automatically called when deploying to Heroku. Runs `install-subdir-deps` and then `build-frontend:public`.
+
+## Transpilation considerations
+
+DreamHost's web hosting, which recommends to run NodeJS programs using [Passenger](https://help.dreamhost.com/hc/en-us/articles/216635318-Enabling-Passenger-for-Node-js), creates some limitations:
+* The entry point file may not be an ES module
+* “The version of Passenger running on DreamHost servers does not currently function with Node.js versions 14+”
+
+Babel can transpile the server code to be compatible with NodeJS v13.14.0, which handles the two issues above, except
+* Top-level `await` is not converted (wrap in an async function instead)
+* [Synthetic default imports](https://www.typescriptlang.org/tsconfig#allowSyntheticDefaultImports) are not converted correctly
+* EJS template files cannot be transpiled (avoid features above ES10/ES2019 in templates)

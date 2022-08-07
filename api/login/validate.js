@@ -1,4 +1,4 @@
-import expressValidator from "express-validator";
+import * as expressValidator from "express-validator";
 const validationResult=expressValidator.validationResult;
 export default function(req, res, next) {
   // console.log("Hello!");

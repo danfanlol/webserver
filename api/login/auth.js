@@ -1,5 +1,5 @@
 import express from "express"
-import expressvalidator from "express-validator";
+import * as expressvalidator from "express-validator";
 import validate from "./validate.js";
 import authcore from "./auth-core.js";
 import bcrypt from "bcrypt";
