@@ -4,18 +4,27 @@ $(() => {
 	const nameFirst = document.getElementById("login-name-first");
 	const nameLast = document.getElementById("login-name-last");
 	const pass = document.getElementById("login-password");
+	const emailInput = document.getElementById("login-email");
 	const submit = document.getElementById("login-submit");
 	submit.addEventListener("click", (event) => {
 	  event.preventDefault();
-	  const firstName = nameFirst.value;
-	  const lastName = nameLast.value;
+	  const firstName = nameFirst.value.trim();
+	  const lastName = nameLast.value.trim();
+	  const email = emailInput.value.trim();
 	  const password = pass.value;
-	  if (!firstName || !lastName || !password) {
+	  if (!firstName || !lastName || !email || !password) {
 		errbar.innerHTML = "All fields needed.";
 		errbar.style.opacity = 1;
 		return;
 	  }
-	  var info = { name: { first: firstName, last: lastName }, pass: password };
+	  var info = {
+		name: {
+			first: firstName,
+			last: lastName
+		},
+		pass: password,
+		email,
+	};
 	  $.ajax({
 		type: "POST",
 		url: "/api/auth/edit",

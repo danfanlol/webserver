@@ -13,6 +13,11 @@
 			margin: unset;
 		}
 
+		form > .row {
+			display: flex;
+			flex-flow: column;
+		}
+
 		main::before {
 			backdrop-filter: hue-rotate(145deg) saturate(0.75) brightness(1.4);
 		}
@@ -35,10 +40,6 @@
 				<h1>Manage account</h1>
 
 				<div class="form">
-					<h2>Name</h2>
-
-					<p>We're migrating away from usernames! Please enter your name:</p>
-
 					<form method="POST" action="/api/login" class="login" id="login-form">
 						<div id="login-error" class="login-error"></div>
 
@@ -50,30 +51,57 @@
 						placeholder="email..."
 					  /> -->
 
-						<div>
+						<div class="row">
+							<h4>Name</h4>
+							<% if (!user.name.first || !user.name.last) { %>
+								<div>We're migrating away from usernames! Please enter your name:</div>
+							<% } %>
+							<div>
+								<input
+								name="name-first"
+								type="text"
+								id="login-name-first"
+								class="login-field"
+								placeholder="first name..."
+								value="<%- user.name.first %>"
+
+								/>
+								<input
+								name="name-last"
+								type="text"
+								id="login-name-last"
+								class="login-field"
+								placeholder="last name..."
+								value="<%- user.name.last %>"
+								/>
+							</div>
+						</div>
+
+						<div class="row">
+							<h4>Email</h4>
 							<input
-							name="name-first"
-							type="text"
-							id="login-name-first"
-							class="login-field"
-							placeholder="first name..."
-							/>
-							<input
-							name="name-last"
-							type="text"
-							id="login-name-last"
-							class="login-field"
-							placeholder="last name..."
+								name="email"
+								type="email"
+								id="login-email"
+								class="login-field"
+								placeholder="email..."
+								value="<%- user.email %>"
 							/>
 						</div>
 
-						<input
-							name="pass"
-							type="password"
-							id="login-password"
-							class="login-field"
-							placeholder="password..."
-						/>
+						<hr />
+
+
+						<div class="row">
+							<label for="login-password">Current password</label>
+							<input
+								name="pass"
+								type="password"
+								id="login-password"
+								class="login-field"
+								placeholder="password..."
+							/>
+						</div>
 
 						<!-- <hexagonal-button class="strong">
 								<label for="login-submit">

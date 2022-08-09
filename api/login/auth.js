@@ -5,6 +5,7 @@ import authcore from "./auth-core.js";
 import bcrypt from "bcrypt";
 import passport from "passport";
 import Password from "../../model/password-core.js";
+import User from "../../model/schema/user.js";
 
 const {body}=expressvalidator;
 const router=express.Router();
@@ -59,6 +60,7 @@ router.get('/reset/:token', Password.reset);
 router.post("/edit/",
     [
         body("pass").notEmpty(),
+        body('email').isEmail().withMessage('Enter a valid email address'),
     ],
     validate,
     async (request, response, next) => {
@@ -71,8 +73,24 @@ router.post("/edit/",
         }
 
         const user = request.user;
+        const nonalphanumeric = /([^a-z0-9-_]+)/gi;
+        if (request.body.name.first.match(nonalphanumeric)
+            || request.body.name.last.match(nonalphanumeric)) {
+          return response.status(401).json({
+            message: 'Your name can only contain alphanumeric characters',
+          });
+        }
+        if (await User.findOne({ email: request.body.email }) === user) {
+          return response.status(401).json({
+            message:
+              'The email address you have entered is already associated with another account.',
+          });
+        }
+ 
+
         const {first, last} = request.body.name;
         Object.assign(user.name, {first, last});
+        user.email = request.body.email;
         user.save();
 
         return response.status(200).json({});
