@@ -57,7 +57,10 @@ $(() => {
       },
       success: function (xhr, status, error) {
         console.log("success");
-        window.location.replace("/emailsent");
+        const search = new URLSearchParams(location.search);
+        const newSearch = new URLSearchParams();
+        newSearch.set("next", search.get("next"));
+        location.replace(`/login?${newSearch}`);
       },
       error: function (xhr, status, error) {
         console.log(xhr.responseJSON.message);

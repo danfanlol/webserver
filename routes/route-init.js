@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import User from "../model/schema/user.js";
 import path from "path"
 import { baseViewParams } from "../util/base-view-objects.js";
+import { requestLogin } from "../util/express-middleware.js";
 
 const router = express.Router();
 
@@ -52,7 +53,6 @@ standardroute('/accountcreated', 'login/accountcreated.ejs');
 standardroute('/test', 'static/test.ejs');
 standardroute('/create', 'main/main.ejs');
 standardroute('/legal/terms', 'legal/terms.ejs');
-standardroute('/legal/privacy', 'legal/privacy.ejs');
 
 const loginRouter = express.Router();
 loginRouter.get("/student", (request, response, next) => {
@@ -62,8 +62,10 @@ loginRouter.get("/student", (request, response, next) => {
     response.render("login/student.ejs", baseViewParams(request));
 });
 loginRouter.get("/tutor", (request, response, next) => {
-    if (request.isAuthenticated()) {
+    if (request.isAuthenticated() && request.user.isTutor) {
         return response.redirect("/me");
+    } else if (request.isAuthenticated() && !request.user.isTutor) {
+        return response.redirect("/tutorapply");
     }
     response.render("login/tutor.ejs", baseViewParams(request));
 });
@@ -76,5 +78,15 @@ router.get('/logout', (req, res) => {
     }
     res.render('login/logout.ejs', baseViewParams(req));
 });
+
+router.get("/tutorapply",
+    requestLogin,
+    (request, response, next) => {
+        if (request.user.isTutor) {
+            return response.redirect("/me");
+        }
+        response.render("login/tutorapply.ejs", baseViewParams(request));
+    },
+);
 
 export default router;

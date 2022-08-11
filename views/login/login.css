@@ -47,7 +47,7 @@ main > div {
 	/* TODO some code is repeated from header-main. Unify them? */
 	padding: 0 4em;
 	display: grid;
-	grid-template-columns: 1fr minmax(1em, 3vw) 1fr;
+	grid-template-columns: 1fr;
 	gap: 2em 0;
 
 	place-self: center;
@@ -57,12 +57,16 @@ main > div {
 	/* animation: header-pattern-slide-2 24s infinite linear; */
 }
 
+main > div.multicolumn {
+	grid-template-columns: 1fr minmax(1em, 3vw) 1fr;
+}
+
 main > div > * {
 	margin: auto;
 }
 
 main > div > h1 {
-	grid-area: 1/1 / 1/4;
+	grid-column: 1 / -1;
 
 	width: 100%;
 	padding-bottom: 0.5em;

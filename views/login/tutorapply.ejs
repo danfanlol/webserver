@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+
+<html lang="en">
+	<head>
+		<%- include('../partials/top.ejs', {pagename: "Tutor application"}) %>
+		
+		<link rel="stylesheet" href="/login/login.css" media="screen" />
+		<link rel="stylesheet" href="/login/tutor.css" />
+
+		<script
+			src="https://code.jquery.com/jquery-3.6.0.min.js"
+			integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+			crossorigin="anonymous"
+		></script>
+		<script src="/login/login.js"></script>
+	</head>
+
+	<body>
+		<%- include('../partials/nav.ejs')%>
+
+		<main>
+			<div>
+				<h1>Tutor account application</h1>
+
+				<p>Thanks for your interest! Please complete the form below.</p>
+
+				<iframe src="https://docs.google.com/forms/d/e/1FAIpQLSfuHvIjZj2muLnJchmwILxfKgnBuSzXcpj9o9t8SGgrxt7wZg/viewform?embedded=true" width="640" height="2100" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
+			</div>
+		</main>
+	
+		<%- include('../partials/footer.ejs')%>
+	</body>
+</html>
