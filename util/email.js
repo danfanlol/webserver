@@ -1,8 +1,8 @@
 import sgMail from "@sendgrid/mail";
 
 function init() {
-  console.log("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");
-  sgMail.setApiKey("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");  
+  
+  sgMail.setApiKey(process.env.API);  
 }
 
 function sendEmail(mailOptions) {
